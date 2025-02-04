@@ -105,15 +105,12 @@ class Bomb {
 
       this.playerMovement.updatePlayerPosition(0, 0);
     } else if (tile === 2) {
-      this.tileMap[y][x] = 0; // Destroy Wall
-      gameGrid.children[tileIndex].classList.remove("wall");
+      this.tileMap[y][x] = 0; // Destroy Breakable Tile
+      gameGrid.children[tileIndex].classList.remove("breakable");
       gameGrid.children[tileIndex].classList.add("floor");
     }
-    // Add other tile explosion logic here (e.g., enemies, items)
   }
 }
-
-// In your main game file (e.g., where you create playerMovement):
 
 const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes); // Pass tileMap and playerMovement
 
