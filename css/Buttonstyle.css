@@ -1,0 +1,80 @@
+#a-button {
+  position: absolute;
+  top: 720px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  background-color: #bb1803;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#b-button {
+  position: absolute;
+  top: 800px;
+  right: 90px;
+  width: 60px;
+  height: 60px;
+  background-color: #bb1803;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#top {
+  position: absolute;
+  background-color: black;
+  border: none;
+  top: 730px;
+  left: 80px;
+  width: 50px;
+  height: 50px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#left {
+  position: absolute;
+  background-color: black;
+  border: none;
+  top: 780px;
+  left: 130px;
+  width: 50px;
+  height: 50px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#right {
+  position: absolute;
+  background-color: black;
+  border: none;
+  top: 780px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#bottom {
+  position: absolute;
+  background-color: black;
+  border: none;
+  top: 830px;
+  left: 80px;
+  width: 50px;
+  height: 50px;
+  cursor: default;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#middle {
+  position: absolute;
+  background-color: black;
+  border: none;
+  top: 780px;
+  left: 80px;
+  width: 50px;
+  height: 50px;
+  cursor: default;
+}

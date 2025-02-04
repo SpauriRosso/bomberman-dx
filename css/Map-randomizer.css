@@ -1,0 +1,7 @@
+#tilemap {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  height: 100%;
+  gap: 0px;
+}
