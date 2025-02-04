@@ -1,5 +1,3 @@
-// bomb.js
-
 class Bomb {
   constructor(tileMap, playerMovement, tileTypes) {
     this.tileMap = tileMap;
