@@ -25,6 +25,7 @@
 
 .mapWall {
   background-image: url("./pictures/Side\ Wall\ Rock.png");
+  z-index: 99999;
 }
 
 .breakable {
@@ -45,4 +46,8 @@
   color: white;
   font-weight: bold;
   text-align: left;
+}
+
+.bomb-image {
+  position: relative;
 }
