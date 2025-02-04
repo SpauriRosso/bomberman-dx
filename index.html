@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bomberman Game</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="/assests/image/game-boy-color-logo.png"
+    />
+    <link rel="stylesheet" href="./css/displaystyle.css" />
+    <link rel="stylesheet" href="./css/bombstyle.css" />
+    <link rel="stylesheet" href="./css/Buttonstyle.css" />
+    <link rel="stylesheet" href="./css/Playerstyle.css" />
+    <link rel="stylesheet" href="./css/Map-randomizer.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="square"></div>
+    <div class="square-sidescreen"></div>
+    <div id="game-container">
+      <div id="tilemap"></div>
+      <div id="player"></div>
+      <div id="pause-menu" class="hidden">
+        <h2>PAUSED</h2>
+      </div>
+      <button class="battery" id="batterydot">
+        <h3>BATTERY</h3>
+      </button>
+
+      <button class="gameboy-button" id="a-button"></button>
+      <button class="gameboy-button" id="b-button"></button>
+      <div class="square-pad">
+        <button class="square-pad-top" id="top"></button>
+        <button class="square-pad-left" id="left"></button>
+        <button class="square-pad-middle" id="middle"></button>
+        <button class="square-pad-right" id="right"></button>
+        <button class="square-pad-bottom" id="bottom"></button>
+      </div>
+      <img
+        src="
+        ./assests/image/game-boy-color-logo.png"
+        alt="Image"
+        class="game-image"
+      />
+    </div>
+    <script src="/js/player.js"></script>
+    <script src="/js/tilemap.js"></script>
+    <script src="/js/collision.js"></script>
+    <script src="/js/bombcollision.js"></script>
+    <script src="/js/pause.js"></script>
+    <script src="/js/game.js"></script>
+  </body>
+</html>
