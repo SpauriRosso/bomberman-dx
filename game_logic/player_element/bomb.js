@@ -57,6 +57,9 @@ class Bomb {
         const blastY = y + j;
 
         if (this.isValidBlast(blastX, blastY)) {
+          const tile = this.tileMap[blastY][blastX];
+          if (tile === 1 || tile === 3) continue; // Skip explosion on certain tile types
+
           this.explodeTile(blastX, blastY);
           this.visualExplosion(blastX, blastY);
         }
@@ -68,6 +71,9 @@ class Bomb {
   }
 
   visualExplosion(x, y) {
+    const tile = this.tileMap[y][x];
+    if (tile === 1 || tile === 2 || tile === 3) return; // Skip explosion on certain tile types
+
     const explosionIndex = y * this.tileMap[0].length + x;
     const explosionElement =
       document.getElementById("gameGrid").children[explosionIndex];
@@ -87,7 +93,7 @@ class Bomb {
       explosionElement.classList.remove("explosion");
       explosionElement.innerHTML = ""; // Clear explosion image
       explosionElement.classList.add("floor"); // Reset to floor class if needed
-    }, 500); // Adjust duration as needed
+    }, 700); // Adjust duration as needed
   }
   isValidBlast(x, y) {
     return (
@@ -97,6 +103,8 @@ class Bomb {
 
   explodeTile(x, y) {
     const tile = this.tileMap[y][x];
+    if (tile === 1 || tile === 3) return; // Skip explosion on certain tile types
+
     const tileIndex = y * this.tileMap[0].length + x;
     const gameGrid = document.getElementById("gameGrid");
 
