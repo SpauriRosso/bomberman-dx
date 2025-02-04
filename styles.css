@@ -40,3 +40,10 @@
     background-color: red;
     color: white;
 }
+
+.fps {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+}
