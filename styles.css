@@ -46,38 +46,3 @@
   font-weight: bold;
   text-align: left;
 }
-.bomb-img {
-  width: 100%; /* Adjust to fill the entire tile */
-  height: auto; /* Maintain aspect ratio */
-  background-size: cover; /* Ensure the image covers the entire tile */
-  background-position: center;
-  background-color: transparent;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-.explosion {
-  background-color: red; /* Color for explosion, but you can change this to an image too */
-  animation: explode 0.5s ease-in-out forwards;
-}
-
-@keyframes explode {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
