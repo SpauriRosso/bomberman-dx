@@ -1,0 +1,38 @@
+.grid {
+    margin: auto;
+    display: grid;
+    gap: 0px;
+}
+
+.tile {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.floor {
+    background-image: url(./pictures/floor.png);
+
+}
+
+.wall {
+    background-image: url('./pictures/Side\ Wall\ Rock.png');
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    color: white;
+}
+
+.breakable {
+    background-image: url(./pictures/bloc\ wall\ in.png);
+}
+
+.player {
+    background-image: url(./bomberman.html);
+}
+
+.enemy {
+    background-color: red;
+    color: white;
+}
