@@ -1,4 +1,4 @@
-export class PlayerMovement {
+class PlayerMovement {
   constructor(tileMap, tileTypes) {
     this.tileMap = tileMap;
     this.tileTypes = tileTypes;
@@ -87,4 +87,4 @@ export class PlayerMovement {
 }
 
 // Initialize player movement
-export const playerMovement = new PlayerMovement(tileMapDefault, tileTypes);
+const playerMovement = new PlayerMovement(tileMapDefault, tileTypes);
