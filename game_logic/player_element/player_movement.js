@@ -52,6 +52,7 @@ class PlayerMovement {
 
   handleKeyPress(e) {
     const { x, y } = this.playerPosition;
+    console.log("key was pressed: " + e.key);
 
     switch (e.key) {
       case "ArrowUp":
