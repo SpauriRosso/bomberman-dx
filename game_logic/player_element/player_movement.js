@@ -4,7 +4,6 @@ class PlayerMovement {
     this.tileTypes = tileTypes;
     this.playerPosition = this.findPlayerPosition();
     this.setupEventListeners();
-    this.bombs = []; // Array to store active bombs
   }
 
   findPlayerPosition() {
@@ -75,88 +74,8 @@ class PlayerMovement {
         this.updatePlayerPosition(x + 1, y);
         break;
       case " ":
-        this.launchBomb(x, y); // Launch bomb when space is pressed
         break;
     }
-  }
-  launchBomb(x, y) {
-    const bomb = { x, y, timer: 3 }; // Bomb object with position and timer
-
-    // Check if a bomb already exists at this location
-    if (
-      this.bombs.some(
-        (existingBomb) => existingBomb.x === x && existingBomb.y === y
-      )
-    ) {
-      return; // Prevent placing multiple bombs on the same spot
-    }
-
-    this.bombs.push(bomb);
-    this.tileMap[y][x] = "B"; // Mark bomb on tile map
-
-    const gameGrid = document.getElementById("gameGrid");
-    const bombIndex = y * this.tileMap[0].length + x;
-    gameGrid.children[bombIndex].classList.add("bomb");
-
-    const bombTimerInterval = setInterval(() => {
-      bomb.timer--;
-      if (bomb.timer <= 0) {
-        this.explodeBomb(bomb);
-        clearInterval(bombTimerInterval);
-      }
-    }, 1000); // Bomb explodes after 3 seconds
-
-    console.log("Bomb launched at:", x, y);
-  }
-
-  explodeBomb(bomb) {
-    const { x, y } = bomb;
-
-    // Remove bomb from tileMap and bombs array
-    this.tileMap[y][x] = 0;
-    this.bombs = this.bombs.filter((b) => b !== bomb);
-
-    const gameGrid = document.getElementById("gameGrid");
-    const bombIndex = y * this.tileMap[0].length + x;
-    gameGrid.children[bombIndex].classList.remove("bomb");
-    gameGrid.children[bombIndex].classList.add("floor");
-
-    // Explosion logic (example: destroy adjacent tiles)
-    const explosionRadius = 1; // Adjust explosion radius as needed
-
-    for (let i = -explosionRadius; i <= explosionRadius; i++) {
-      for (let j = -explosionRadius; j <= explosionRadius; j++) {
-        const expX = x + i;
-        const expY = y + j;
-
-        if (this.isValidExplosion(expX, expY)) {
-          const tileIndex = expY * this.tileMap[0].length + expX;
-          const tileElement = gameGrid.children[tileIndex];
-
-          if (this.tileMap[expY][expX] === 0) {
-            // Only destroy floor tiles.
-            this.tileMap[expY][expX] = "E"; // Mark as explosion
-            tileElement.classList.remove("floor");
-            tileElement.classList.add("explosion");
-
-            setTimeout(() => {
-              if (this.tileMap[expY][expX] === "E") {
-                // Only reset if still an explosion
-                this.tileMap[expY][expX] = 0; // Reset tile after delay
-                tileElement.classList.remove("explosion");
-                tileElement.classList.add("floor");
-              }
-            }, 1000); // Explosion effect duration
-          }
-        }
-      }
-    }
-  }
-
-  isValidExplosion(x, y) {
-    return (
-      x >= 0 && x < this.tileMap[0].length && y >= 0 && y < this.tileMap.length
-    );
   }
 
   setupEventListeners() {
