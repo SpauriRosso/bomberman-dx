@@ -71,6 +71,7 @@ class Bomb {
   visualExplosion(x, y) {
     const tile = this.tileMap[y][x];
     if (tile === 1 || tile === 2 || tile === 3) return; // Skip explosion on certain tile types
+    // console.log(tile === 2);
 
     const explosionIndex = y * this.tileMap[0].length + x;
     const explosionElement =
