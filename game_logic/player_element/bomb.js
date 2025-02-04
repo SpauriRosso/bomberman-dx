@@ -93,7 +93,7 @@ class Bomb {
       explosionElement.classList.remove("explosion");
       explosionElement.innerHTML = ""; // Clear explosion image
       explosionElement.classList.add("floor"); // Reset to floor class if needed
-    }, 700); // Adjust duration as needed
+    }, 700); // Adjust duration as needed for the blast display
   }
   isValidBlast(x, y) {
     return (
