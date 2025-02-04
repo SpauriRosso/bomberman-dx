@@ -24,6 +24,10 @@
     color: white;
 }
 
+.mapWall {
+    background-image: url('./pictures/Side\ Wall\ Rock.png');
+}
+
 .breakable {
     background-image: url(./pictures/bloc\ wall\ in.png);
 }
