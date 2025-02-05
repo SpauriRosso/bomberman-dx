@@ -21,7 +21,6 @@
 .wall {
     background-image: url('./pictures/Side\ Wall\ Rock.png');
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-    color: white;
 }
 
 .mapWall {
@@ -29,13 +28,12 @@
 }
 
 .breakable {
-    background-image: url(./pictures/bloc\ wall\ in.png);
+    background-image: url(./pictures/wood\ box.png);
 }
 
 
 .enemy {
     background-color: red;
-    color: white;
 }
 
 #character {
@@ -44,7 +42,6 @@
     background-image: url('./pictures/spritesheet.png');
     background-repeat: no-repeat;
     position: absolute;
-    /* Permet de bouger le personnage */
     top: 64px;
     left: 64px;
     ;
