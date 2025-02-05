@@ -1,0 +1,20 @@
+#fps {
+  /* Position the FPS counter in the top-left corner of the screen */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  /* Set the font and text styles */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+
+  /* Add a background to make the text more readable */
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+
+  /* Add a box shadow to give the FPS counter some depth */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
