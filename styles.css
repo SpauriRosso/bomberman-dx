@@ -32,18 +32,20 @@
     background-image: url(./pictures/bloc\ wall\ in.png);
 }
 
-.player {
-    background-image: url(./pictures/bloc\ wall\ in.png), url(./pictures/floor.png);
-}
 
 .enemy {
     background-color: red;
     color: white;
 }
 
-.fps {
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    text-align: left;
+#character {
+    width: 64px;
+    height: 64px;
+    background-image: url('./pictures/spritesheet.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    /* Permet de bouger le personnage */
+    top: 64px;
+    left: 64px;
+    ;
 }
