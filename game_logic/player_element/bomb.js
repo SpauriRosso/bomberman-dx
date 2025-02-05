@@ -201,10 +201,14 @@ class Bomb {
       this.tileMap[y][x] = 0;
       gameGrid.children[tileIndex].classList.remove("breakable");
       gameGrid.children[tileIndex].classList.add("floor");
+    } else if (tile === "E") {
+      // Check for enemy tile type
+      this.tileMap[y][x] = 0; // Update tile map to remove enemy
+      gameGrid.children[tileIndex].classList.remove("enemy"); // Remove enemy class
+      gameGrid.children[tileIndex].classList.add("floor"); // Add floor class
     }
   }
 }
-
 const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes);
 
 document.addEventListener("keydown", (e) => {

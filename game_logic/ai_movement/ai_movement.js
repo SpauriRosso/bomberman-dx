@@ -11,7 +11,7 @@ class AiMovement {
   findAiPosition() {
     for (let y = 0; y < this.tileMap.length; y++) {
       for (let x = 0; x < this.tileMap[0].length; x++) {
-        if (this.tileMap[y][x] === "I") {
+        if (this.tileMap[y][x] === "E") {
           return { x, y };
         }
       }
@@ -35,7 +35,7 @@ class AiMovement {
     if (!this.isValidMove(newX, newY)) return;
 
     this.tileMap[this.aiPosition.y][this.aiPosition.x] = 0;
-    this.tileMap[newY][newX] = "I";
+    this.tileMap[newY][newX] = "E";
 
     const gameGrid = document.getElementById("gameGrid");
     const oldIndex =
