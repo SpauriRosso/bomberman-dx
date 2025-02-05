@@ -1,7 +1,7 @@
 const character = document.getElementById("character");
 
-let frame = 1; // Commence à 1 car 0 est la frame statique
-const totalFrames = 2; // On alterne entre 1 et 2
+let frame = 0;
+const frameSequence = [0, 1, 2]; // Utilisation complète des 3 frames
 const frameWidth = 64;
 const frameHeight = 64;
 const speed = 10;
@@ -9,6 +9,7 @@ const speed = 10;
 let direction = 0; // Direction actuelle du joueur
 let isMoving = false;
 let moveInterval = null;
+let frameIndex = 0;
 
 const directionMap = {
     ArrowDown: 0,  // Bas → Ligne 0
@@ -19,21 +20,24 @@ const directionMap = {
 
 function animate() {
     if (isMoving) {
-        // Alterner entre frame 1 et 2 uniquement
-        frame = frame === 1 ? 2 : 1;
+        // Alterne entre frame 0 → 1 → 2 en boucle
+        frame = frameSequence[frameIndex];
+        frameIndex = (frameIndex + 1) % frameSequence.length; // Boucle sur 0 → 1 → 2 → 0 → 1 → 2...
+
         const posX = -frame * frameWidth;
         const posY = -direction * frameHeight;
         character.style.backgroundPosition = `${posX}px ${posY}px`;
     }
 }
 
-// Boucle d’animation toutes les 200ms
-setInterval(animate, 200);
+// Boucle d’animation toutes les 150ms
+setInterval(animate, 150);
 
 document.addEventListener("keydown", (event) => {
     if (directionMap.hasOwnProperty(event.key)) {
         if (!isMoving) {
             isMoving = true;
+            frameIndex = 0; // Démarre toujours avec la frame 0
         }
 
         direction = directionMap[event.key]; // Met à jour la direction du sprite
@@ -65,7 +69,7 @@ document.addEventListener("keyup", (event) => {
         clearInterval(moveInterval);
         moveInterval = null;
 
-        // Remettre la frame statique (0)
+        // Remettre la frame statique (0) quand on relâche la touche
         frame = 0;
         const posX = -frame * frameWidth;
         const posY = -direction * frameHeight;
