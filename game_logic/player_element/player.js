@@ -54,4 +54,5 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("keyup", () => {
     isMoving = false; // Réinitialiser l'animation lorsque la touche est relâchée
+    keyDown = false;
 });
