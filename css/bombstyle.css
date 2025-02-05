@@ -1,3 +1,18 @@
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(120%);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+}
+
 .bomb-pulse {
   animation: pulse 1s ease-in-out infinite;
 }
