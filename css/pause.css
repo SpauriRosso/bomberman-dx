@@ -1,0 +1,34 @@
+#pauseMenu {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#pauseMenu h2 {
+  margin-bottom: 20px;
+}
+
+#pauseMenu button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#pauseMenu button:hover {
+  background-color: #45a049; /* Darker green */
+}
