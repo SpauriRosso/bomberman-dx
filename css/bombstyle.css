@@ -1,0 +1,76 @@
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(120%);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+}
+
+.bomb-pulse {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.bomb-image {
+  transition: transform 0.3s ease;
+}
+
+.explosion-blast {
+  animation: explosion 0.5s ease-in-out;
+}
+
+@keyframes explosion-blast {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+    filter: brightness(200%) hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: brightness(400%) hue-rotate(45deg);
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0.8;
+    filter: brightness(300%) hue-rotate(90deg);
+  }
+  75% {
+    transform: scale(1.8);
+    opacity: 0.4;
+    filter: brightness(200%) hue-rotate(135deg);
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    filter: brightness(100%) hue-rotate(180deg);
+  }
+}
+
+.explosion-blast {
+  pointer-events: none;
+  animation: explosion-blast 0.5s ease-out forwards;
+  transform-origin: center center;
+}
+
+/* .explosion-blast::before {
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle,
+      rgba(255, 200, 0, 0.8) 0%,
+      rgba(255, 100, 0, 0.4) 50%,
+      rgba(255, 0, 0, 0) 100%
+    );
+    mix-blend-mode: screen;
+    border-radius: 50%;
+  } */
