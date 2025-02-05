@@ -5,7 +5,7 @@ class Bomb {
     this.tileTypes = tileTypes;
     this.bombPosition = null;
     this.isPlanted = false;
-    this.explosionRadius = 1; // Adjust as needed for the bomb radius
+    this.explosionLength = 1; // How far the explosion extends horizontally
   }
 
   plantBomb() {
@@ -19,51 +19,59 @@ class Bomb {
       this.bombPosition.y * this.tileMap[0].length + this.bombPosition.x;
     const bombElement = document.getElementById("gameGrid").children[bombIndex];
 
-    // Create the image element
     const bombImage = document.createElement("img");
-    bombImage.src = "/pictures/bomb.png"; // Replace with your bomb image path
-    bombImage.classList.add("bomb-image"); // Add a class for styling if needed
+    bombImage.src = "/pictures/bomb.png";
+    bombImage.classList.add("bomb-image");
     bombImage.classList.add("bomb-pulse");
-    bombImage.style.width = "100%"; // Or a specific size
+    bombImage.style.width = "100%";
     bombImage.style.height = "100%";
     bombImage.style.objectFit = "contain";
 
-    // Append the image to the bomb element
-    bombElement.innerHTML = ""; // Clear any existing content
+    bombElement.innerHTML = "";
     bombElement.appendChild(bombImage);
-    bombElement.classList.add("bomb"); // Add bomb class after image is set
+    bombElement.classList.add("bomb");
 
-    // Detonate automatically after 3 seconds
     setTimeout(() => {
       this.detonateBomb();
-    }, 3000); // 3000 milliseconds = 3 seconds
+    }, 3000);
   }
+
   detonateBomb() {
     if (!this.isPlanted) return;
 
     const { x, y } = this.bombPosition;
 
-    // Clear bomb from tileMap and grid immediately upon detonation
+    // Clear bomb from tileMap and grid
     this.tileMap[y][x] = 0;
     const bombIndex = y * this.tileMap[0].length + x;
     const bombElement = document.getElementById("gameGrid").children[bombIndex];
     bombElement.classList.remove("bomb");
     bombElement.classList.add("floor");
 
-    for (let i = -this.explosionRadius; i <= this.explosionRadius; i++) {
-      for (let j = -this.explosionRadius; j <= this.explosionRadius; j++) {
-        const blastX = x + i;
-        const blastY = y + j;
+    // Create explosion at bomb position
+    this.explodeTile(x, y);
+    this.visualExplosion(x, y);
 
-        if (this.isValidBlast(blastX, blastY)) {
-          const tile = this.tileMap[blastY][blastX];
-          if (tile === 1 || tile === 3) continue; // Skip explosion on certain tile types
+    // Only horizontal directions: right and left
+    const directions = [
+      [1, 0],
+      [-1, 0],
+    ];
 
+    // For each direction (left and right), extend the explosion
+    directions.forEach(([dx, dy]) => {
+      const blastX = x + dx;
+      const blastY = y;
+
+      if (this.isValidBlast(blastX, blastY)) {
+        const tile = this.tileMap[blastY][blastX];
+        if (tile !== 1 && tile !== 3) {
+          // If not a wall
           this.explodeTile(blastX, blastY);
           this.visualExplosion(blastX, blastY);
         }
       }
-    }
+    });
 
     this.isPlanted = false;
     this.bombPosition = null;
@@ -71,31 +79,31 @@ class Bomb {
 
   visualExplosion(x, y) {
     const tile = this.tileMap[y][x];
-    if (tile === 1 || tile === 2 || tile === 3) return; // Skip explosion on certain tile types
-    // console.log(tile === 2);
+    if (tile === 1 || tile === 3) return;
 
     const explosionIndex = y * this.tileMap[0].length + x;
     const explosionElement =
       document.getElementById("gameGrid").children[explosionIndex];
 
     const explosionImage = document.createElement("img");
-    explosionImage.src = "/pictures/explosion.png"; // Or a series of images for animation
+    explosionImage.src = "/pictures/explosion.png";
     explosionImage.classList.add("explosion-image");
     explosionImage.classList.add("explosion-blast");
     explosionImage.style.width = "100%";
     explosionImage.style.height = "100%";
     explosionImage.style.objectFit = "contain";
 
-    explosionElement.innerHTML = ""; // Clear existing content (bomb or floor)
+    explosionElement.innerHTML = "";
     explosionElement.appendChild(explosionImage);
     explosionElement.classList.add("explosion");
 
     setTimeout(() => {
       explosionElement.classList.remove("explosion");
-      explosionElement.innerHTML = ""; // Clear explosion image
-      explosionElement.classList.add("floor"); // Reset to floor class if needed
-    }, 700); // Adjust duration as needed for the blast display
+      explosionElement.innerHTML = "";
+      explosionElement.classList.add("floor");
+    }, 700);
   }
+
   isValidBlast(x, y) {
     return (
       y >= 0 && y < this.tileMap.length && x >= 0 && x < this.tileMap[0].length
@@ -104,24 +112,23 @@ class Bomb {
 
   explodeTile(x, y) {
     const tile = this.tileMap[y][x];
-    if (tile === 1 || tile === 3) return; // Skip explosion on certain tile types
+    if (tile === 1 || tile === 3) return;
 
     const tileIndex = y * this.tileMap[0].length + x;
     const gameGrid = document.getElementById("gameGrid");
 
     if (tile === "P") {
       console.log("Player hit by bomb!");
-
       this.playerMovement.updatePlayerPosition(0, 0);
     } else if (tile === 2) {
-      this.tileMap[y][x] = 0; // Destroy Breakable Tile
+      this.tileMap[y][x] = 0;
       gameGrid.children[tileIndex].classList.remove("breakable");
       gameGrid.children[tileIndex].classList.add("floor");
     }
   }
 }
 
-const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes); // Pass tileMap and playerMovement
+const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes);
 
 document.addEventListener("keydown", (e) => {
   if (e.key === " ") {
