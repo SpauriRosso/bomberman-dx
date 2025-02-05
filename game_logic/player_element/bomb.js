@@ -5,7 +5,66 @@ class Bomb {
     this.tileTypes = tileTypes;
     this.bombPosition = null;
     this.isPlanted = false;
-    this.explosionLength = 1; // How far the explosion extends horizontally
+    this.explosionLength = 1;
+  }
+
+  isWall(x, y) {
+    if (!this.isValidBlast(x, y)) return true;
+    const tile = this.tileMap[y][x];
+    return tile === 1 || tile === 3;
+  }
+
+  getExplosionDirection(x, y) {
+    // Check all four directions
+    const up = this.isWall(x, y - 1);
+    const down = this.isWall(x, y + 1);
+    const left = this.isWall(x - 1, y);
+    const right = this.isWall(x + 1, y);
+
+    // Count blocked directions
+    const blockedCount = [up, down, left, right].filter(
+      (blocked) => blocked
+    ).length;
+
+    // If three directions are blocked, explode in the only available direction
+    if (blockedCount === 3) {
+      if (!up) return [[0, -1]]; // Explode up
+      if (!down) return [[0, 1]]; // Explode down
+      if (!left) return [[-1, 0]]; // Explode left
+      if (!right) return [[1, 0]]; // Explode right
+    }
+
+    // If all directions are blocked, no explosion extends beyond center
+    if (blockedCount === 4) {
+      return [];
+    }
+
+    // Prefer horizontal explosion if available
+    if (!left && !right) {
+      return [
+        [-1, 0],
+        [1, 0],
+      ];
+    } else if (!left) {
+      return [[-1, 0]];
+    } else if (!right) {
+      return [[1, 0]];
+    }
+
+    // If horizontal is blocked but vertical is available
+    if (!up && !down) {
+      return [
+        [0, -1],
+        [0, 1],
+      ];
+    } else if (!up) {
+      return [[0, -1]];
+    } else if (!down) {
+      return [[0, 1]];
+    }
+
+    // Fallback to no explosion beyond center
+    return [];
   }
 
   plantBomb() {
@@ -52,21 +111,17 @@ class Bomb {
     this.explodeTile(x, y);
     this.visualExplosion(x, y);
 
-    // Only horizontal directions: right and left
-    const directions = [
-      [1, 0],
-      [-1, 0],
-    ];
+    // Get directions based on surrounding walls
+    const directions = this.getExplosionDirection(x, y);
 
-    // For each direction (left and right), extend the explosion
+    // Create explosions in available directions
     directions.forEach(([dx, dy]) => {
       const blastX = x + dx;
-      const blastY = y;
+      const blastY = y + dy;
 
       if (this.isValidBlast(blastX, blastY)) {
         const tile = this.tileMap[blastY][blastX];
         if (tile !== 1 && tile !== 3) {
-          // If not a wall
           this.explodeTile(blastX, blastY);
           this.visualExplosion(blastX, blastY);
         }
