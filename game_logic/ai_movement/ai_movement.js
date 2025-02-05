@@ -42,11 +42,11 @@ class AiMovement {
       this.aiPosition.y * this.tileMap[0].length + this.aiPosition.x;
     const newIndex = newY * this.tileMap[0].length + newX;
 
-    gameGrid.children[oldIndex].classList.remove("ai");
+    gameGrid.children[oldIndex].classList.remove("enemy");
     gameGrid.children[oldIndex].classList.add("floor");
 
     gameGrid.children[newIndex].classList.remove("floor");
-    gameGrid.children[newIndex].classList.add("ai");
+    gameGrid.children[newIndex].classList.add("enemy");
 
     this.aiPosition = { x: newX, y: newY };
 
