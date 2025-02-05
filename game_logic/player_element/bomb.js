@@ -5,7 +5,7 @@ class Bomb {
     this.tileTypes = tileTypes;
     this.bombPosition = null;
     this.isPlanted = false;
-    this.explosionRadius = 1; // Adjust as needed
+    this.explosionRadius = 1; // Adjust as needed for the bomb radius
   }
 
   plantBomb() {
