@@ -5,6 +5,7 @@ class ScoreManager {
     this.initScoreDisplay();
   }
 
+  // Display Methods
   initScoreDisplay() {
     const scoreContainer = document.createElement("div");
     scoreContainer.className = "score-container";
@@ -33,7 +34,7 @@ class ScoreManager {
     }
   }
 
-  // Points for different game events
+  // Score Management Methods
   addEnemyDefeatPoints() {
     this.updateScore(100); // 100 points for defeating an enemy
   }
@@ -46,7 +47,7 @@ class ScoreManager {
     this.updateScore(200); // 200 points for collecting a power-up
   }
 
-  // Manage high score
+  // Local Storage Methods
   checkHighScore() {
     if (this.score > this.highScore) {
       this.highScore = this.score;
@@ -54,7 +55,6 @@ class ScoreManager {
     }
   }
 
-  // Save high score to local storage
   saveHighScore() {
     try {
       localStorage.setItem("bombermanHighScore", this.highScore.toString());
@@ -63,7 +63,6 @@ class ScoreManager {
     }
   }
 
-  // Load high score from local storage
   loadHighScore() {
     try {
       return parseInt(localStorage.getItem("bombermanHighScore")) || 0;
@@ -73,23 +72,20 @@ class ScoreManager {
     }
   }
 
-  // Reset score for new game
+  // Reset and Getter Methods
   resetScore() {
     this.score = 0;
     this.updateScoreDisplay();
   }
 
-  // Get current score
   getScore() {
     return this.score;
   }
 
-  // Get high score
   getHighScore() {
     return this.highScore;
   }
 
-  // Update score
   updateScore(points) {
     this.score += points;
     this.updateScoreDisplay();
