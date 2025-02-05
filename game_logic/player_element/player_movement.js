@@ -1,5 +1,3 @@
-import { tileMapDefault } from "../map_element/map_build_test.js";
-
 class PlayerMovement {
   constructor(tileMap, tileTypes) {
     this.tileMap = tileMap;
