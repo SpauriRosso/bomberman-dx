@@ -33,7 +33,8 @@
 }
 
 .player {
-  background-image: url(../pictures/Bomberman.png), url(../pictures/floor.png);
+  background-image: url("../pictures/bomberman-face.png"),
+    url(../pictures/floor.png);
 }
 
 .enemy {
