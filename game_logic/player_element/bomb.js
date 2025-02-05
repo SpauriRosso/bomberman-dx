@@ -125,7 +125,6 @@ const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes); // Pass tileMa
 
 document.addEventListener("keydown", (e) => {
   if (e.key === " ") {
-    // Spacebar
     bomb.plantBomb();
   }
 });
