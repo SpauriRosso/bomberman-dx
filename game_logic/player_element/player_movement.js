@@ -4,6 +4,7 @@ class PlayerMovement {
     this.tileTypes = tileTypes;
     this.playerPosition = this.findPlayerPosition();
     this.setupEventListeners();
+    this.isPaused = false; // Track the pause state
   }
 
   findPlayerPosition() {
@@ -62,6 +63,8 @@ class PlayerMovement {
   }
 
   handleKeyPress(e) {
+    if (this.isPaused) return; // Prevent movement if paused
+
     const { x, y } = this.playerPosition;
     console.log("key was pressed: " + e.key);
 
@@ -88,7 +91,15 @@ class PlayerMovement {
         break;
     }
   }
+  // Method to pause the game
+  pause() {
+    this.isPaused = true;
+  }
 
+  // Method to resume the game
+  resume() {
+    this.isPaused = false;
+  }
   setupEventListeners() {
     document.addEventListener("keydown", (e) => this.handleKeyPress(e));
   }
