@@ -23,6 +23,7 @@ class Bomb {
     const bombImage = document.createElement("img");
     bombImage.src = "/pictures/bomb.png"; // Replace with your bomb image path
     bombImage.classList.add("bomb-image"); // Add a class for styling if needed
+    bombImage.classList.add("bomb-pulse");
     bombImage.style.width = "100%"; // Or a specific size
     bombImage.style.height = "100%";
     bombImage.style.objectFit = "contain";
@@ -80,6 +81,7 @@ class Bomb {
     const explosionImage = document.createElement("img");
     explosionImage.src = "/pictures/explosion.png"; // Or a series of images for animation
     explosionImage.classList.add("explosion-image");
+    explosionImage.classList.add("explosion-blast");
     explosionImage.style.width = "100%";
     explosionImage.style.height = "100%";
     explosionImage.style.objectFit = "contain";
