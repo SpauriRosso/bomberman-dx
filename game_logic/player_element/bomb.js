@@ -5,7 +5,7 @@ class Bomb {
     this.tileTypes = tileTypes;
     this.bombPosition = null;
     this.isPlanted = false;
-    this.explosionLength = 1;
+    this.explosionLength = 7;
   }
 
   isWall(x, y) {
@@ -202,12 +202,14 @@ class Bomb {
       gameGrid.children[tileIndex].classList.remove("breakable");
       gameGrid.children[tileIndex].classList.add("floor");
     } else if (tile === "E") {
+      console.log("Enemy hit by bomb!");
       this.tileMap[y][x] = 0; // Update tile map to remove enemy
       gameGrid.children[tileIndex].classList.remove("enemy"); // Remove enemy class
       gameGrid.children[tileIndex].classList.add("floor"); // Add floor class
     }
   }
 }
+
 const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes);
 
 document.addEventListener("keydown", (e) => {
