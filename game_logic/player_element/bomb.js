@@ -5,7 +5,7 @@ class Bomb {
     this.tileTypes = tileTypes;
     this.bombPosition = null;
     this.isPlanted = false;
-    this.explosionLength = 7;
+    this.explosionLength = 1;
   }
 
   isWall(x, y) {
@@ -203,9 +203,7 @@ class Bomb {
       gameGrid.children[tileIndex].classList.add("floor");
     } else if (tile === "E") {
       console.log("Enemy hit by bomb!");
-      this.tileMap[y][x] = 0; // Update tile map to remove enemy
-      gameGrid.children[tileIndex].classList.remove("enemy"); // Remove enemy class
-      gameGrid.children[tileIndex].classList.add("floor"); // Add floor class
+      aiMovement.handleBombHit(x, y);
     }
   }
 }
