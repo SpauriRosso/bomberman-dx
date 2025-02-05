@@ -40,16 +40,17 @@ class Bomb {
     }
 
     // Prefer horizontal explosion if available
-    if (!left && !right) {
+    if (!left && !right && !up) {
       return [
         [-1, 0],
         [1, 0],
+        [0, -1],
       ];
     } else if (!left) {
       return [[-1, 0]];
     } else if (!right) {
       return [[1, 0]];
-    }
+    } else if (!up) return [[0, -1]];
 
     // If horizontal is blocked but vertical is available
     if (!up && !down) {
@@ -99,51 +100,73 @@ class Bomb {
     if (!this.isPlanted) return;
 
     const { x, y } = this.bombPosition;
-
-    // Clear bomb from tileMap and grid
     this.tileMap[y][x] = 0;
+
     const bombIndex = y * this.tileMap[0].length + x;
     const bombElement = document.getElementById("gameGrid").children[bombIndex];
     bombElement.classList.remove("bomb");
     bombElement.classList.add("floor");
 
-    // Create explosion at bomb position
+    // Create explosion at the center
     this.explodeTile(x, y);
-    this.visualExplosion(x, y);
+    this.visualExplosion(x, y, "center");
 
-    // Get directions based on surrounding walls
-    const directions = this.getExplosionDirection(x, y);
+    // Explosion directions
+    const directions = [
+      [0, -1], // Up
+      [0, 1], // Down
+      [-1, 0], // Left
+      [1, 0], // Right
+    ];
 
-    // Create explosions in available directions
-    directions.forEach(([dx, dy]) => {
-      const blastX = x + dx;
-      const blastY = y + dy;
+    for (const [dx, dy] of directions) {
+      for (let i = 1; i <= this.explosionLength; i++) {
+        const blastX = x + dx * i;
+        const blastY = y + dy * i;
 
-      if (this.isValidBlast(blastX, blastY)) {
+        if (!this.isValidBlast(blastX, blastY)) break;
+
         const tile = this.tileMap[blastY][blastX];
-        if (tile !== 1 && tile !== 3) {
-          this.explodeTile(blastX, blastY);
-          this.visualExplosion(blastX, blastY);
-        }
+
+        if (tile === 1 || tile === 3) break; // Stop at walls
+
+        this.explodeTile(blastX, blastY);
+
+        // Determine sprite based on direction
+        const isLastTile =
+          i === this.explosionLength ||
+          this.tileMap[blastY + dy]?.[blastX + dx] === 1;
+        const spriteType = isLastTile
+          ? "end"
+          : dx !== 0
+          ? "horizontal"
+          : "vertical";
+
+        this.visualExplosion(blastX, blastY, spriteType);
+
+        if (tile === 2) break; // Stop at breakable tiles
       }
-    });
+    }
 
     this.isPlanted = false;
     this.bombPosition = null;
   }
-
-  visualExplosion(x, y) {
-    const tile = this.tileMap[y][x];
-    if (tile === 1 || tile === 3) return;
-
+  visualExplosion(x, y, type) {
     const explosionIndex = y * this.tileMap[0].length + x;
     const explosionElement =
       document.getElementById("gameGrid").children[explosionIndex];
 
     const explosionImage = document.createElement("img");
-    explosionImage.src = "/pictures/explosion.png";
-    explosionImage.classList.add("explosion-image");
-    explosionImage.classList.add("explosion-blast");
+
+    const explosionSprites = {
+      center: "/pictures/explosion.png",
+      horizontal: "/pictures/explosion.png",
+      vertical: "/pictures/explosion.png",
+      end: "/pictures/explosion.png",
+    };
+
+    explosionImage.src = explosionSprites[type] || explosionSprites["center"];
+    explosionImage.classList.add("explosion-image", "explosion-blast");
     explosionImage.style.width = "100%";
     explosionImage.style.height = "100%";
     explosionImage.style.objectFit = "contain";
@@ -158,7 +181,6 @@ class Bomb {
       explosionElement.classList.add("floor");
     }, 700);
   }
-
   isValidBlast(x, y) {
     return (
       y >= 0 && y < this.tileMap.length && x >= 0 && x < this.tileMap[0].length
