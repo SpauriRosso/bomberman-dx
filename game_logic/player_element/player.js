@@ -24,11 +24,6 @@ function animate() {
         const posY = -direction * frameHeight;
         character.style.backgroundPosition = `${posX}px ${posY}px`;
     } else {
-        // Réinitialiser à la frame 0 lorsque la touche est relâchée
-        frame = 0;
-        const posX = 0;
-        const posY = -direction * frameHeight;
-        character.style.backgroundPosition = `${posX}px ${posY}px`;
     }
 }
 
