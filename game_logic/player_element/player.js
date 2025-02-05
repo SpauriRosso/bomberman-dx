@@ -34,6 +34,7 @@ function animate() {
 
 setInterval(animate, 200); // Change d'animation toutes les 200ms
 
+
 document.addEventListener("keydown", (event) => {
     if (directionMap.hasOwnProperty(event.key)) {
         isMoving = true;
