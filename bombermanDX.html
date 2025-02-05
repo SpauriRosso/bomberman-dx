@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/FPScounter.css" />
     <link rel="stylesheet" href="/css/score.css" />
     <link rel="stylesheet" href="/css/Timer.css" />
+    <link rel="stylesheet" href="/css/pause.css" />
   </head>
 
   <body>
@@ -20,7 +21,26 @@
     </div>
     <div id="fps"></div>
     <div class="grid" id="gameGrid"></div>
+    <div
+      id="pauseMenu"
+      style="
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+      "
+    >
+      <h2>Game Paused</h2>
+      <button id="resumeButton">Resume</button>
+      <button id="quitButton">Quit</button>
+    </div>
     <script type="module" src="./Menu_elements/score.js"></script>
+    <script type="module" src="./game_logic/game.js"></script>
     <script src="/game_logic/fps-counter.js"></script>
     <script src="/game_logic/map_element/map_build_test.js"></script>
     <script src="/game_logic/player_element/player_movement.js"></script>
