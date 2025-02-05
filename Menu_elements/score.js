@@ -22,14 +22,14 @@ class ScoreManager {
   updateScoreDisplay() {
     const currentScoreElement = document.getElementById("current-score");
     if (currentScoreElement) {
-      currentScoreElement.textContent = this.score;
+      currentScoreElement.textContent = this.score.toString();
     }
   }
 
   updateHighScoreDisplay() {
     const highScoreElement = document.getElementById("high-score");
     if (highScoreElement) {
-      highScoreElement.textContent = this.highScore;
+      highScoreElement.textContent = this.highScore.toString();
     }
   }
 
@@ -57,7 +57,7 @@ class ScoreManager {
   // Save high score to local storage
   saveHighScore() {
     try {
-      localStorage.setItem("bombermanHighScore", this.highScore);
+      localStorage.setItem("bombermanHighScore", this.highScore.toString());
     } catch (error) {
       console.error("Could not save high score:", error);
     }
@@ -87,6 +87,13 @@ class ScoreManager {
   // Get high score
   getHighScore() {
     return this.highScore;
+  }
+
+  // Update score
+  updateScore(points) {
+    this.score += points;
+    this.updateScoreDisplay();
+    this.checkHighScore();
   }
 }
 
