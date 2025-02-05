@@ -11,6 +11,7 @@ class AiMovement {
     this.startAllEnemyMovement();
   }
 
+  // Find All Enemy Positions
   findAllEnemyPositions() {
     const enemyPositions = [];
     for (let y = 0; y < this.tileMap.length; y++) {
@@ -23,6 +24,7 @@ class AiMovement {
     return enemyPositions;
   }
 
+  // Validate Move
   isValidMove(newX, newY) {
     if (
       newY < 0 ||
@@ -35,6 +37,7 @@ class AiMovement {
     return this.tileMap[newY][newX] === 0;
   }
 
+  // Update AI Position
   updateAiPosition(enemyIndex, newX, newY) {
     const enemy = this.enemies[enemyIndex];
     if (!enemy.isAlive || !this.isValidMove(newX, newY)) return;
@@ -56,6 +59,7 @@ class AiMovement {
     enemy.position = { x: newX, y: newY };
   }
 
+  // Find Random Move
   findRandomMove(enemyIndex) {
     const enemy = this.enemies[enemyIndex];
     if (!enemy.isAlive) return null;
@@ -75,6 +79,7 @@ class AiMovement {
       : null;
   }
 
+  // AI Move
   aiMove(enemyIndex) {
     const nextMove = this.findRandomMove(enemyIndex);
     if (nextMove) {
@@ -82,6 +87,7 @@ class AiMovement {
     }
   }
 
+  // Handle Bomb Hit
   handleBombHit(bombX, bombY) {
     const enemyIndex = this.enemies.findIndex(
       (enemy) =>
@@ -111,9 +117,11 @@ class AiMovement {
     }
 
     // Mark enemy as dead
+    scoreManager.addEnemyDefeatPoints(); // Add points for defeating the enemy
     enemy.isAlive = false;
   }
 
+  // Start All Enemy Movement
   startAllEnemyMovement() {
     this.enemies.forEach((enemy, index) => {
       this.movementIntervals[index] = setInterval(() => {

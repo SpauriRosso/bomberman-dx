@@ -68,6 +68,7 @@ class Bomb {
     return [];
   }
 
+  // Plant Bomb
   plantBomb() {
     if (this.isPlanted) return;
 
@@ -96,6 +97,7 @@ class Bomb {
     }, 3000);
   }
 
+  // Detonate Bomb
   detonateBomb() {
     if (!this.isPlanted) return;
 
@@ -151,6 +153,7 @@ class Bomb {
     this.isPlanted = false;
     this.bombPosition = null;
   }
+  // Visual Explosion
   visualExplosion(x, y, type) {
     const explosionIndex = y * this.tileMap[0].length + x;
     const explosionElement =
@@ -181,12 +184,14 @@ class Bomb {
       explosionElement.classList.add("floor");
     }, 700);
   }
+  // Validate Blast
   isValidBlast(x, y) {
     return (
       y >= 0 && y < this.tileMap.length && x >= 0 && x < this.tileMap[0].length
     );
   }
 
+  // Explode Tile
   explodeTile(x, y) {
     const tile = this.tileMap[y][x];
     if (tile === 1 || tile === 3) return;
@@ -210,6 +215,7 @@ class Bomb {
 
 const bomb = new Bomb(tileMapDefault, playerMovement, tileTypes);
 
+// Event Listener for Planting Bomb
 document.addEventListener("keydown", (e) => {
   if (e.key === " ") {
     bomb.plantBomb();

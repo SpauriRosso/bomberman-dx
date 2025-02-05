@@ -1,3 +1,5 @@
+import { tileMapDefault } from "../map_element/map_build_test.js";
+
 class PlayerMovement {
   constructor(tileMap, tileTypes) {
     this.tileMap = tileMap;
@@ -34,7 +36,18 @@ class PlayerMovement {
   updatePlayerPosition(newX, newY) {
     if (!this.isValidMove(newX, newY)) return;
 
+    const currentTile =
+      this.tileMap[this.playerPosition.y][this.playerPosition.x];
     this.tileMap[this.playerPosition.y][this.playerPosition.x] = 0;
+
+    // Check for scoring events
+    if (currentTile === "E") {
+      // Assuming "E" represents an enemy
+      scoreManager.addEnemyDefeatPoints();
+    } else if (currentTile === "D") {
+      // Assuming "D" represents a destructible block
+      scoreManager.addDestructibleBlockPoints();
+    }
     this.tileMap[newY][newX] = "P";
 
     const gameGrid = document.getElementById("gameGrid");
