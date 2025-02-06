@@ -26,7 +26,7 @@ var bombe = document.createElement("div");
 bombe.style.width = GRID_SIZE + "px";
 bombe.style.height = GRID_SIZE + "px";
 bombe.style.position = "absolute";
-bombe.style.backgroundImage = "url('img/bomb.png')";
+bombe.style.backgroundImage = "url('assests/bomb.png')";
 bombe.style.backgroundRepeat = "no-repeat";
 bombe.style.backgroundSize = "contain";
 bombe.style.zIndex = "100";
@@ -56,7 +56,7 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/block-wall.png")';
+      block.style.backgroundImage = 'url("assests/block-wall.png")';
       block.traverser = false;
     }
 
@@ -70,7 +70,7 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/wood box.png")';
+      block.style.backgroundImage = 'url("assests/wood box.png")';
       block.classList.add("bsod");
       block.traverser = false;
     }
@@ -85,14 +85,14 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/stone.jpg")';
+      block.style.backgroundImage = 'url("assests/stone.jpg")';
       block.classList.add("stallman");
       block.traverser = false;
     }
 
     // Herbe = sol par défaut
     else {
-      block.style.backgroundImage = 'url("img/grass2.png")';
+      block.style.backgroundImage = 'url("assests/grass2.png")';
       block.traverser = true;
     }
 
@@ -125,7 +125,7 @@ for (var i = 0; i < 8; i++) {
   vilain.style.width = "40px";
   vilain.style.height = "40px";
   vilain.style.position = "absolute";
-  vilain.style.backgroundImage = "url('img/Bomberman.png')";
+  vilain.style.backgroundImage = "url('assests/Bomberman.png')";
   vilain.style.backgroundSize = "contain";
   vilain.style.backgroundRepeat = "no-repeat";
   vilain.style.left = String(vilain.vilainX * GRID_SIZE) + "px";
@@ -288,7 +288,7 @@ function createBomb() {
     bombe.style.width = GRID_SIZE + "px";
     bombe.style.height = GRID_SIZE + "px";
     bombe.style.position = "absolute";
-    bombe.style.backgroundImage = "url('img/bomb.png')";
+    bombe.style.backgroundImage = "url('assests/bomb.png')";
     bombe.style.backgroundRepeat = "no-repeat";
     bombe.style.backgroundSize = "contain";
     bombe.style.zIndex = "100";
@@ -320,7 +320,7 @@ function explosionBombe() {
   if (document.getElementById("bombe")) {
     // la bombe explose case du milieu
     document.getElementById("bombe").style.backgroundImage =
-      "url('img/explode4.gif')";
+      "url('assests/explode4.gif')";
   }
 
   setTimeout(disparitionBombe, 1000);
@@ -345,9 +345,10 @@ function disparitionBombe() {
         blockGrid[bx][by - 1].traverser = true;
       }
       blockGrid[bx][by - 1].style.backgroundImage =
-        'url("img/explode4.gif"), url("img/grass2.png")';
+        'url("assests/explode4.gif"), url("assests/grass2.png")';
       setTimeout(function () {
-        blockGrid[bx][by - 1].style.backgroundImage = 'url("img/grass2.png")';
+        blockGrid[bx][by - 1].style.backgroundImage =
+          'url("assests/grass2.png")';
       }, 500);
     }
 
@@ -359,9 +360,10 @@ function disparitionBombe() {
         blockGrid[bx][by + 1].traverser = true;
       }
       blockGrid[bx][by + 1].style.backgroundImage =
-        'url("img/explode4.gif"), url("img/grass2.png")';
+        'url("assests/explode4.gif"), url("assests/grass2.png")';
       setTimeout(function () {
-        blockGrid[bx][by + 1].style.backgroundImage = 'url("img/grass2.png")';
+        blockGrid[bx][by + 1].style.backgroundImage =
+          'url("assests/grass2.png")';
       }, 500);
     }
 
@@ -373,9 +375,10 @@ function disparitionBombe() {
         blockGrid[bx - 1][by].traverser = true;
       }
       blockGrid[bx - 1][by].style.backgroundImage =
-        'url("img/explode4.gif"), url("img/grass2.png")';
+        'url("assests/explode4.gif"), url("assests/grass2.png")';
       setTimeout(function () {
-        blockGrid[bx - 1][by].style.backgroundImage = 'url("img/grass2.png")';
+        blockGrid[bx - 1][by].style.backgroundImage =
+          'url("assests/grass2.png")';
       }, 500);
     }
 
@@ -387,9 +390,10 @@ function disparitionBombe() {
         blockGrid[bx + 1][by].traverser = true;
       }
       blockGrid[bx + 1][by].style.backgroundImage =
-        'url("img/explode4.gif"), url("img/grass2.png")';
+        'url("assests/explode4.gif"), url("assests/grass2.png")';
       setTimeout(function () {
-        blockGrid[bx + 1][by].style.backgroundImage = 'url("img/grass2.png")';
+        blockGrid[bx + 1][by].style.backgroundImage =
+          'url("assests/grass2.png")';
       }, 500);
     }
 
