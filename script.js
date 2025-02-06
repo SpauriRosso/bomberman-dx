@@ -281,7 +281,24 @@ function random100() {
 
 /* ----- Creation de la bombe ----- */
 var bombeList = [];
+function animateBombPulse() {
+  const bomb = document.getElementById("bombe");
+  let scale = 1.1;
+  let direction = 1;
 
+  function animate() {
+    bomb.style.transform = `scale(${scale})`;
+    scale += direction * 0.05;
+    if (scale > 1.2) {
+      direction = -1;
+    } else if (scale < 0.8) {
+      direction = 1;
+    }
+  }
+
+  // Start the animation
+  setInterval(animate, 50); // Change the scale every 50ms
+}
 function createBomb() {
   if (!document.getElementById("bombe")) {
     bombe = document.createElement("div");
@@ -311,6 +328,7 @@ function createBomb() {
     // la bombe explose après 3 secondes
     setTimeout(explosionBombe, 3000);
   }
+  animateBombPulse();
 }
 
 function explosionBombe() {
@@ -656,3 +674,60 @@ function pad(val) {
     return valString;
   }
 }
+
+// Pause Menu Elements
+const pauseMenu = document.createElement("div");
+pauseMenu.id = "pauseMenu";
+pauseMenu.style.display = "none"; // Initially hidden
+pauseMenu.style.position = "absolute";
+pauseMenu.style.top = "0";
+pauseMenu.style.left = "0";
+pauseMenu.style.width = "100%";
+pauseMenu.style.height = "100%";
+pauseMenu.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // Semi-transparent background
+pauseMenu.style.zIndex = "1000"; // Above everything else
+
+const pauseMenuContent = document.createElement("div");
+pauseMenuContent.style.position = "absolute";
+pauseMenuContent.style.top = "50%";
+pauseMenuContent.style.left = "50%";
+pauseMenuContent.style.transform = "translate(-50%, -50%)";
+pauseMenuContent.style.backgroundColor = "white";
+pauseMenuContent.style.padding = "20px";
+pauseMenuContent.style.borderRadius = "5px";
+
+const resumeButton = document.createElement("button");
+resumeButton.textContent = "Resume";
+resumeButton.addEventListener("click", togglePause);
+pauseMenuContent.appendChild(resumeButton);
+
+const restartButton = document.createElement("button");
+restartButton.textContent = "Restart";
+restartButton.addEventListener("click", () => {
+  document.location.reload(true);
+});
+pauseMenuContent.appendChild(restartButton);
+
+pauseMenu.appendChild(pauseMenuContent);
+document.body.appendChild(pauseMenu);
+
+let gamePaused = false;
+
+function togglePause() {
+  gamePaused = !gamePaused;
+  pauseMenu.style.display = gamePaused ? "block" : "none";
+
+  if (gamePaused) {
+    clearInterval(animationInterval); // Stop player animation
+    cancelAnimationFrame(animationId); // Stop the game loop
+  } else {
+    startAnimationbas(); // Or whatever animation was playing
+    animationId = window.requestAnimationFrame(loop); // Restart the game loop
+  }
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    togglePause();
+  }
+});
