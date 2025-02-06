@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>BOBMBERMANDX</title>
+  </head>
+
+  <body>
+    <div class="container-fluid back">
+      <div class="row">
+        <div class="col-sm-7">
+          <div id="plateau">
+            <div id="pion"></div>
+          </div>
+        </div>
+
+        <div class="col-sm-5 text-white back2">
+          <div class="display-4 py-3 px-4">
+            <i class="fas fa-bomb"></i> BombermanDX
+          </div>
+
+          <div class="row">
+            <div class="col mt-1 py-4 px-4">
+              <p>
+                Use arrow keys to move:<br />
+                <i class="fas fa-arrow-left"></i> Left<br />
+                Right <i class="fas fa-arrow-right"></i><br />
+                <i class="fas fa-arrow-up"></i> Up<br />
+                Down <i class="fas fa-arrow-down"></i><br />
+                Use space bar for bomb
+              </p>
+            </div>
+            <div class="col mt-1 py-4 px-4">
+              <div class="scoreGame">Score: 0</div>
+              Timer: <label id="minutes">00</label>:<label id="seconds"
+                >00</label
+              >
+            </div>
+          </div>
+
+          <div class="row pl-4">
+            <div clas="col">
+              <p class="font-weight-bold">The characters:</p>
+              <img
+                class="img-fluid characters"
+                src="assests/Bomberman.png"
+                alt="bill"
+              />
+              : Bomberman (+1 points)<br />
+              <img
+                class="img-fluid characters"
+                src="assests/stone.jpg"
+                alt="stallman"
+              />
+              : Stone (+4 points)<br />
+              <img
+                class="img-fluid characters"
+                src="assests/wood box.png"
+                alt="Blue Screen Of Death"
+              />
+              : Crate (+2 points)<br />
+              <img
+                class="img-fluid characters"
+                src="assests/block-wall.png"
+                alt="wallbrick"
+              />
+              : bricks wall
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
