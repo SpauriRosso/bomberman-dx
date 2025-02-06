@@ -1,7 +1,0 @@
-#player {
-  position: absolute;
-  width: 50px; /* Same width as a tile */
-  height: 50px; /* Same height as a tile */
-  background-color: blue;
-  transition: all 0.1s;
-}
