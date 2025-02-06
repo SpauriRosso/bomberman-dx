@@ -116,8 +116,6 @@ class AiMovement {
       delete this.movementIntervals[enemyIndex];
     }
 
-    // Mark enemy as dead
-    scoreManager.addEnemyDefeatPoints(); // Add points for defeating the enemy
     enemy.isAlive = false;
   }
 
