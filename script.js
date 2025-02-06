@@ -56,7 +56,7 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/wallbrick.jpg")';
+      block.style.backgroundImage = 'url("img/block-wall.png")';
       block.traverser = false;
     }
 
@@ -70,7 +70,7 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/bsod.png")';
+      block.style.backgroundImage = 'url("img/wood box.png")';
       block.classList.add("bsod");
       block.traverser = false;
     }
@@ -85,7 +85,7 @@ for (var i = 0; i < H_GRID; i++) {
         (i >= H_GRID - 2 && i < H_GRID && j >= V_GRID - 2 && j < V_GRID)
       )
     ) {
-      block.style.backgroundImage = 'url("img/stallman.jpg")';
+      block.style.backgroundImage = 'url("img/stone.jpg")';
       block.classList.add("stallman");
       block.traverser = false;
     }
@@ -125,7 +125,7 @@ for (var i = 0; i < 8; i++) {
   vilain.style.width = "40px";
   vilain.style.height = "40px";
   vilain.style.position = "absolute";
-  vilain.style.backgroundImage = "url('img/bug2.png')";
+  vilain.style.backgroundImage = "url('img/Bomberman.png')";
   vilain.style.backgroundSize = "contain";
   vilain.style.backgroundRepeat = "no-repeat";
   vilain.style.left = String(vilain.vilainX * GRID_SIZE) + "px";
@@ -178,7 +178,7 @@ function loop() {
       ) {
         //console.log(x * GRID_SIZE, y * GRID_SIZE, vilainList[i].offsetLeft, vilainList[i].offsetTop);
         document.getElementById("pion").remove();
-        alert("Perdu ! Recommencer...");
+        alert("you got hit try again!");
         document.location.reload(true);
         break;
       }
@@ -261,7 +261,7 @@ document.onkeydown = function (event) {
     ) {
       //console.log(x * GRID_SIZE, y * GRID_SIZE, vilainList[i].offsetLeft, vilainList[i].offsetTop);
       document.getElementById("pion").remove();
-      alert("Perdu ! Recommencer...");
+      alert("you got hit try again!");
       document.location.reload(true);
       break;
     }
@@ -308,8 +308,8 @@ function createBomb() {
     bombeList.push(bombe);
     //console.log(bombe.x, bombe.y);
 
-    // la bombe explose après 2 secondes
-    setTimeout(explosionBombe, 2000);
+    // la bombe explose après 3 secondes
+    setTimeout(explosionBombe, 3000);
   }
 }
 
