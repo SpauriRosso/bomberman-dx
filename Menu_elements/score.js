@@ -95,6 +95,3 @@ class ScoreManager {
 
 // Create a global instance of ScoreManager
 const scoreManager = new ScoreManager();
-
-// Export for potential module use
-export default scoreManager;
