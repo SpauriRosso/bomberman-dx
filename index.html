@@ -1,54 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8" />
-    <title>Bomberman Game</title>
+    <meta charset="utf-8" />
     <link
-      rel="icon"
-      type="image/png"
-      href="/assests/image/game-boy-color-logo.png"
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="./css/displaystyle.css" />
-    <link rel="stylesheet" href="./css/bombstyle.css" />
-    <link rel="stylesheet" href="./css/Buttonstyle.css" />
-    <link rel="stylesheet" href="./css/Playerstyle.css" />
-    <link rel="stylesheet" href="./css/Map-randomizer.css" />
-    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title></title>
   </head>
-  <body>
-    <div class="square"></div>
-    <div class="square-sidescreen"></div>
-    <div id="game-container">
-      <div id="tilemap"></div>
-      <div id="player"></div>
-      <div id="pause-menu" class="hidden">
-        <h2>PAUSED</h2>
-      </div>
-      <button class="battery" id="batterydot">
-        <h3>BATTERY</h3>
-      </button>
 
-      <button class="gameboy-button" id="a-button"></button>
-      <button class="gameboy-button" id="b-button"></button>
-      <div class="square-pad">
-        <button class="square-pad-top" id="top"></button>
-        <button class="square-pad-left" id="left"></button>
-        <button class="square-pad-middle" id="middle"></button>
-        <button class="square-pad-right" id="right"></button>
-        <button class="square-pad-bottom" id="bottom"></button>
+  <body>
+    <div class="container-fluid back">
+      <div class="row">
+        <div class="col-sm-7">
+          <div id="plateau">
+            <div id="pion"></div>
+          </div>
+        </div>
+
+        <div class="col-sm-5 text-white back2">
+          <div class="display-4 py-3 px-4">
+            <i class="fas fa-bomb"></i> BombermanDX
+          </div>
+
+          <div class="row">
+            <div class="col mt-1 py-4 px-4">
+              <p>
+                Use arrow keys to move:<br />
+                <i class="fas fa-arrow-left"></i> Left<br />
+                Right <i class="fas fa-arrow-right"></i><br />
+                <i class="fas fa-arrow-up"></i> Up<br />
+                Down <i class="fas fa-arrow-down"></i><br />
+                Use space bar for bomb
+              </p>
+            </div>
+            <div class="col mt-1 py-4 px-4">
+              <div class="scoreGame">Score: 0</div>
+              Timer: <label id="minutes">00</label>:<label id="seconds"
+                >00</label
+              >
+            </div>
+          </div>
+
+          <div class="row pl-4">
+            <div clas="col">
+              <p class="font-weight-bold">The characters:</p>
+              <img class="img-fluid characters" src="img/bug2.png" alt="bill" />
+              : Bug (+1 points)<br />
+              <img
+                class="img-fluid characters"
+                src="img/stallman.jpg"
+                alt="stallman"
+              />
+              : Richard (+4 points)<br />
+              <img
+                class="img-fluid characters"
+                src="img/bsod.png"
+                alt="Blue Screen Of Death"
+              />
+              : MS Windows Blue Screen Of Death (+2 points)<br />
+              <img
+                class="img-fluid characters"
+                src="img/wallbrick.jpg"
+                alt="wallbrick"
+              />
+              : bricks wall
+            </div>
+          </div>
+        </div>
       </div>
-      <img
-        src="
-        ./assests/image/game-boy-color-logo.png"
-        alt="Image"
-        class="game-image"
-      />
     </div>
-    <script src="/js/player.js"></script>
-    <script src="/js/tilemap.js"></script>
-    <script src="/js/collision.js"></script>
-    <script src="/js/bombcollision.js"></script>
-    <script src="/js/pause.js"></script>
-    <script src="/js/game.js"></script>
+
+    <script src="script.js"></script>
   </body>
 </html>
