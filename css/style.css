@@ -1,9 +1,14 @@
-/* body{
-  background-color: grey;
-} */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
 
 .container-fluid {
   padding: 50px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .back {
@@ -30,17 +35,6 @@
   position: relative;
 }
 
-/* #pion{
-  width: 40px;
-  height: 40px;
-  background-image: url("img/tux-anim.gif");
-  background-size: contain;
-  background-position: center;
-  border-radius: 50%;
-  position: absolute;
-  z-index: 100;
-} */
-
 #pion {
   width: 40px;
   height: 40px;
@@ -50,16 +44,6 @@
   top: 0;
   left: 0;
 }
-
-/* #vilain{
-  width: 40px;
-  height: 40px;
-  background-image: url("img/spritesheet2.png");
-  z-index: 95;
-  position: absolute;
-  left: 0;
-  top : 0;
-} */
 
 .title1 {
   font-size: 32px;
