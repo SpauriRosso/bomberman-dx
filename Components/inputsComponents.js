@@ -1,81 +1,29 @@
-class inputsComponents {
+export default class InputComponent {
   constructor() {
-    this.left = false;
-    this.right = false;
-    this.up = false;
-    this.down = false;
-    this.fire = false;
+    this.x = 0; // Déplacement horizontal
+    this.y = 0; // Déplacement vertical
+    this.keys = new Set(); // Ensemble des touches pressées
 
-    window.addEventListener("keydown", (event) => {
-      console.log("keydown pressed", event);
-
-      switch (event.key) {
-        case "ArrowLeft":
-        case "q":
-        case "a":
-          this.left = true;
-          break;
-        case "ArrowRight":
-        case "d":
-          this.right = true;
-          break;
-        case "ArrowUp":
-        case "z":
-        case "w":
-          this.up = true;
-          break;
-        case "ArrowDown":
-        case "s":
-          this.down = true;
-          break;
-        case " ":
-          this.fire = true;
-          break;
-      }
+    window.addEventListener("keydown", (e) => {
+      this.keys.add(e.key);
+      console.log("keydown ");
     });
 
-    window.addEventListener("keyup", (event) => {
-      console.log("keyup pressed", event);
-      switch (event.key) {
-        case "ArrowLeft":
-        case "q":
-        case "a":
-          this.left = false;
-          break;
-        case "ArrowRight":
-        case "d":
-          this.right = false;
-          break;
-        case "ArrowUp":
-        case "z":
-        case "w":
-          this.up = false;
-          break;
-        case "ArrowDown":
-        case "s":
-          this.down = false;
-          break;
-        case " ":
-          this.fire = false;
-          break;
-      }
+    window.addEventListener("keyup", (e) => {
+      this.keys.delete(e.key);
+      console.log("keyup ");
     });
   }
 
-  // Add a new method to update the player's position
-  updatePlayerPosition(player) {
-    if (this.up) {
-      player.y -= 1;
-    }
-    if (this.down) {
-      player.y += 1;
-    }
-    if (this.left) {
-      player.x -= 1;
-    }
-    if (this.right) {
-      player.x += 1;
-    }
+  update() {
+    // Réinitialiser les déplacements
+    this.x = 0;
+    this.y = 0;
+
+    // Mise à jour en fonction des touches pressées
+    if (this.keys.has("q")) this.x = -1;
+    if (this.keys.has("d")) this.x = 1;
+    if (this.keys.has("z")) this.y = -1;
+    if (this.keys.has("s")) this.y = 1;
   }
 }
-export default inputsComponents;
