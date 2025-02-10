@@ -21,8 +21,10 @@ gameLogicSystem.addSystem(new RenderSystem());
 console.log(gameLogicSystem);
 
 function gameLoop() {
+
   gameLogicSystem.update();
-  // requestAnimationFrame(gameLoop);
+
+  requestAnimationFrame(gameLoop);
 }
 console.log("player position on the map", findPlayerPosition());
 

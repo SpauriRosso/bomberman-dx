@@ -7,8 +7,8 @@ export default class MovementSystem {
 
       if (position && velocity && input) {
         input.update();
-        position.x += velocity.vx * input.x;
-        position.y += velocity.vy * input.y;
+        position.x += velocity.vx * 64 + input.x;
+        position.y += velocity.vy * 64 + input.y;
         console.log(position.x, position.y);
       }
     });

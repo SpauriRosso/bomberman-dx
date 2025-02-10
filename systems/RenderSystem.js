@@ -5,9 +5,13 @@ export default class RenderSystem {
   update(entities) {
     // Afficher les entités sur l'écran
     entities.forEach((entity) => {
-      let entityDOM = document.createElement("div");
+      let entityDOM = document.getElementById(entity.id)
+      if (!entityDOM) {
+        entityDOM = document.createElement("div");
 
-      entityDOM.id = entity.id;
+        entityDOM.id = entity.id;
+
+      }
 
       let position = entity.getComponent("position");
       let offset = { x: 0, y: 0 };
