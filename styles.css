@@ -53,6 +53,10 @@
   left: 64px;
 }
 
+.player {
+  background-image: url("./pictures/floor.png");
+}
+
 #game-container {
   height: 832px;
   width: 960px;
