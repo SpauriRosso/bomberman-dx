@@ -57,6 +57,10 @@
   background-image: url("./pictures/floor.png");
 }
 
+#player1 {
+  background-image: url("./pictures/spritesheet.png");
+}
+
 #game-container {
   height: 832px;
   width: 960px;

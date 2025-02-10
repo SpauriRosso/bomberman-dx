@@ -6,12 +6,12 @@ export default class InputComponent {
 
     window.addEventListener("keydown", (e) => {
       this.keys.add(e.key);
-      console.log("keydown ");
+      console.log(e.key);
     });
 
     window.addEventListener("keyup", (e) => {
       this.keys.delete(e.key);
-      console.log("keyup ");
+      console.log(e.key);
     });
   }
 
@@ -21,9 +21,9 @@ export default class InputComponent {
     this.y = 0;
 
     // Mise à jour en fonction des touches pressées
-    if (this.keys.has("q")) this.x = -1;
-    if (this.keys.has("d")) this.x = 1;
-    if (this.keys.has("z")) this.y = -1;
-    if (this.keys.has("s")) this.y = 1;
+    if (this.keys.has("q") || this.keys.has("ArrowLeft")) this.x = -3;
+    if (this.keys.has("d") || this.keys.has("ArrowRight")) this.x = 3;
+    if (this.keys.has("z") || this.keys.has("ArrowUp")) this.y = -3;
+    if (this.keys.has("s") || this.keys.has("ArrowDown")) this.y = 3;
   }
 }
