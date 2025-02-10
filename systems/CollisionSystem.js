@@ -1,12 +1,20 @@
+import { tileMapDefault } from "../utils/tileMap.js";
+
 export default class CollisionSystem {
-  constructor (entities) {
-    this.entities = entities;
+  constructor(tileMap) {
+    this.tileMap = tileMapDefault;
   }
 
-  update(entities) {
-    entities.forEach((entity) => {
-      const position = entities.position;
-    })
+  isCollide(x, y) {
+    const tileX = Math.floor(x / 64)
+    const tileY = Math.floor(y / 64)
+
+    if (
+        this.tileMap[tileY] && (this.tileMap[tileY][tileX] === 1 || this.tileMap[tileY][tileX] === 2 || this.tileMap[tileY][tileX] === 3)
+    ) {
+      return false;
+    }
+    return true;
   }
 }
 
