@@ -7,43 +7,43 @@ import {
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
 import InputSystem from "./systems/InputSystem.js";
-import PlayerEntity from "./entities/PlayerEntity.js";
-import EnemyEntity from "./entities/EnemyEntity.js";
-import BombEntity from "./entities/BombEntity.js";
 
-const gameLogicSystem = new GameLogicSystem();
+const entities = [];
 
 const playerEntity = new PlayerEntity(1);
-gameLogicSystem.addEntity(playerEntity);
+entities.push(playerEntity);
 
 const enemyEntity = new EnemyEntity(2);
-gameLogicSystem.addEntity(enemyEntity);
+entities.push(enemyEntity);
 
 const bombEntity = new BombEntity(3);
-gameLogicSystem.addEntity(bombEntity);
+entities.push(bombEntity);
 
-gameLogicSystem.addSystem(new RenderSystem());
-gameLogicSystem.addSystem(new InputSystem());
+const movementSystem = new MovementSystem(entities);
+const collisionSystem = new CollisionSystem(entities);
+const bombSystem = new BombSystem(entities);
+const enemySystem = new EnemySystem(entities);
+const playerSystem = new PlayerSystem(entities);
+
+const playerMovementSystem = new PlayerMovementSystem(
+  tileMapDefault,
+  tileTypes
+);
+
+const inputs = new inputsComponents();
 
 function update() {
-  gameLogicSystem.update();
+  // Update the player's position using the inputsComponent class
+  inputs.updatePlayerPosition(playerEntity);
+
+  movementSystem.update();
+  collisionSystem.update();
+  bombSystem.update();
+  enemySystem.update();
+  playerSystem.update();
+  playerMovementSystem.update();
+
   requestAnimationFrame(update);
 }
-
-// Ajoutez ces lignes de code pour afficher l'animation
-const player = document.getElementById("0");
-const frameSequence = [0, 1, 2];
-let frameIndex = 0;
-
-function animate() {
-  const frame = frameSequence[frameIndex];
-  const posX = -frame * 64;
-  const posY = 0;
-  player.style.backgroundPosition = `${posX}px ${posY}px`;
-  frameIndex = (frameIndex + 1) % frameSequence.length;
-  requestAnimationFrame(animate);
-}
-
-animate();
 
 update();

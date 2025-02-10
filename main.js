@@ -13,7 +13,7 @@ generateGrid();
 let { x, y } = findPlayerPosition();
 
 const gameLogicSystem = new GameLogicSystem();
-const player = new PlayerEntity("player1", x * 64, y * 64); // Initialize player entity with position based on tilemap
+const player = new PlayerEntity(0, x * 64, y * 64); // Initialize player entity with position based on tilemap
 
 gameLogicSystem.addEntity(player);
 gameLogicSystem.addSystem(new MovementSystem());

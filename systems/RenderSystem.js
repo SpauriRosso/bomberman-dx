@@ -21,16 +21,13 @@ export default class RenderSystem {
       entityDOM.style.width = "64px";
       entityDOM.style.height = "64px";
 
-      if (entity.getComponent("data")) {
-        entityDOM.style.backgroundImage = "url('./pictures/spritesheet.png')";
-        entityDOM.style.backgroundPosition = "0px 0px";
-        entityDOM.style.backgroundRepeat = "no-repeat";
+      if (entity.getComponent("PlayerComponent")) {
+        entityDOM.style.background = "url('path/to/player/sprite.png')"; // Set player sprite
       } else {
-        entityDOM.style.background = "black"; // Default pour les autres entités
+        entityDOM.style.background = "black"; // Default for other entities
       }
 
       this.container.appendChild(entityDOM);
     });
-    this.animationFrame = (this.animationFrame + 1) % 4;
   }
 }
