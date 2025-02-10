@@ -1,29 +1,41 @@
 export default class InputComponent {
   constructor() {
-    this.x = 0; // Déplacement horizontal
-    this.y = 0; // Déplacement vertical
-    this.keys = new Set(); // Ensemble des touches pressées
+    this.keys = new Set();
+    this.keyMap = {
+      'q': 'left',
+      'd': 'right',
+      'z': 'up',
+      's': 'down'
+    };
 
-    window.addEventListener("keydown", (e) => {
-      this.keys.add(e.key);
-      console.log("keydown ");
+    document.addEventListener('keydown', (event) => {
+      if (this.keyMap[event.key]) {
+        this.addKey(this.keyMap[event.key]);
+      }
     });
 
-    window.addEventListener("keyup", (e) => {
-      this.keys.delete(e.key);
-      console.log("keyup ");
+    document.addEventListener('keyup', (event) => {
+      if (this.keyMap[event.key]) {
+        this.removeKey(this.keyMap[event.key]);
+      }
     });
+  }
+
+  addKey(key) {
+    this.keys.add(key);
+  }
+
+  removeKey(key) {
+    this.keys.delete(key);
+  }
+
+  hasKey(key) {
+    return this.keys.has(key);
   }
 
   update() {
-    // Réinitialiser les déplacements
-    this.x = 0;
-    this.y = 0;
-
-    // Mise à jour en fonction des touches pressées
-    if (this.keys.has("q")) this.x = -1;
-    if (this.keys.has("d")) this.x = 1;
-    if (this.keys.has("z")) this.y = -1;
-    if (this.keys.has("s")) this.y = 1;
+    // Code de gestion des entrées
+    console.log("Entrées");
   }
 }
+

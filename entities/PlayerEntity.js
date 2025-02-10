@@ -14,6 +14,14 @@ class PlayerEntity extends Entity {
     this.addComponent("data", new PlayerDataComponent());
     this.addComponent("inputs", new inputsComponent());
   }
+
+  addComponent(name, component) {
+    this.components[name] = component;
+  }
+
+  getComponent(name) {
+    return this.components[name];
+  }
 }
 
 export default PlayerEntity;

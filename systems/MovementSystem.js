@@ -1,5 +1,5 @@
 export default class MovementSystem {
-  update(entities) {
+  update(entities, deltaTime) {
     entities.forEach((entity) => {
       const position = entity.getComponent("position");
       const velocity = entity.getComponent("velocity");
@@ -7,9 +7,24 @@ export default class MovementSystem {
 
       if (position && velocity && input) {
         input.update();
-        position.x += velocity.vx * input.x;
-        position.y += velocity.vy * input.y;
-        console.log(position.x, position.y);
+        if (input.keys.has("q")) {
+          velocity.vx = -1;
+        } else if (input.keys.has("d")) {
+          velocity.vx = 1;
+        } else {
+          velocity.vx = 0;
+        }
+
+        if (input.keys.has("z")) {
+          velocity.vy = -1;
+        } else if (input.keys.has("s")) {
+          velocity.vy = 1;
+        } else {
+          velocity.vy = 0;
+        }
+
+        position.x += velocity.vx * deltaTime / 1000;
+        position.y += velocity.vy * deltaTime / 1000;
       }
     });
   }
