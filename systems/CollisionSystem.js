@@ -1,7 +1,7 @@
 import { tileMapDefault } from "../utils/tileMap.js";
 
 export default class CollisionSystem {
-  constructor(tileMap) {
+  constructor() {
     this.tileMap = tileMapDefault;
   }
 
