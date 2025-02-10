@@ -12,11 +12,10 @@ export default class MovementSystem {
       if (position && velocity && input) {
         input.update();
 
-        // Nouvelle position potentielle
+        // New targeted position
         const nextX = position.x + velocity.vx * 64 + input.x;
         const nextY = position.y + velocity.vy * 64 + input.y;
 
-        // Vérifier la collision avant d'appliquer le mouvement
         if (this.collisionSystem.isCollide(nextX, position.y)) {
           position.x = nextX;
         }
