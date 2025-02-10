@@ -1,0 +1,87 @@
+#gameGrid {
+  position: absolute;
+  margin: auto;
+  display: grid;
+  gap: 0px;
+}
+
+.tile {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.floor {
+  background-image: url(./pictures/floor.png);
+}
+
+.wall {
+  background-image: url("./pictures/Side\ Wall\ Rock.png");
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.mapWall {
+  background-image: url("./pictures/Side%20Wall%20Rock.png");
+}
+
+.breakable {
+  background-image: url(./pictures/wood%20box.png);
+}
+
+.enemy {
+  background-color: red;
+}
+
+.bomb {
+  background-image: url("./pictures/bomb.png");
+}
+
+.power-up {
+  background-image: url("./pictures/power-up.png");
+}
+
+#character {
+  width: 64px;
+  height: 64px;
+  background-image: url("./pictures/spritesheet.png");
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 64px;
+  left: 64px;
+}
+
+#game-container {
+  height: 832px;
+  width: 960px;
+}
+
+/* Animation pour le personnage */
+#character {
+  animation: move 0.5s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(10px);
+  }
+}
+
+/* Média query pour adapter les styles à différentes tailles d'écran */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(8, 64px);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(6, 64px);
+  }
+}
