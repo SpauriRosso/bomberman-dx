@@ -1,3 +1,6 @@
+body {
+  background-color: #838282; /* Gray color */
+}
 @font-face {
   font-family: "bomberman";
   src: url("./pictures/Font/Bomberman-font.ttf");
@@ -87,6 +90,7 @@
 }
 
 #game-container {
+  background-color: gray;
   height: 832px;
   width: 960px;
   position: absolute;
