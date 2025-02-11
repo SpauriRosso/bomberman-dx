@@ -87,7 +87,6 @@ export default class InputComponent {
       this.y = spriteComponent.speed;
     }
     if (this.keys.has(" ") || this.keys.has("Spacebar")) {
-      // Ajoutez le code pour lancer une bombe ici
     }
 
     if (this.x !== 0 || this.y !== 0) {

@@ -1,7 +1,5 @@
-class EnemyComponent {
+export default class EnemyComponent {
   constructor() {
     this.aiBehavior = "random";
   }
 }
-
-export default EnemyComponent;
