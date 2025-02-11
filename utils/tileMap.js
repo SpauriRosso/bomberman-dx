@@ -1,5 +1,5 @@
 // Définir la tileMap par défaut
-const tileMapDefault = [
+export const tileMapDefault = [
   // Default tile map definition
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, "I", 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, "I", 1],

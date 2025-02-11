@@ -1,31 +1,23 @@
-import {
-  tileMapDefault,
-  tileTypes,
-  generateGrid,
-  findPlayerPosition,
-} from "./tileMap.js";
-import GameLogicSystem from "./systems/GameLogicSystem.js";
-import RenderSystem from "./systems/RenderSystem.js";
-import InputSystem from "./systems/InputSystem.js";
+import { tileMapDefault, tileTypes } from "./tileMap.js";
 
 const entities = [];
 
-const playerEntity = new PlayerEntity(1);
+const playerEntity = new playerEntity(1);
 entities.push(playerEntity);
 
-const enemyEntity = new EnemyEntity(2);
+const enemyEntity = new enemyEntity(2);
 entities.push(enemyEntity);
 
-const bombEntity = new BombEntity(3);
+const bombEntity = new bombEntity(3);
 entities.push(bombEntity);
 
-const movementSystem = new MovementSystem(entities);
-const collisionSystem = new CollisionSystem(entities);
-const bombSystem = new BombSystem(entities);
-const enemySystem = new EnemySystem(entities);
-const playerSystem = new PlayerSystem(entities);
+const movementSystem = new movementSystem(entities);
+const collisionSystem = new collisionSystem(entities);
+const bombSystem = new bombSystem(entities);
+const enemySystem = new enemySystem(entities);
+const playerSystem = new playerSystem(entities);
 
-const playerMovementSystem = new PlayerMovementSystem(
+const playerMovementSystem = new playerMovementSystem(
   tileMapDefault,
   tileTypes
 );
