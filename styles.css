@@ -25,12 +25,8 @@ body {
 
   /* Set the color and background */
   color: #fff;
-  background-color: #333;
   padding: 5px 10px;
   border-radius: 5px;
-
-  /* Add a box shadow for depth */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .tile {
   width: 64px;
