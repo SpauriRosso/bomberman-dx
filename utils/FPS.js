@@ -9,13 +9,14 @@ export default class FPS {
     this.fpsElement.style.position = "absolute";
     this.fpsElement.style.top = "10px";
     this.fpsElement.style.right = "10px";
-    this.fpsElement.style.fontSize = "24px";
+    this.fpsElement.style.fontSize = "20px";
     this.fpsElement.style.fontWeight = "bold";
     this.fpsElement.style.color = "white";
     this.fpsElement.style.background = "rgba(0, 0, 0, 0.5)";
     this.fpsElement.style.padding = "5px";
     this.fpsElement.style.borderRadius = "5px";
     this.fpsElement.style.cursor = "default";
+    this.fpsElement.style.fontFamily = "bomberman";
     document.body.appendChild(this.fpsElement);
   }
 
