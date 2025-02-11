@@ -1,5 +1,3 @@
-import Bomb from "../bomb.js";
-
 export default class InputComponent {
   constructor(playerId, spriteComponent) {
     this.playerId = playerId;
@@ -74,12 +72,6 @@ export default class InputComponent {
       }
     }, 150);
   }
-  placeBomb() {
-    if (this.bombPlaced) return;
-
-    const bomb = new Bomb(this.playerId, "gameGrid", 40);
-    bomb.placeBomb();
-  }
   update() {
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
@@ -100,7 +92,6 @@ export default class InputComponent {
       this.y = spriteComponent.speed;
     }
     if (this.keys.has(" ") || this.keys.has(" ")) {
-      this.placeBomb();
       console.log("Spacebar pressed");
     }
 
