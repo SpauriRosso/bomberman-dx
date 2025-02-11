@@ -55,7 +55,7 @@ function gameLoop() {
   const minutes = Math.floor(currentTime / 60);
   const seconds = currentTime % 60;
   const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
-  timerElement.textContent = `${formattedTime}`;
+  timerElement.textContent = `TIME ${formattedTime}`;
 
   requestAnimationFrame(gameLoop);
 }
