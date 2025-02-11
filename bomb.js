@@ -66,6 +66,11 @@ export default class Bomb {
 
       gameContainer.appendChild(explosionElement);
 
+      // Log bomb coordinates
+      console.log(
+        `Bomb placed at: (${bombElement.style.left}, ${bombElement.style.top})`
+      );
+
       // Animate explosion
       setTimeout(() => {
         explosionElement.style.opacity = "1";
