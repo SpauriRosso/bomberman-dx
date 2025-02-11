@@ -6,6 +6,8 @@ export default class InputComponent {
     this.y = 0;
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
+    this.directionMap = this.spriteComponent.animation;
+    this.directionMap[" "] = 0;
 
     this.animate(spriteComponent);
 
@@ -20,6 +22,8 @@ export default class InputComponent {
     if (!spriteComponent) return;
 
     this.keys.add(e.key);
+
+    console.log(`Key pressed: ${e.key}`);
 
     if (!spriteComponent.isMoving) {
       spriteComponent.isMoving = true;
@@ -37,6 +41,7 @@ export default class InputComponent {
     if (!spriteComponent) return;
 
     this.keys.delete(e.key);
+    console.log(`Key pressed: ${e.key}`);
 
     if (this.keys.size === 0) {
       spriteComponent.isMoving = false;
@@ -86,7 +91,8 @@ export default class InputComponent {
     if (this.keys.has("s") || this.keys.has("ArrowDown")) {
       this.y = spriteComponent.speed;
     }
-    if (this.keys.has(" ") || this.keys.has("Spacebar")) {
+    if (this.keys.has(" ") || this.keys.has(" ")) {
+      console.log("Spacebar pressed");
     }
 
     if (this.x !== 0 || this.y !== 0) {
