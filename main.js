@@ -1,13 +1,23 @@
-/*const timer = new Timer();
-timer.start();
-
-const scoreManager = new ScoreManager();*/
-
 import PlayerEntity from "./entities/PlayerEntity.js";
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
+import Timer from "./utils/Timer.js";
+
+// Get the timer element from the HTML document
+const timerElement = document.getElementById("timer");
+
+// Initialize the game timer with a start value of 0
+const timer = new Timer();
+timer.start();
+
+// Function to pad numbers with leading zeros for 2-digit numbers
+function padZero(number) {
+  return (number < 10 ? "0" : "") + number;
+}
+
+// Get the current time every second
 
 generateGrid();
 let { x, y } = findPlayerPosition();
@@ -22,6 +32,13 @@ console.log(gameLogicSystem);
 
 function gameLoop() {
   gameLogicSystem.update();
+
+  // Update timer display
+  const currentTime = timer.getTime();
+  const minutes = Math.floor(currentTime / 60);
+  const seconds = currentTime % 60;
+  const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
+  timerElement.textContent = `${formattedTime}`;
 
   requestAnimationFrame(gameLoop);
 }
