@@ -2,6 +2,7 @@ export default class RenderSystem {
   constructor() {
     this.container = document.getElementById("gameGrid");
   }
+
   update(entities) {
     // Afficher les entités sur l'écran
     entities.forEach((entity) => {
@@ -25,9 +26,11 @@ export default class RenderSystem {
       entityDOM.style.width = "64px";
       entityDOM.style.height = "64px";
 
-      // console.log(entity);
-
       this.container.appendChild(entityDOM);
     });
+  }
+
+  clearDOM() {
+    this.container.innerHTML = "";
   }
 }

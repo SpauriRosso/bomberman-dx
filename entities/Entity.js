@@ -7,6 +7,9 @@ export default class Entity {
   addComponent(name, component) {
     this.components[name] = component;
   }
+  removeComponent(name) {
+    delete this.components[name];
+  }
 
   getComponent(name) {
     return this.components[name];
