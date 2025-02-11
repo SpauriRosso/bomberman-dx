@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "bomberman";
+  src: url("./pictures/Font/Bomberman-font.ttf");
+}
 #gameGrid {
   position: absolute;
   margin: auto;
@@ -8,13 +12,13 @@
 #timer {
   /* Position the timer at the top right corner of the screen */
   position: absolute;
-  top: 50px;
-  right: 10px;
+  top: 21px;
+  left: 150px;
   cursor: default;
 
   /* Set the font size and family */
   font-size: 24px;
-  font-family: Arial, sans-serif;
+  font-family: bomberman;
 
   /* Set the color and background */
   color: #fff;
