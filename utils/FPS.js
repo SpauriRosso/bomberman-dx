@@ -6,7 +6,7 @@ export default class FPS {
     this.targetFPS = 60;
 
     this.fpsElement = document.createElement("div");
-    this.fpsElement.style.position = "fixed";
+    this.fpsElement.style.position = "absolute";
     this.fpsElement.style.top = "10px";
     this.fpsElement.style.right = "10px";
     this.fpsElement.style.fontSize = "24px";
