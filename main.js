@@ -22,7 +22,7 @@ const fps = new FPS();
 
 function animate(time) {
   fps.update(time);
-  // Your animation code here
+
   requestAnimationFrame(animate);
 }
 
