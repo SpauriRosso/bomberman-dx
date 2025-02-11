@@ -5,12 +5,16 @@ export default class RenderSystem {
   update(entities) {
     // Afficher les entités sur l'écran
     entities.forEach((entity) => {
-      let entityDOM = document.getElementById(entity.id)
+      let entityDOM = document.getElementById(entity.id);
       if (!entityDOM) {
         entityDOM = document.createElement("div");
 
         entityDOM.id = entity.id;
-
+        if (entity.getComponent("sprite")) {
+          entityDOM.style.background = "url('./pictures/spritesheet.png')"; // Set player sprite
+        } else {
+          entityDOM.style.background = "black"; // Default for other entities
+        }
       }
 
       let position = entity.getComponent("position");
@@ -21,11 +25,7 @@ export default class RenderSystem {
       entityDOM.style.width = "64px";
       entityDOM.style.height = "64px";
 
-      if (entity.getComponent("PlayerComponent")) {
-        entityDOM.style.background = "url('path/to/player/sprite.png')"; // Set player sprite
-      } else {
-        entityDOM.style.background = "black"; // Default for other entities
-      }
+      // console.log(entity);
 
       this.container.appendChild(entityDOM);
     });

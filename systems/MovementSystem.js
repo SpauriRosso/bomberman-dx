@@ -9,7 +9,6 @@ export default class MovementSystem {
         input.update();
         position.x += velocity.vx * 64 + input.x;
         position.y += velocity.vy * 64 + input.y;
-        console.log(position.x, position.y);
       }
     });
   }

@@ -43,32 +43,13 @@
   background-image: url("./pictures/power-up.png");
 }
 
-#character {
-  width: 64px;
-  height: 64px;
-  background-image: url("./pictures/spritesheet.png");
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 64px;
-  left: 64px;
-}
-
 .player {
   background-image: url("./pictures/floor.png");
-}
-
-#player1 {
-  background-image: url("./pictures/spritesheet.png");
 }
 
 #game-container {
   height: 832px;
   width: 960px;
-}
-
-/* Animation pour le personnage */
-#character {
-  animation: move 0.5s infinite;
 }
 
 @keyframes move {
