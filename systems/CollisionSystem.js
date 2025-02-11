@@ -4,7 +4,6 @@ export default class CollisionSystem {
   constructor() {
     this.tileMap = tileMapDefault; // Stock game level
   }
-
   /**
    * Check if pos {x,y} is free of movement
    * @param {number} x - X player position (pixels)
@@ -35,4 +34,5 @@ export default class CollisionSystem {
       );
     });
   }
+  update(entities) {}
 }

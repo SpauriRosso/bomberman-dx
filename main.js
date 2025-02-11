@@ -9,15 +9,22 @@ import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 
+import { tileMapDefault } from "./utils/tileMap.js";
+import CollisionSystem from "./systems/CollisionSystem.js";
+
+const collisionSystem = new CollisionSystem(tileMapDefault); // Initialisation
+const movementSystem = new MovementSystem(collisionSystem); // On passe collisionSystem
+
 generateGrid();
 let { x, y } = findPlayerPosition();
 
 const gameLogicSystem = new GameLogicSystem();
-export const player = new PlayerEntity(0, x * 64, y * 64); // Initialize player entity with position based on tilemap
+const player = new PlayerEntity(10, x * 64, y * 64); // Initialize player entity with position based on tilemap
 
 gameLogicSystem.addEntity(player);
-gameLogicSystem.addSystem(new MovementSystem());
+// gameLogicSystem.addSystem(new MovementSystem());
 gameLogicSystem.addSystem(new RenderSystem());
+gameLogicSystem.addSystem(movementSystem);
 console.log(gameLogicSystem);
 
 function gameLoop() {

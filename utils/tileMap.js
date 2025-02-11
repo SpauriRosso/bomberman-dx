@@ -61,4 +61,4 @@ function findPlayerPosition() {
   return null; // Si le joueur n'est pas trouvé
 }
 
-export { findPlayerPosition, generateGrid };
+export { tileMapDefault, findPlayerPosition, generateGrid };
