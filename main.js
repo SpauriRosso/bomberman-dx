@@ -4,6 +4,7 @@ import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 import Timer from "./utils/Timer.js";
+import FPS from "./utils/FPS.js";
 
 // Get the timer element from the HTML document
 const timerElement = document.getElementById("timer");
@@ -17,6 +18,15 @@ function padZero(number) {
   return (number < 10 ? "0" : "") + number;
 }
 
+const fps = new FPS();
+
+function animate(time) {
+  fps.update(time);
+  // Your animation code here
+  requestAnimationFrame(animate);
+}
+
+animate();
 // Get the current time every second
 
 generateGrid();
