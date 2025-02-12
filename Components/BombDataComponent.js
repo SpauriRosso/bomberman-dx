@@ -1,11 +1,11 @@
 export default class BombDataComponent {
-  constructor() {
+  constructor(x, y) {
     this.bombData = [];
     this.explosionRange = 2;
     this.timer = 3;
     this.timerInterval = 1000;
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
     this.width = 64; // Assuming the bomb is 64x64 pixels
     this.height = 64;
     this.explosionTime = 3000; // The time it takes for the bomb to explode (in milliseconds)

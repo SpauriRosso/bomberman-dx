@@ -90,6 +90,7 @@ export default class InputComponent {
       this.y = spriteComponent.speed;
     }
     if (this.keys.has(" ") || this.keys.has("Spacebar")) {
+      // this.createBomb();
       console.log("Spacebar pressed", "test of bomb output");
     }
 
@@ -99,4 +100,28 @@ export default class InputComponent {
       this.spriteComponent.isMoving = false;
     }
   }
+  // createBomb() {
+  //   // Create a new bomb element
+  //   const bombElement = document.createElement("div");
+  //   bombElement.classList.add("bomb");
+
+  //   // Set the bomb's position to the player's position
+  //   const playerElement = document.getElementById(this.playerId);
+  //   if (playerElement) {
+  //     const playerRect = playerElement.getBoundingClientRect();
+  //     bombElement.style.top = `${playerRect.top}px`;
+  //     bombElement.style.left = `${playerRect.left}px`;
+  //   }
+
+  //   // Add the bomb element to the game container
+  //   const gameContainer = document.getElementById("game-container");
+  //   if (gameContainer) {
+  //     gameContainer.appendChild(bombElement);
+  //   }
+
+  //   // Add a timeout to remove the bomb after a certain time
+  //   setTimeout(() => {
+  //     gameContainer.removeChild(bombElement);
+  //   }, 2000); // Remove the bomb after 2 seconds
+  // }
 }
