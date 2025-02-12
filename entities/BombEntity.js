@@ -7,6 +7,7 @@ class BombEntity extends Entity {
     super(id);
     this.addComponent(new PositionComponent(x, y));
     this.addComponent(new BombDataComponent());
+    this.sprite = "bomb";
   }
 }
 
