@@ -10,7 +10,8 @@ import BombDataComponent from "../Components/BombDataComponent.js";
 class PlayerEntity extends Entity {
   constructor(id, x, y) {
     super(id);
-    this.addComponent("position", new PositionComponent(x, y));
+    let positionComponent = new PositionComponent(x, y);
+    this.addComponent("position", positionComponent);
     this.addComponent("velocity", new VelocityComponent(0, 0));
     this.addComponent("health", new HealthComponent(100));
     this.addComponent("data", new PlayerDataComponent());
@@ -33,7 +34,10 @@ class PlayerEntity extends Entity {
     console.log(spriteComponent);
 
     this.addComponent("sprite", spriteComponent);
-    this.addComponent("inputs", new inputsComponent(id, spriteComponent));
+    this.addComponent(
+      "inputs",
+      new inputsComponent(id, spriteComponent, positionComponent)
+    );
   }
 }
 
