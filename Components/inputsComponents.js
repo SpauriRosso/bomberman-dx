@@ -1,12 +1,14 @@
 export default class InputComponent {
-  constructor(playerId, spriteComponent) {
+  constructor(playerId, spriteComponent, positionComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
+    this.positionComponent = positionComponent;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
     this.directionMap = this.spriteComponent.animation;
+    this.bombActive = false;
 
     this.animate(spriteComponent);
 
@@ -90,7 +92,7 @@ export default class InputComponent {
       this.y = spriteComponent.speed;
     }
     if (this.keys.has(" ") || this.keys.has("Spacebar")) {
-      // this.createBomb();
+      this.createBomb();
       console.log("Spacebar pressed", "test of bomb output");
     }
 
@@ -100,28 +102,40 @@ export default class InputComponent {
       this.spriteComponent.isMoving = false;
     }
   }
-  // createBomb() {
-  //   // Create a new bomb element
-  //   const bombElement = document.createElement("div");
-  //   bombElement.classList.add("bomb");
 
-  //   // Set the bomb's position to the player's position
-  //   const playerElement = document.getElementById(this.playerId);
-  //   if (playerElement) {
-  //     const playerRect = playerElement.getBoundingClientRect();
-  //     bombElement.style.top = `${playerRect.top}px`;
-  //     bombElement.style.left = `${playerRect.left}px`;
-  //   }
+  //------------------ create the bomb ---------------------------- //
+  createBomb() {
+    if (this.bombActive) return; // Prevent multiple bombs from being spawned
 
-  //   // Add the bomb element to the game container
-  //   const gameContainer = document.getElementById("game-container");
-  //   if (gameContainer) {
-  //     gameContainer.appendChild(bombElement);
-  //   }
+    // Create a new bomb element
+    const bombElement = document.createElement("div");
+    bombElement.classList.add("bomb");
 
-  //   // Add a timeout to remove the bomb after a certain time
-  //   setTimeout(() => {
-  //     gameContainer.removeChild(bombElement);
-  //   }, 2000); // Remove the bomb after 2 seconds
-  // }
+    // Set the bomb's position to the player's position
+    const playerElement = document.getElementById(this.playerId);
+    if (playerElement) {
+      bombElement.style.top = `${this.positionComponent.y + 16}px`;
+      bombElement.style.left = `${this.positionComponent.x + 16}px`;
+
+      //Set the bomb's background image
+      bombElement.style.backgroundImage = "url('./pictures/bomb.png')"; // Replace 'bomb.png' with the actual path to your bomb image
+      bombElement.style.backgroundSize = "cover"; // Ensure the image covers the entire bomb element
+      bombElement.style.width = "40px"; // Set the width of the bomb element to match the image size
+      bombElement.style.height = "40px"; // Se
+    }
+
+    // Add the bomb element to the game container
+    const gameContainer = document.getElementById("game-container");
+    if (gameContainer) {
+      gameContainer.appendChild(bombElement);
+    }
+
+    this.bombActive = true; // Set the bomb active flag
+
+    // Add a timeout to remove the bomb after a certain time
+    setTimeout(() => {
+      gameContainer.removeChild(bombElement);
+      this.bombActive = false; // Reset the bomb active flag
+    }, 3000); // Remove the bomb after 3 seconds
+  }
 }
