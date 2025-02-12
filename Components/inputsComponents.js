@@ -7,8 +7,6 @@ export default class InputComponent {
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
     this.directionMap = this.spriteComponent.animation;
-    this.directionMap[" "] = 0;
-    this.bombPlaced = false;
 
     this.animate(spriteComponent);
 
