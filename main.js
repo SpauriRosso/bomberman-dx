@@ -50,23 +50,6 @@ gameLogicSystem.addSystem(bombSystem); // Add BombSystem to the game
 console.log(gameLogicSystem);
 
 // Function to place a bomb (you can call this when the player presses a key)
-function placeBomb() {
-  const playerPos = player.getComponent("PositionComponent");
-
-  if (playerPos) {
-    const bomb = new BombEntity(`bomb_${Date.now()}`, playerPos.x, playerPos.y);
-    bombSystem.addBomb(bomb);
-    console.log("Bomb placed at:", playerPos.x, playerPos.y);
-  }
-}
-
-// Listen for a key press to place bombs (e.g., spacebar)
-document.addEventListener("keydown", (event) => {
-  if (event.code === "Space") {
-    placeBomb();
-  }
-});
-
 function gameLoop() {
   gameLogicSystem.update();
 
