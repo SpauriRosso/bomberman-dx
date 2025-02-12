@@ -1,4 +1,4 @@
-export default class BombSystem {
+class BombSystem {
   constructor(entities) {
     this.entities = entities;
   }

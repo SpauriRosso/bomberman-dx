@@ -1,6 +1,8 @@
 export default class RenderSystem {
-  constructor() {
+  constructor(radius, color) {
     this.container = document.getElementById("gameGrid");
+    this.radius = radius;
+    this.color = color;
   }
 
   update(entities) {
@@ -26,6 +28,13 @@ export default class RenderSystem {
       entityDOM.style.width = "64px";
       entityDOM.style.height = "64px";
 
+      let circleComponent = entity.getComponent("CircleComponent");
+      if (circleComponent) {
+        entityDOM.style.borderRadius = "50%";
+        entityDOM.style.background = circleComponent.color;
+        entityDOM.style.width = `${circleComponent.radius * 2}px`;
+        entityDOM.style.height = `${circleComponent.radius * 2}px`;
+      }
       this.container.appendChild(entityDOM);
     });
   }
