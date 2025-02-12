@@ -1,4 +1,6 @@
 import PlayerEntity from "./entities/PlayerEntity.js";
+import BombEntity from "./entities/BombEntity.js"; // Import BombEntity
+import BombSystem from "./systems/ BombSystem.js"; // Import BombSystem
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
@@ -7,8 +9,6 @@ import Timer from "./utils/Timer.js";
 import FPS from "./utils/FPS.js";
 import { tileMapDefault } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
-import BombSystem from "./systems/ BombSystem.js"; // Import BombSystem
-import BombEntity from "./entities/BombEntity.js"; // Import BombEntity
 
 // Get the timer element from the HTML document
 const timerElement = document.getElementById("timer");
