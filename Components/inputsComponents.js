@@ -1,9 +1,8 @@
 export default class InputComponent {
-  constructor(playerId, spriteComponent, positionComponent, tileMap) {
+  constructor(playerId, spriteComponent, positionComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.positionComponent = positionComponent;
-    this.tileMap = tileMap;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
