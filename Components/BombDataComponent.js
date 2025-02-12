@@ -9,8 +9,7 @@ export default class BombDataComponent {
     this.width = 64; // Assuming the bomb is 64x64 pixels
     this.height = 64;
     this.explosionRadius = 2; // The radius of the explosion
-    this.explosionTime = 2000; // The time it takes for the bomb to explode (in milliseconds)
-    this.timer = new Timer();
+    this.explosionTime = 3000; // The time it takes for the bomb to explode (in milliseconds)
   }
   update() {
     // Update the bomb's timer
