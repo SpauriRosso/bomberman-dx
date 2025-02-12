@@ -1,10 +1,18 @@
 class BombSystem {
-  constructor() {
+  constructor(cooldownTime) {
     this.bombs = [];
+    this.cooldownTime = cooldownTime;
+    this.lastBombSpawnTime = 0;
   }
-
   addBomb(bomb) {
+    const currentTime = Date.now();
+    if (currentTime - this.lastBombSpawnTime < this.cooldownTime) {
+      console.log("Cannot spawn bomb, cooldown in progress.");
+      return;
+    }
+
     this.bombs.push(bomb);
+    this.lastBombSpawnTime = currentTime;
   }
 
   update(deltaTime) {
