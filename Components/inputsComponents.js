@@ -1,14 +1,16 @@
 export default class InputComponent {
-  constructor(playerId, spriteComponent, positionComponent) {
+  constructor(playerId, spriteComponent, positionComponent, tileMap) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.positionComponent = positionComponent;
+    this.tileMap = tileMap;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
-    this.directionMap = this.spriteComponent.animation;
     this.bombActive = false;
+    this.bombElement = null;
+    this.explosionElement = null;
 
     this.animate(spriteComponent);
 
@@ -72,6 +74,7 @@ export default class InputComponent {
       }
     }, 150);
   }
+
   update() {
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
@@ -131,6 +134,7 @@ export default class InputComponent {
     }
 
     this.bombActive = true; // Set the bomb active flag
+    this.bombElement = bombElement;
 
     // Add a timeout to create the explosion after 3 seconds
     setTimeout(() => {
@@ -139,6 +143,7 @@ export default class InputComponent {
       this.bombActive = false; // Reset the bomb active flag
     }, 3000); // Create the explosion after 3 seconds
   }
+
   //------------------ create the explosion ---------------------------- //
   createExplosion(bombElement) {
     console.log("Creating explosion...");
@@ -164,10 +169,42 @@ export default class InputComponent {
       console.log("Explosion element added to game container.");
     }
 
+    this.explosionElement = explosionElement;
+
+    // Check for collision with the player
+    this.checkCollision(bombElement, explosionElement);
+
     // Add a timeout to remove the explosion after a certain time
     setTimeout(() => {
       console.log("Removing explosion element...");
       gameContainer.removeChild(explosionElement);
     }, 1000); // Remove the explosion after 1 second
+  }
+  //-------------------- Collision for the bomb -------------------------------------- //
+  checkCollision(bombElement, explosionElement) {
+    const bombRect = bombElement.getBoundingClientRect();
+    const explosionRect = explosionElement.getBoundingClientRect();
+    const playerElement = document.getElementById(this.playerId);
+    const playerRect = playerElement.getBoundingClientRect();
+
+    if (
+      bombRect.x < explosionRect.x + explosionRect.width &&
+      bombRect.x + bombRect.width > explosionRect.x &&
+      bombRect.y < explosionRect.y + explosionRect.height &&
+      bombRect.y + bombRect.height > explosionRect.y
+    ) {
+      console.log("Collision detected!");
+      // Handle collision logic here
+    }
+
+    if (
+      playerRect.x < explosionRect.x + explosionRect.width &&
+      playerRect.x + playerRect.width > explosionRect.x &&
+      playerRect.y < explosionRect.y + explosionRect.height &&
+      playerRect.y + playerRect.height > explosionRect.y
+    ) {
+      console.log("Player hit by explosion!");
+      // Handle player hit logic here
+    }
   }
 }
