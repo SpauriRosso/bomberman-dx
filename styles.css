@@ -57,14 +57,12 @@ body {
 .enemy {
   background-color: red;
 }
-
+/*--------------- BOMB CSS ------------------------ */
 .bomb {
   position: absolute;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
   background-color: transparent;
   border-radius: 50%;
   animation: pulse 1s infinite;
@@ -84,6 +82,24 @@ body {
   }
 }
 
+.explosion {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: explosion 1s;
+}
+
+@keyframes explosion {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*-----------------------------------------------------*/
 .power-up {
   background-image: url("./pictures/power-up.png");
 }
