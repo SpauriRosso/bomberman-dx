@@ -13,6 +13,8 @@ export default class RenderSystem {
         entityDOM.id = entity.id;
         if (entity.getComponent("sprite")) {
           entityDOM.style.background = "url('./pictures/spritesheet.png')"; // Set player sprite
+        } else if (entity.sprite === "bomb") {
+          entityDOM.style.background = "url('./pictures/bomb.png')"; // Set bomb sprite
         } else {
           entityDOM.style.background = "black"; // Default for other entities
         }
