@@ -120,7 +120,7 @@ export default class InputComponent {
       bombElement.style.left = `${this.positionComponent.x + 16}px`;
 
       // Set the bomb's background image
-      bombElement.style.backgroundImage = "url('./pictures/bomb.png')"; // Replace 'bomb.png' with the actual path to your bomb image
+      bombElement.style.backgroundImage = "url('./pictures/bomb.png')";
       bombElement.style.backgroundSize = "cover"; // Ensure the image covers the entire bomb element
       bombElement.style.width = "40px"; // Set the width of the bomb element to match the image size
       bombElement.style.height = "40px"; // Set the height of the bomb element to match the image size
