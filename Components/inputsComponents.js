@@ -15,7 +15,7 @@ export default class InputComponent {
   }
 
   handleKeyDown(e) {
-    if (!this.directionMap.hasOwnProperty(e.key)) return;
+    if (!this.directionMap.hasOwnProperty(e.key)); //return;
 
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
@@ -34,7 +34,7 @@ export default class InputComponent {
   }
 
   handleKeyUp(e) {
-    if (!this.directionMap.hasOwnProperty(e.key)) return;
+    if (!this.directionMap.hasOwnProperty(e.key)); //return;
 
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
@@ -89,8 +89,8 @@ export default class InputComponent {
     if (this.keys.has("s") || this.keys.has("ArrowDown")) {
       this.y = spriteComponent.speed;
     }
-    if (this.keys.has(" ") || this.keys.has(" ")) {
-      console.log("Spacebar pressed");
+    if (this.keys.has(" ") || this.keys.has("Spacebar")) {
+      console.log("Spacebar pressed", "test of bomb output");
     }
 
     if (this.x !== 0 || this.y !== 0) {
