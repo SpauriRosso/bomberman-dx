@@ -1,4 +1,4 @@
-import Entity from "./entity.js";
+import Entity from "./Entity.js";
 import PositionComponent from "../Components/PositionComponent.js";
 import BombDataComponent from "../Components/BombDataComponent.js";
 
