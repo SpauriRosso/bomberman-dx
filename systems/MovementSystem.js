@@ -7,14 +7,10 @@ export default class MovementSystem {
     entities.forEach((entity) => {
       const position = entity.getComponent("position");
       const velocity = entity.getComponent("velocity");
-      const input = entity.getComponent("inputs");
 
       if (position && velocity) {
-        input.update();
-
-        // New targeted position
-        const nextX = position.x + velocity.vx * 64 + input.x;
-        const nextY = position.y + velocity.vy * 64 + input.y;
+        const nextX = position.x + velocity.vx * 64;
+        const nextY = position.y + velocity.vy * 64;
 
         if (this.collisionSystem.isCollide(nextX, position.y)) {
           position.x = nextX;

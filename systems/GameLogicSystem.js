@@ -8,6 +8,10 @@ export default class GameLogicSystem {
     this.entities.push(entity);
   }
 
+  findEntityById(id) {
+    return this.entities.find((entity) => entity.id === id);
+  }
+
   addSystem(system) {
     this.systems.push(system);
   }

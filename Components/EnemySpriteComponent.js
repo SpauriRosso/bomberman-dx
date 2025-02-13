@@ -1,18 +1,20 @@
-export class EnemyAnimationComponent {
-  constructor(animation, enemy, url) {
-    this.enemy = enemy;
+import { gameLogicSystem } from "../main.js";
+
+class EnemyAnimationComponent {
+  constructor(animation, enemyId, url, velocityComponent) {
+    this.enemyId = enemyId;
     this.frame = 0;
-    this.frameSequence = [0, 1, 2];
+    this.frameSequence = [0, 1, 2]; // Frames utilisées
     this.frameWidth = 64;
     this.frameHeight = 64;
     this.speed = 3;
-    this.direction = 0; // 0:bas, 1:gauche, 2:droite, 3:haut
-    this.isMoving = false;
+    this.direction = 0; // Direction par défaut (bas)
+    this.isMoving = true; // Activer le mouvement
     this.frameIndex = 0;
     this.animation = animation;
-    this.lastUpdateTime = 0;
+    this.lastUpdateTime = 0; // Pour gérer la vitesse de l'animation
     this.sprite = url;
-    this.velocity = { vx: 0, vy: 0 };
+    this.velocityComponent = velocityComponent;
 
     setInterval(() => {
       this.generateRandomMovement();
@@ -22,21 +24,21 @@ export class EnemyAnimationComponent {
   generateRandomMovement() {
     const direction = Math.floor(Math.random() * 4);
     switch (direction) {
-      case 0:
-        this.velocity.vx = -1;
-        this.velocity.vy = 0;
+      case 0: // Q
+        this.velocityComponent.vx = -1;
+        this.velocityComponent.vy = 0;
         break;
-      case 1:
-        this.velocity.vx = 1;
-        this.velocity.vy = 0;
+      case 1: // D
+        this.velocityComponent.vx = 1;
+        this.velocityComponent.vy = 0;
         break;
-      case 2:
-        this.velocity.vx = 0;
-        this.velocity.vy = -1;
+      case 2: // S
+        this.velocityComponent.vx = 0;
+        this.velocityComponent.vy = -1;
         break;
-      case 3:
-        this.velocity.vx = 0;
-        this.velocity.vy = 1;
+      case 3: // Z
+        this.velocityComponent.vx = 0;
+        this.velocityComponent.vy = 1;
         break;
     }
   }
@@ -67,3 +69,5 @@ export class EnemyAnimationComponent {
     }
   }
 }
+
+export default EnemyAnimationComponent;
