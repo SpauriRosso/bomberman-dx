@@ -202,7 +202,6 @@ export default class InputComponent {
       }, 1000); // Remove the explosion elements after 1 second
     }
   }
-
   //------------------ get the tile position ---------------------------- //
   getTilePosition(element) {
     const tileWidth = 40;
@@ -233,6 +232,7 @@ export default class InputComponent {
           col < tileMapDefault[0].length
         ) {
           if (tileMapDefault[row][col] === 3) {
+            // Check if the tile is a map wall
             console.log("Breaking wall at position:", row, col);
             tileMapDefault[row][col] = 0; // Replace map wall with floor
             // Update the game container to reflect the broken wall
@@ -250,11 +250,12 @@ export default class InputComponent {
     if (tileElement) {
       console.log("Updating tile element:", tileElement);
       tileElement.style.backgroundImage = "url('./pictures/floor.png')";
+      tileElement.classList.remove("mapWall"); // Remove the map wall class
+      tileElement.classList.add("floor"); // Add the floor class
     } else {
       console.log("Tile element not found:", row, col);
     }
   }
-
   //-------------------- Collision for the bomb -------------------------------------- //
   checkCollision(bombElement, explosionElement) {
     const bombRect = bombElement.getBoundingClientRect();
