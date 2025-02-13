@@ -17,7 +17,7 @@ export const tileMapDefault = [
 ];
 
 // Types des cases
-const tileTypes = {
+export const tileTypes = {
   0: "floor",
   1: "wall",
   2: "breakable",
