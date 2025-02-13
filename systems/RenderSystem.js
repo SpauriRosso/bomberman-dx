@@ -19,12 +19,14 @@ export default class RenderSystem {
       }
 
       let position = entity.getComponent("position");
-      let offset = { x: 0, y: 0 };
-      entityDOM.style.position = "absolute";
-      entityDOM.style.top = `${position.y + offset.y}px`;
-      entityDOM.style.left = `${position.x + offset.x}px`;
-      entityDOM.style.width = "64px";
-      entityDOM.style.height = "64px";
+      if (position) {
+        let offset = { x: 0, y: 0 };
+        entityDOM.style.position = "absolute";
+        entityDOM.style.top = `${position.y + offset.y}px`;
+        entityDOM.style.left = `${position.x + offset.x}px`;
+        entityDOM.style.width = "64px";
+        entityDOM.style.height = "64px";
+      }
 
       this.container.appendChild(entityDOM);
     });

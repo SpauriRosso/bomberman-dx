@@ -11,7 +11,7 @@ class EnemyAnimationComponent {
     this.frameIndex = 0;
     this.animation = animation;
     this.lastUpdateTime = 0;
-    this.sprite = "url('./pictures/enemy.png')";
+    this.sprite = "url('./pictures/spritesheet black.png')";
   }
 
   update() {
