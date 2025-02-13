@@ -23,8 +23,8 @@ export default class Timer {
     const now = performance.now();
     if (now - this.lastUpdate >= this.interval) {
       this.time++;
-      this.timerElement.innerText = `Time: ${this.time}s`; // Update UI
-      this.interval *= 1.1; // Increase delay gradually
+      this.timerElement.innerText = `Timer: ${this.time}s`; // Update UI
+      this.interval *= 1; // Increase delay gradually
       this.lastUpdate = now;
     }
   }
