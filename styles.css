@@ -32,7 +32,7 @@
 }
 
 .enemy {
-  background-color: red;
+  background-image: url(./pictures/floor.png);
 }
 
 .bomb {

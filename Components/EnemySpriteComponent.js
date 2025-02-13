@@ -1,5 +1,5 @@
-class EnemyAnimationComponent {
-  constructor(animation, enemy) {
+export class EnemyAnimationComponent {
+  constructor(animation, enemy, url) {
     this.enemy = enemy;
     this.frame = 0;
     this.frameSequence = [0, 1, 2];
@@ -11,7 +11,34 @@ class EnemyAnimationComponent {
     this.frameIndex = 0;
     this.animation = animation;
     this.lastUpdateTime = 0;
-    this.sprite = "url('./pictures/spritesheet black.png')";
+    this.sprite = url;
+    this.velocity = { vx: 0, vy: 0 };
+
+    setInterval(() => {
+      this.generateRandomMovement();
+    }, 1000);
+  }
+
+  generateRandomMovement() {
+    const direction = Math.floor(Math.random() * 4);
+    switch (direction) {
+      case 0:
+        this.velocity.vx = -1;
+        this.velocity.vy = 0;
+        break;
+      case 1:
+        this.velocity.vx = 1;
+        this.velocity.vy = 0;
+        break;
+      case 2:
+        this.velocity.vx = 0;
+        this.velocity.vy = -1;
+        break;
+      case 3:
+        this.velocity.vx = 0;
+        this.velocity.vy = 1;
+        break;
+    }
   }
 
   update() {
@@ -30,34 +57,13 @@ class EnemyAnimationComponent {
     const posY = -this.direction * this.frameHeight;
     const enemyElement = document.getElementById(this.enemy.id);
     if (enemyElement) {
-      enemyElement.style.background = this.sprite;
       enemyElement.style.backgroundPosition = `${posX}px ${posY}px`;
+      enemyElement.style.top = `${
+        this.enemy.getComponent("position").y + this.velocity.vy * 64
+      }px`;
+      enemyElement.style.left = `${
+        this.enemy.getComponent("position").x + this.velocity.vx * 64
+      }px`;
     }
   }
-
-  moveUp() {
-    this.direction = 3;
-    this.isMoving = true;
-  }
-
-  moveDown() {
-    this.direction = 0;
-    this.isMoving = true;
-  }
-
-  moveLeft() {
-    this.direction = 1;
-    this.isMoving = true;
-  }
-
-  moveRight() {
-    this.direction = 2;
-    this.isMoving = true;
-  }
-
-  stopMoving() {
-    this.isMoving = false;
-  }
 }
-
-export default EnemyAnimationComponent;

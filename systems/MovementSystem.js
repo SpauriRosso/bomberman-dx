@@ -9,7 +9,7 @@ export default class MovementSystem {
       const velocity = entity.getComponent("velocity");
       const input = entity.getComponent("inputs");
 
-      if (position && velocity && input) {
+      if (position && velocity) {
         input.update();
 
         // New targeted position

@@ -3,11 +3,11 @@ import PositionComponent from "../Components/PositionComponent.js";
 import VelocityComponent from "../Components/VelocityComponent.js";
 import HealthComponent from "../Components/HealthComponent.js";
 import EnemyComponent from "../Components/EnemyComponent.js";
-import EnemyAnimationComponent from "../Components/EnemySpriteComponent.js";
+import { EnemyAnimationComponent } from "../Components/EnemySpriteComponent.js";
 import inputsComponent from "../Components/inputsComponents.js";
 
 class EnemyEntity extends Entity {
-  constructor(id, x, y) {
+  constructor(id, x, y, url) {
     super(id);
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", new VelocityComponent(0, 0));
@@ -25,7 +25,8 @@ class EnemyEntity extends Entity {
         q: 2,
         d: 5,
       },
-      id
+      id,
+      url
     );
 
     console.log(spriteComponent);
