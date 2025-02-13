@@ -1,4 +1,4 @@
-class BombSystem {
+export default class BombSystem {
   constructor(cooldownTime) {
     this.bombs = [];
     this.cooldownTime = cooldownTime;
@@ -46,5 +46,3 @@ class BombSystem {
     // Handle explosion effects here (e.g., damage, chain reactions)
   }
 }
-
-export default BombSystem;
