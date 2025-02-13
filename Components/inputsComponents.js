@@ -2,7 +2,7 @@
 import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, positionComponent, tileMap) {
+  constructor(playerId, spriteComponent, positionComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.positionComponent = positionComponent;
@@ -181,8 +181,8 @@ export default class InputComponent {
       explosionElement.style.backgroundImage =
         "url('./pictures/explosion.png')";
       explosionElement.style.backgroundSize = "cover";
-      explosionElement.style.width = "42px";
-      explosionElement.style.height = "42px";
+      explosionElement.style.width = "60px";
+      explosionElement.style.height = "60px";
       explosionElement.style.position = "absolute";
       gameContainer.appendChild(explosionElement);
 
@@ -195,9 +195,10 @@ export default class InputComponent {
         if (tileX === coord.x && tileY === coord.y) {
           // Check if this is a breakable tile
           if (tileMapDefault[tileY][tileX] === 2) {
-            console.log(`Breaking tile at ${tileX}, ${tileY}`);
+            console.log(`Breaking tile at ${tileY}, ${tileX}`);
             // Update the tile map
             tileMapDefault[tileY][tileX] = 0;
+            this.tileMap = [...tileMapDefault]; // Update tileMap array
             // Update tile appearance
             tile.classList.remove("breakable");
             tile.classList.add("floor");
