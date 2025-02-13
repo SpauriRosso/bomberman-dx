@@ -11,23 +11,7 @@ body {
   display: grid;
   gap: 0px;
 }
-/* Style the timer element */
-#timer {
-  /* Position the timer at the top right corner of the screen */
-  position: absolute;
-  top: 21px;
-  left: 150px;
-  cursor: default;
 
-  /* Set the font size and family */
-  font-size: 24px;
-  font-family: bomberman;
-
-  /* Set the color and background */
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
 .tile {
   width: 64px;
   height: 64px;
