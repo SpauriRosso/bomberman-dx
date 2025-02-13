@@ -1,6 +1,6 @@
+// main.js
 import PlayerEntity from "./entities/PlayerEntity.js";
-import BombEntity from "./entities/BombEntity.js"; // Import BombEntity
-import BombSystem from "./systems/ BombSystem.js"; // Import BombSystem
+import BombSystem from "./systems/ BombSystem.js";
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
@@ -8,6 +8,7 @@ import MovementSystem from "./systems/MovementSystem.js";
 import Timer from "./utils/Timer.js";
 import FPS from "./utils/FPS.js";
 import { tileMapDefault } from "./utils/tileMap.js";
+import GridUpdateSystem from "./systems/GridUpdateSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 
 // Get the timer element from the HTML document
@@ -44,8 +45,12 @@ gameLogicSystem.addEntity(player);
 gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
 
-const bombSystem = new BombSystem(); // Initialize BombSystem
-gameLogicSystem.addSystem(bombSystem); // Add BombSystem to the game
+const bombSystem = new BombSystem();
+gameLogicSystem.addSystem(bombSystem);
+
+const gridUpdateSystem = new GridUpdateSystem();
+gridUpdateSystem.update(tileMapDefault);
+gameLogicSystem.addSystem(gridUpdateSystem);
 
 console.log(gameLogicSystem);
 
