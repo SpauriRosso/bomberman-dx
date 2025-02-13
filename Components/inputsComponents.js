@@ -109,7 +109,6 @@ export default class InputComponent {
     }
   }
 
-  //------------------ create the bomb ---------------------------- //
   createBomb() {
     if (this.bombActive) return; // Prevent multiple bombs from being spawned
 
@@ -120,8 +119,13 @@ export default class InputComponent {
     // Set the bomb's position to the player's position
     const playerElement = document.getElementById(this.playerId);
     if (playerElement) {
-      bombElement.style.top = `${this.positionComponent.y + 16}px`;
-      bombElement.style.left = `${this.positionComponent.x + 16}px`;
+      const bombX = this.positionComponent.x + 16;
+      const bombY = this.positionComponent.y + 16;
+      bombElement.style.top = `${bombY}px`;
+      bombElement.style.left = `${bombX}px`;
+
+      // Log the bomb position
+      console.log(`Bomb placed at position: (${bombX}, ${bombY})`);
 
       // Set the bomb's background image
       bombElement.style.backgroundImage = "url('./pictures/bomb.png')";
@@ -146,7 +150,6 @@ export default class InputComponent {
       this.bombActive = false; // Reset the bomb active flag
     }, 3000); // Create the explosion after 3 seconds
   }
-
   //------------------ create the explosion ---------------------------- //
   createExplosion(bombElement) {
     console.log("Creating explosion...");
@@ -184,15 +187,7 @@ export default class InputComponent {
         explosionElement.style.width = "40px";
         explosionElement.style.height = "40px";
         gameContainer.appendChild(explosionElement);
-
-        this.checkCollision(bombElement, explosionElement);
       });
-
-      // Get the bomb position in the tile map
-      const bombPosition = this.getTilePosition(bombElement);
-
-      // Break the map walls around the bomb
-      this.breakMapWalls(bombPosition);
 
       setTimeout(() => {
         console.log("Removing explosion elements...");
@@ -200,85 +195,6 @@ export default class InputComponent {
           gameContainer.removeChild(explosion);
         });
       }, 1000); // Remove the explosion elements after 1 second
-    }
-  }
-  //------------------ get the tile position ---------------------------- //
-  getTilePosition(element) {
-    const tileWidth = 40;
-    const tileHeight = 40;
-    const top = parseInt(element.style.top);
-    const left = parseInt(element.style.left);
-
-    const row = Math.floor(top / tileHeight);
-    const col = Math.floor(left / tileWidth);
-
-    return { row, col };
-  }
-
-  //------------------ break the map walls ---------------------------- //
-  breakMapWalls(position) {
-    console.log("Breaking map walls at position:", position);
-    const radius = 1; // Break map walls within a radius of 1 tile
-    for (let row = position.row - radius; row <= position.row + radius; row++) {
-      for (
-        let col = position.col - radius;
-        col <= position.col + radius;
-        col++
-      ) {
-        if (
-          row >= 0 &&
-          row < tileMapDefault.length &&
-          col >= 0 &&
-          col < tileMapDefault[0].length
-        ) {
-          if (tileMapDefault[row][col] === 3) {
-            // Check if the tile is a map wall
-            console.log("Breaking wall at position:", row, col);
-            tileMapDefault[row][col] = 0; // Replace map wall with floor
-            // Update the game container to reflect the broken wall
-            this.updateGameContainer(row, col);
-          }
-        }
-      }
-    }
-  }
-
-  //------------------ update the game container ---------------------------- //
-  updateGameContainer(row, col) {
-    console.log("Updating game container at position:", row, col);
-    const tileElement = document.getElementById(`tile-${row}-${col}`);
-    if (tileElement) {
-      console.log("Updating tile element:", tileElement);
-      tileElement.style.backgroundImage = "url('./pictures/floor.png')";
-      tileElement.classList.remove("mapWall"); // Remove the map wall class
-      tileElement.classList.add("floor"); // Add the floor class
-    } else {
-      console.log("Tile element not found:", row, col);
-    }
-  }
-  //-------------------- Collision for the bomb -------------------------------------- //
-  checkCollision(bombElement, explosionElement) {
-    const bombRect = bombElement.getBoundingClientRect();
-    const explosionRect = explosionElement.getBoundingClientRect();
-    const playerElement = document.getElementById(this.playerId);
-    const playerRect = playerElement.getBoundingClientRect();
-
-    if (
-      bombRect.x < explosionRect.x + explosionRect.width &&
-      bombRect.x + bombRect.width > explosionRect.x &&
-      bombRect.y < explosionRect.y + explosionRect.height &&
-      bombRect.y + bombRect.height > explosionRect.y
-    ) {
-      console.log("Collision detected!");
-    }
-
-    if (
-      playerRect.x < explosionRect.x + explosionRect.width &&
-      playerRect.x + playerRect.width > explosionRect.x &&
-      playerRect.y < explosionRect.y + explosionRect.height &&
-      playerRect.y + playerRect.height > explosionRect.y
-    ) {
-      console.log("Player hit by explosion!");
     }
   }
 }
