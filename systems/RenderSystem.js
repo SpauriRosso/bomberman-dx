@@ -25,9 +25,8 @@ export default class RenderSystem {
       entityDOM.style.position = "absolute";
       entityDOM.style.top = `${position.y + offset.y}px`;
       entityDOM.style.left = `${position.x + offset.x}px`;
-      entityDOM.style.width = "64px";
+      entityDOM.style.width = "64px ";
       entityDOM.style.height = "64px";
-
       this.container.appendChild(entityDOM);
     });
   }
