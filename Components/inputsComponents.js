@@ -1,12 +1,13 @@
 // import BombSystem from "../systems/BombSystem.js";
-import { tileMapDefault } from "../utils/tileMap.js";
+import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
   constructor(playerId, spriteComponent, positionComponent, tileMap) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.positionComponent = positionComponent;
-    this.tileMap = tileMap;
+    this.tileMap = tileMapDefault;
+    this.tileTypes = tileTypes;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
@@ -108,7 +109,7 @@ export default class InputComponent {
       this.spriteComponent.isMoving = false;
     }
   }
-
+  //------------------ create the bomb ---------------------------- //
   createBomb() {
     if (this.bombActive) return; // Prevent multiple bombs from being spawned
 
@@ -150,51 +151,83 @@ export default class InputComponent {
       this.bombActive = false; // Reset the bomb active flag
     }, 3000); // Create the explosion after 3 seconds
   }
-  //------------------ create the explosion ---------------------------- //
+  //------------------ create the explosion ---------------------------- //createExplosion(bombElement) {
   createExplosion(bombElement) {
     console.log("Creating explosion...");
 
-    const explosionElements = [
-      { top: bombElement.style.top, left: bombElement.style.left },
-      {
-        top: `${parseInt(bombElement.style.top) - 40}px`,
-        left: bombElement.style.left,
-      },
-      {
-        top: `${parseInt(bombElement.style.top) + 40}px`,
-        left: bombElement.style.left,
-      },
-      {
-        top: bombElement.style.top,
-        left: `${parseInt(bombElement.style.left) - 40}px`,
-      },
-      {
-        top: bombElement.style.top,
-        left: `${parseInt(bombElement.style.left) + 40}px`,
-      },
+    const gameContainer = document.getElementById("game-container");
+    if (!gameContainer) return;
+
+    // Calculate bomb position in grid coordinates
+    const bombX = Math.floor((parseInt(bombElement.style.left) || 0) / 64);
+    const bombY = Math.floor((parseInt(bombElement.style.top) || 0) / 64);
+
+    // Define explosion pattern (center + cardinal directions)
+    const explosionCoords = [
+      { x: bombX, y: bombY }, // Center
+      { x: bombX, y: bombY - 1 }, // North
+      { x: bombX, y: bombY + 1 }, // South
+      { x: bombX - 1, y: bombY }, // West
+      { x: bombX + 1, y: bombY }, // East
     ];
 
-    const gameContainer = document.getElementById("game-container");
-    if (gameContainer) {
-      explosionElements.forEach((explosion) => {
-        const explosionElement = document.createElement("div");
-        explosionElement.classList.add("explosion");
-        explosionElement.style.top = explosion.top;
-        explosionElement.style.left = explosion.left;
-        explosionElement.style.backgroundImage =
-          "url('./pictures/explosion.png')";
-        explosionElement.style.backgroundSize = "cover";
-        explosionElement.style.width = "40px";
-        explosionElement.style.height = "40px";
-        gameContainer.appendChild(explosionElement);
+    // Create explosion elements
+    explosionCoords.forEach((coord) => {
+      // Create visual explosion effect
+      const explosionElement = document.createElement("div");
+      explosionElement.classList.add("explosion");
+      explosionElement.style.left = `${coord.x * 64}px`;
+      explosionElement.style.top = `${coord.y * 64}px`;
+      explosionElement.style.backgroundImage =
+        "url('./pictures/explosion.png')";
+      explosionElement.style.backgroundSize = "cover";
+      explosionElement.style.width = "42px";
+      explosionElement.style.height = "42px";
+      explosionElement.style.position = "absolute";
+      gameContainer.appendChild(explosionElement);
+
+      // Handle tile destruction
+      const tileElements = gameContainer.querySelectorAll(".tile");
+      tileElements.forEach((tile, index) => {
+        const tileX = index % tileMapDefault[0].length;
+        const tileY = Math.floor(index / tileMapDefault[0].length);
+
+        if (tileX === coord.x && tileY === coord.y) {
+          // Check if this is a breakable tile
+          if (tileMapDefault[tileY][tileX] === 2) {
+            console.log(`Breaking tile at ${tileX}, ${tileY}`);
+            // Update the tile map
+            tileMapDefault[tileY][tileX] = 0;
+            // Update tile appearance
+            tile.classList.remove("breakable");
+            tile.classList.add("floor");
+          }
+        }
       });
 
-      setTimeout(() => {
-        console.log("Removing explosion elements...");
-        gameContainer.querySelectorAll(".explosion").forEach((explosion) => {
-          gameContainer.removeChild(explosion);
-        });
-      }, 1000); // Remove the explosion elements after 1 second
-    }
+      // Check for other collisions (players, enemies)
+      const hitElements = gameContainer.querySelectorAll(".player, .enemy");
+      hitElements.forEach((hitElement) => {
+        const elementX = Math.floor(
+          (parseInt(hitElement.style.left) || 0) / 64
+        );
+        const elementY = Math.floor((parseInt(hitElement.style.top) || 0) / 64);
+
+        if (elementX === coord.x && elementY === coord.y) {
+          console.log(
+            `Explosion hit ${hitElement.classList[0]} at ${elementX}, ${elementY}`
+          );
+          // Handle player/enemy collision logic here
+        }
+      });
+    });
+
+    // Clean up explosions after animation
+    setTimeout(() => {
+      console.log("Removing explosion elements...");
+      gameContainer.querySelectorAll(".explosion").forEach((explosion) => {
+        gameContainer.removeChild(explosion);
+      });
+    }, 1000);
   }
 }
