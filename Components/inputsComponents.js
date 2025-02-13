@@ -1,3 +1,5 @@
+import BombSystem from "../systems/ BombSystem.js";
+
 export default class InputComponent {
   constructor(playerId, spriteComponent, positionComponent) {
     this.playerId = playerId;
@@ -147,37 +149,50 @@ export default class InputComponent {
   createExplosion(bombElement) {
     console.log("Creating explosion...");
 
-    // Create a new explosion element
-    const explosionElement = document.createElement("div");
-    explosionElement.classList.add("explosion");
+    const explosionElements = [
+      { top: bombElement.style.top, left: bombElement.style.left },
+      {
+        top: `${parseInt(bombElement.style.top) - 40}px`,
+        left: bombElement.style.left,
+      },
+      {
+        top: `${parseInt(bombElement.style.top) + 40}px`,
+        left: bombElement.style.left,
+      },
+      {
+        top: bombElement.style.top,
+        left: `${parseInt(bombElement.style.left) - 40}px`,
+      },
+      {
+        top: bombElement.style.top,
+        left: `${parseInt(bombElement.style.left) + 40}px`,
+      },
+    ];
 
-    // Set the explosion's position to the bomb's position
-    explosionElement.style.top = bombElement.style.top;
-    explosionElement.style.left = bombElement.style.left;
-
-    // Set the explosion's background image
-    explosionElement.style.backgroundImage = "url('./pictures/explosion.png')"; // Replace 'explosion.png' with the actual path to your explosion image
-    explosionElement.style.backgroundSize = "cover"; // Ensure the image covers the entire explosion element
-    explosionElement.style.width = "40px"; // Set the width of the explosion element to match the image size
-    explosionElement.style.height = "40px"; // Set the height of the explosion element to match the image size
-
-    // Add the explosion element to the game container
     const gameContainer = document.getElementById("game-container");
     if (gameContainer) {
-      gameContainer.appendChild(explosionElement);
-      console.log("Explosion element added to game container.");
+      explosionElements.forEach((explosion) => {
+        const explosionElement = document.createElement("div");
+        explosionElement.classList.add("explosion");
+        explosionElement.style.top = explosion.top;
+        explosionElement.style.left = explosion.left;
+        explosionElement.style.backgroundImage =
+          "url('./pictures/explosion.png')";
+        explosionElement.style.backgroundSize = "cover";
+        explosionElement.style.width = "40px";
+        explosionElement.style.height = "40px";
+        gameContainer.appendChild(explosionElement);
+
+        this.checkCollision(bombElement, explosionElement);
+      });
+
+      setTimeout(() => {
+        console.log("Removing explosion elements...");
+        gameContainer.querySelectorAll(".explosion").forEach((explosion) => {
+          gameContainer.removeChild(explosion);
+        });
+      }, 1000); // Remove the explosion elements after 1 second
     }
-
-    this.explosionElement = explosionElement;
-
-    // Check for collision with the player
-    this.checkCollision(bombElement, explosionElement);
-
-    // Add a timeout to remove the explosion after a certain time
-    setTimeout(() => {
-      console.log("Removing explosion element...");
-      gameContainer.removeChild(explosionElement);
-    }, 1000); // Remove the explosion after 1 second
   }
   //-------------------- Collision for the bomb -------------------------------------- //
   checkCollision(bombElement, explosionElement) {
