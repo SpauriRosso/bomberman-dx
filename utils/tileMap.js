@@ -12,7 +12,7 @@ export const tileMapDefault = [
   [1, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 0, 3, 2, 1],
   [1, 0, 2, 0, 2, 2, 2, 2, 2, 2, 0, 0, 2, 0, 1],
   [1, 0, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 0, 1],
-  [1, "P", 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 1],
+  [1, "P", 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, "I", 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
@@ -61,4 +61,20 @@ function findPlayerPosition() {
   return null; // Si le joueur n'est pas trouvé
 }
 
-export { findPlayerPosition, generateGrid };
+function findEnemyPosition() {
+  let coordinates = [];
+  for (let y = 0; y < tileMapDefault.length; y++) {
+    for (let x = 0; x < tileMapDefault[y].length; x++) {
+      if (tileMapDefault[y][x] === "I") {
+        coordinates.push({ x, y });
+      }
+    }
+  }
+  if (coordinates.length === 0) {
+    return null;
+  } else {
+    return coordinates;
+  }
+}
+
+export { findPlayerPosition, findEnemyPosition, generateGrid };
