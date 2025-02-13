@@ -1,10 +1,12 @@
-import BombSystem from "../systems/ BombSystem.js";
+// import BombSystem from "../systems/BombSystem.js";
+import { tileMapDefault } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, positionComponent) {
+  constructor(playerId, spriteComponent, positionComponent, tileMap) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.positionComponent = positionComponent;
+    this.tileMap = tileMap;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
@@ -186,6 +188,12 @@ export default class InputComponent {
         this.checkCollision(bombElement, explosionElement);
       });
 
+      // Get the bomb position in the tile map
+      const bombPosition = this.getTilePosition(bombElement);
+
+      // Break the map walls around the bomb
+      this.breakMapWalls(bombPosition);
+
       setTimeout(() => {
         console.log("Removing explosion elements...");
         gameContainer.querySelectorAll(".explosion").forEach((explosion) => {
@@ -194,6 +202,59 @@ export default class InputComponent {
       }, 1000); // Remove the explosion elements after 1 second
     }
   }
+
+  //------------------ get the tile position ---------------------------- //
+  getTilePosition(element) {
+    const tileWidth = 40;
+    const tileHeight = 40;
+    const top = parseInt(element.style.top);
+    const left = parseInt(element.style.left);
+
+    const row = Math.floor(top / tileHeight);
+    const col = Math.floor(left / tileWidth);
+
+    return { row, col };
+  }
+
+  //------------------ break the map walls ---------------------------- //
+  breakMapWalls(position) {
+    console.log("Breaking map walls at position:", position);
+    const radius = 1; // Break map walls within a radius of 1 tile
+    for (let row = position.row - radius; row <= position.row + radius; row++) {
+      for (
+        let col = position.col - radius;
+        col <= position.col + radius;
+        col++
+      ) {
+        if (
+          row >= 0 &&
+          row < tileMapDefault.length &&
+          col >= 0 &&
+          col < tileMapDefault[0].length
+        ) {
+          if (tileMapDefault[row][col] === 3) {
+            console.log("Breaking wall at position:", row, col);
+            tileMapDefault[row][col] = 0; // Replace map wall with floor
+            // Update the game container to reflect the broken wall
+            this.updateGameContainer(row, col);
+          }
+        }
+      }
+    }
+  }
+
+  //------------------ update the game container ---------------------------- //
+  updateGameContainer(row, col) {
+    console.log("Updating game container at position:", row, col);
+    const tileElement = document.getElementById(`tile-${row}-${col}`);
+    if (tileElement) {
+      console.log("Updating tile element:", tileElement);
+      tileElement.style.backgroundImage = "url('./pictures/floor.png')";
+    } else {
+      console.log("Tile element not found:", row, col);
+    }
+  }
+
   //-------------------- Collision for the bomb -------------------------------------- //
   checkCollision(bombElement, explosionElement) {
     const bombRect = bombElement.getBoundingClientRect();
@@ -208,7 +269,6 @@ export default class InputComponent {
       bombRect.y + bombRect.height > explosionRect.y
     ) {
       console.log("Collision detected!");
-      // Handle collision logic here
     }
 
     if (
@@ -218,7 +278,6 @@ export default class InputComponent {
       playerRect.y + playerRect.height > explosionRect.y
     ) {
       console.log("Player hit by explosion!");
-      // Handle player hit logic here
     }
   }
 }
