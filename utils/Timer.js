@@ -1,43 +1,31 @@
 export default class Timer {
-  /**
-   * Initialize the timer with an optional start value.
-   * @param {number} [startValue=0] - The initial value of the timer.
-   */
-  constructor(startValue = 0) {
-    this.startValue = startValue;
-    this.currentTime = startValue;
-    this.intervalId = null;
+  constructor() {
+    this.time = 0;
+    this.interval = 1000; // Start at 1 second
+    this.lastUpdate = performance.now();
+
+    // Create a timer display element
+    this.timerElement = document.createElement("div");
+    this.timerElement.style.position = "absolute";
+    this.timerElement.style.top = "10px";
+    this.timerElement.style.left = "20px";
+    this.timerElement.style.padding = "10px 20px";
+    this.timerElement.style.color = "#fff";
+    this.timerElement.style.fontSize = "20px";
+    this.timerElement.style.fontFamily = "Bomberman";
+    this.timerElement.style.borderRadius = "8px";
+
+    this.timerElement.innerText = `Timer: ${this.time}s`;
+    document.body.appendChild(this.timerElement);
   }
 
-  /**
-   * Start the timer.
-   * @param {number} [interval=1000] - The interval in milliseconds between increments.
-   */
-  start(interval = 1000) {
-    this.intervalId = setInterval(() => {
-      this.currentTime++;
-    }, interval);
-  }
-
-  /**
-   * Stop the timer.
-   */
-  stop() {
-    clearInterval(this.intervalId);
-  }
-
-  /**
-   * Get the current time.
-   * @returns {number} The current time.
-   */
-  getTime() {
-    return this.currentTime;
-  }
-
-  /**
-   * Reset the timer to its start value.
-   */
-  reset() {
-    this.currentTime = this.startValue;
+  update() {
+    const now = performance.now();
+    if (now - this.lastUpdate >= this.interval) {
+      this.time++;
+      this.timerElement.innerText = `Time: ${this.time}s`; // Update UI
+      this.interval *= 1.1; // Increase delay gradually
+      this.lastUpdate = now;
+    }
   }
 }
