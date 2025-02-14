@@ -9,11 +9,9 @@ class BombSystem {
       const positionComponent = entity.getComponent("PositionComponent");
 
       if (bombComponent && positionComponent) {
-        // Mettez à jour l'explosion
         bombComponent.explosionLength -= 1;
 
         if (bombComponent.explosionLength <= 0) {
-          // Supprimez la bombe
           entity.removeComponent("BombComponent");
         }
       }

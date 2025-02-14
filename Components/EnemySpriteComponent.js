@@ -1,5 +1,3 @@
-import { gameLogicSystem } from "../main.js";
-
 class EnemyAnimationComponent {
   constructor(animation, enemyId, url, velocityComponent) {
     this.enemyId = enemyId;
