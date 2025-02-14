@@ -1,9 +1,9 @@
-import HealthComponent from "./HealthComponent";
+import HealthComponent from "./HealthComponent.js";
 
 class PlayerDataComponent {
   constructor() {
     this.score = 0;
-    this.health = 3
+    this.health = 3;
     this.healthComponent = new HealthComponent(this.health);
   }
 
