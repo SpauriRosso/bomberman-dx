@@ -1,3 +1,10 @@
+body {
+  background-color: #838282; /* Gray color */
+}
+@font-face {
+  font-family: "bomberman";
+  src: url("./pictures/Font/Bomberman-font.ttf");
+}
 #gameGrid {
   position: absolute;
   margin: auto;
@@ -34,11 +41,49 @@
 .enemy {
   background-color: red;
 }
-
+/*--------------- BOMB CSS ------------------------ */
 .bomb {
-  background-image: url("./pictures/bomb.png");
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
+.explosion {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: explosion 1s;
+}
+
+@keyframes explosion {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*-----------------------------------------------------*/
 .power-up {
   background-image: url("./pictures/power-up.png");
 }
@@ -48,8 +93,13 @@
 }
 
 #game-container {
+  background-color: gray;
   height: 832px;
   width: 960px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes move {

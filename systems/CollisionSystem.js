@@ -12,21 +12,22 @@ export default class CollisionSystem {
    * @returns {boolean} - True if player can move, false otherwise
    */
   isCollide(x, y) {
-    const tileSize = 64; // Tile size
-    // Collision list points
+    const tileSize = 64; // Taille d'une tuile
+    const hitboxSize = 50; // Taille de la hitbox réduite du joueur
+    const offset = (tileSize - hitboxSize) / 2; // Décalage pour centrer la hitbox
+
+    // Nouvelle liste de points de collision avec la hitbox réduite
     const checkPoints = [
-      { x: x, y: y }, // High left corner
-      { x: x + tileSize - 1, y: y }, // High right corner
-      { x: x, y: y + tileSize - 1 }, // inferior left corner
-      { x: x + tileSize - 1, y: y + tileSize - 1 }, // Inferior right corner
+      { x: x + offset, y: y + offset }, // Haut gauche réduit
+      { x: x + offset + hitboxSize - 1, y: y + offset }, // Haut droit réduit
+      { x: x + offset, y: y + offset + hitboxSize - 1 }, // Bas gauche réduit
+      { x: x + offset + hitboxSize - 1, y: y + offset + hitboxSize - 1 }, // Bas droit réduit
     ];
 
-    // Check if some of the player checkPoints touches an obstacles
+    // Vérifier si un des points touche un obstacle
     return !checkPoints.some((point) => {
-      // Convert pixels to game grid indexes
       const tileX = Math.floor(point.x / tileSize);
       const tileY = Math.floor(point.y / tileSize);
-      // Check target tile is an obstacle
       return (
         this.tileMap[tileY] &&
         (this.tileMap[tileY][tileX] === 1 ||

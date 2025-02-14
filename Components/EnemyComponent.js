@@ -1,3 +1,8 @@
+
+export default class EnemyComponent {
+  constructor() {
+    this.aiBehavior = "random";
+  }
 class EnemyComponent {
     constructor() {
         this.aiBehavior = "random";
@@ -24,6 +29,5 @@ class EnemyComponent {
       this.x = move.x;
       this.y = move.y;
     }
-}
 
-export default EnemyComponent;
+}

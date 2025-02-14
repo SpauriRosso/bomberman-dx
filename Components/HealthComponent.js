@@ -1,3 +1,10 @@
+
+export default class HealthComponent {
+  constructor(health) {
+    this.health = health;
+  }
+}
+
 class HealthComponent {
     constructor(health) {
         this.health = health;
@@ -14,3 +21,4 @@ class HealthComponent {
 }
 
 export default HealthComponent;
+

@@ -13,6 +13,8 @@ export default class RenderSystem {
         entityDOM.id = entity.id;
         if (entity.getComponent("sprite")) {
           entityDOM.style.background = "url('./pictures/spritesheet.png')"; // Set player sprite
+        } else if (entity.sprite === "bomb") {
+          entityDOM.style.background = "url('./pictures/bomb.png')"; // Set bomb sprite
         } else {
           entityDOM.style.background = "black"; // Default for other entities
         }
@@ -23,9 +25,8 @@ export default class RenderSystem {
       entityDOM.style.position = "absolute";
       entityDOM.style.top = `${position.y + offset.y}px`;
       entityDOM.style.left = `${position.x + offset.x}px`;
-      entityDOM.style.width = "64px";
+      entityDOM.style.width = "64px ";
       entityDOM.style.height = "64px";
-
       this.container.appendChild(entityDOM);
     });
   }
