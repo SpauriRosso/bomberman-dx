@@ -108,8 +108,26 @@ export default class InputComponent {
     } else {
       this.spriteComponent.isMoving = false;
     }
+
+    // Check for collision with the bomb hitbox
+    if (this.bombHitboxElement) {
+      const bombHitboxX = parseInt(this.bombHitboxElement.style.left) || 0;
+      const bombHitboxY = parseInt(this.bombHitboxElement.style.top) || 0;
+      const playerX = this.positionComponent.x + 16;
+      const playerY = this.positionComponent.y + 16;
+
+      if (
+        playerX + 32 > bombHitboxX &&
+        playerX < bombHitboxX + 60 &&
+        playerY + 32 > bombHitboxY &&
+        playerY < bombHitboxY + 60
+      ) {
+        console.log("Player collided with bomb hitbox!");
+      }
+    }
   }
-  //------------------ create the bomb ---------------------------- //
+
+  //------------------ create the bomb ----------------------------//
   createBomb() {
     if (this.bombActive) return; // Prevent multiple bombs from being spawned
 
@@ -135,23 +153,38 @@ export default class InputComponent {
       bombElement.style.height = "40px"; // Set the height of the bomb element to match the image size
     }
 
-    // Add the bomb element to the game container
+    // Create a new bomb hitbox element
+    const bombHitboxElement = document.createElement("div");
+    bombHitboxElement.classList.add("bomb-hitbox");
+    bombHitboxElement.style.width = "64px"; // Set the width of the hitbox to be slightly larger than the bomb
+    bombHitboxElement.style.height = "64px"; // Set the height of the hitbox to be slightly larger than the bomb
+    bombHitboxElement.style.position = "absolute";
+    bombHitboxElement.style.border = "1px solid red"; // Add a red border to visualize the hitbox
+
+    // Position the hitbox around the bomb
+    bombHitboxElement.style.top = `${parseInt(bombElement.style.top) - 10}px`;
+    bombHitboxElement.style.left = `${parseInt(bombElement.style.left) - 16}px`;
+
+    // Add the bomb element and hitbox element to the game container
     const gameContainer = document.getElementById("game-container");
     if (gameContainer) {
       gameContainer.appendChild(bombElement);
+      gameContainer.appendChild(bombHitboxElement);
     }
 
     this.bombActive = true; // Set the bomb active flag
     this.bombElement = bombElement;
+    this.bombHitboxElement = bombHitboxElement;
 
     // Add a timeout to create the explosion after 3 seconds
     setTimeout(() => {
       this.createExplosion(bombElement);
       gameContainer.removeChild(bombElement);
+      gameContainer.removeChild(bombHitboxElement);
       this.bombActive = false; // Reset the bomb active flag
     }, 3000); // Create the explosion after 3 seconds
   }
-  //------------------ create the explosion ---------------------------- //createExplosion(bombElement) {
+  //------------------ create the explosion ----------------------------//
   createExplosion(bombElement) {
     console.log("Creating explosion...");
 
