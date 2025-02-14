@@ -1,8 +1,8 @@
-import { tileMap2 } from "../utils/tileMap.js";
+import { tileMapDefault } from "../utils/tileMap.js";
 
 export default class CollisionSystem {
   constructor() {
-    this.tileMap = tileMap2; // Stock game level
+    this.tileMap = tileMapDefault; // Stock game level
   }
 
   /**

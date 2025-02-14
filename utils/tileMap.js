@@ -16,23 +16,6 @@ export const tileMapDefault = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-export const tileMap2 = [
-  // Default tile map definition
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, "I", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "I", 1],
-  [1, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 1],
-  [1, "P", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "I", 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
-
 // Types des cases
 const tileTypes = {
   0: "floor",
@@ -49,11 +32,11 @@ function generateGrid() {
   gameGrid.id = "gameGrid";
   if (!gameGrid) alert("Erreur : l'élément gameGrid est introuvable !");
   gameGrid.innerHTML = "";
-  gameGrid.style.gridTemplateColumns = `repeat(${tileMap2[0].length}, 64px)`;
-  gameGrid.style.gridTemplateRows = `repeat(${tileMap2.length}, 64px)`;
+  gameGrid.style.gridTemplateColumns = `repeat(${tileMapDefault[0].length}, 64px)`;
+  gameGrid.style.gridTemplateRows = `repeat(${tileMapDefault.length}, 64px)`;
 
   // Créer les éléments pour chaque tuile dans la tileMap
-  tileMap2.forEach((row) => {
+  tileMapDefault.forEach((row) => {
     row.forEach((cell) => {
       const tile = document.createElement("div");
       tile.classList.add("tile", tileTypes[cell]);
@@ -61,7 +44,9 @@ function generateGrid() {
     });
   });
   document.getElementById("game-container").appendChild(gameGrid);
-  console.log(`Game Grid Size: ${tileMap2[0].length}x${tileMapDefault.length}`);
+  console.log(
+    `Game Grid Size: ${tileMapDefault[0].length}x${tileMapDefault.length}`
+  );
 }
 
 // Fonction pour trouver la position actuelle du joueur (P)
