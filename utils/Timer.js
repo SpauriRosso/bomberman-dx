@@ -7,11 +7,11 @@ export default class Timer {
     // Create a timer display element
     this.timerElement = document.createElement("div");
     this.timerElement.style.position = "absolute";
-    this.timerElement.style.top = "5px";
+    this.timerElement.style.top = "6px";
     this.timerElement.style.left = "870px";
     this.timerElement.style.padding = "10px 20px";
     this.timerElement.style.color = "#fff";
-    this.timerElement.style.fontSize = "20px";
+    this.timerElement.style.fontSize = "15px";
     this.timerElement.style.fontFamily = "Bomberman";
     this.timerElement.style.borderRadius = "8px";
 

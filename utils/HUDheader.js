@@ -7,7 +7,7 @@ class HUDHeader {
     this.HUDHeader.style.position = "absolute";
     this.HUDHeader.style.top = "-35px";
     this.HUDHeader.style.left = "540px";
-    this.HUDHeader.style.fontSize = "20px";
+    this.HUDHeader.style.fontSize = "15px";
     this.HUDHeader.style.cursor = "default";
     this.HUDHeader.style.fontFamily = "bomberman";
 
