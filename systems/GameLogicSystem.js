@@ -8,10 +8,6 @@ export default class GameLogicSystem {
     this.entities.push(entity);
   }
 
-  findEntityById(id) {
-    return this.entities.find((entity) => entity.id === id);
-  }
-
   addSystem(system) {
     this.systems.push(system);
   }
@@ -32,6 +28,7 @@ export default class GameLogicSystem {
             (position1.x - position2.x) ** 2 + (position1.y - position2.y) ** 2
           );
           if (distance < 64) {
+            // Gérer la collision
           }
         }
       });

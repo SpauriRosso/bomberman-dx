@@ -13,10 +13,6 @@ export default class RenderSystem {
         entityDOM.id = entity.id;
         if (entity.getComponent("sprite")) {
           entityDOM.style.background = "url('./pictures/spritesheet.png')"; // Set player sprite
-        } else if (entity.getComponent("enemySprite")) {
-          console.log(entity.getComponent("enemySprite"));
-          entityDOM.style.background =
-            entity.getComponent("enemySprite").sprite; // Set enemy sprite
         } else if (entity.sprite === "bomb") {
           entityDOM.style.background = "url('./pictures/bomb.png')"; // Set bomb sprite
         } else {
@@ -25,15 +21,6 @@ export default class RenderSystem {
       }
 
       let position = entity.getComponent("position");
-      if (position) {
-        let offset = { x: 0, y: 0 };
-        entityDOM.style.position = "absolute";
-        entityDOM.style.top = `${position.y + offset.y}px`;
-        entityDOM.style.left = `${position.x + offset.x}px`;
-        entityDOM.style.width = "64px";
-        entityDOM.style.height = "64px";
-      }
-
       let offset = { x: 0, y: 0 };
       entityDOM.style.position = "absolute";
       entityDOM.style.top = `${position.y + offset.y}px`;

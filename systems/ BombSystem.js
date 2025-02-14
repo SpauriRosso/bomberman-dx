@@ -19,12 +19,12 @@ export default class BombSystem {
     this.bombs = this.bombs.filter((bomb) => {
       const bombData = bomb.getComponent("BombDataComponent");
 
-      if (bombComponent && positionComponent) {
-        bombComponent.explosionLength -= 1;
+      if (bombData) {
+        bombData.update(deltaTime);
 
-        if (bombComponent.explosionLength <= 0) {
-          entity.removeComponent("BombComponent");
-
+        if (bombData.hasExploded()) {
+          this.explode(bomb);
+          return false; // Remove bomb after explosion
         }
       }
 

@@ -9,13 +9,12 @@ export default class MovementSystem {
       const velocity = entity.getComponent("velocity");
       const input = entity.getComponent("inputs");
 
-      if (input) {
+      if (position && velocity && input) {
         input.update();
-      }
 
-      if (position && velocity) {
-        const nextX = position.x + velocity.vx;
-        const nextY = position.y + velocity.vy;
+        // New targeted position
+        const nextX = position.x + velocity.vx * 64 + input.x;
+        const nextY = position.y + velocity.vy * 64 + input.y;
 
         if (this.collisionSystem.isCollide(nextX, position.y)) {
           position.x = nextX;
