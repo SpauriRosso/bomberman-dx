@@ -14,7 +14,7 @@ class HUDHeader {
     const headerImage = document.createElement("img");
     headerImage.src = "../pictures/HUDElements.png";
     headerImage.alt = "Header Image";
-    headerImage.style.width = "800px";
+    headerImage.style.width = "790px";
     headerImage.style.height = "120px";
     headerImage.style.objectFit = "cover";
     headerImage.style.objectPosition = "top";
