@@ -6,10 +6,12 @@ import RenderSystem from "./systems/RenderSystem.js";
 import { generateGrid, findPlayerPosition } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 import FPS from "./utils/FPS.js";
+import HUDHeader from "./utils/HUDheader.js";
 import { tileMapDefault } from "./utils/tileMap.js";
 import GridUpdateSystem from "./systems/GridUpdateSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 
+const header = new HUDHeader(document.body, "header-image.png");
 const fps = new FPS();
 const timer = new Timer();
 function animate(time) {
