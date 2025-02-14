@@ -1,16 +1,15 @@
 export default class InputComponent {
-  constructor(playerId, spriteComponent) {
+  constructor(playerId, spriteComponent, velocityComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
-    this.x = 0;
-    this.y = 0;
+    this.velocityComponent = velocityComponent;
+
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
 
-    this.animate(spriteComponent);
-
     window.addEventListener("keydown", (e) => this.handleKeyDown(e));
     window.addEventListener("keyup", (e) => this.handleKeyUp(e));
+    this.animate(spriteComponent);
   }
 
   handleKeyDown(e) {
@@ -25,7 +24,6 @@ export default class InputComponent {
       spriteComponent.isMoving = true;
       spriteComponent.frameIndex = 0; // Commence à la frame 0
     }
-
     // Met à jour la direction de la sprite sheet
     spriteComponent.direction = this.directionMap[e.key];
   }
@@ -71,25 +69,36 @@ export default class InputComponent {
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
-    this.x = 0;
-    this.y = 0;
+    this.velocityComponent.vy = 0;
+    this.velocityComponent.vx = 0;
 
-    if (this.keys.has("q") || this.keys.has("ArrowLeft")) {
-      this.x = -spriteComponent.speed;
-    }
-    if (this.keys.has("d") || this.keys.has("ArrowRight")) {
-      this.x = spriteComponent.speed;
-    }
-    if (this.keys.has("z") || this.keys.has("ArrowUp")) {
-      this.y = -spriteComponent.speed;
-    }
-    if (this.keys.has("s") || this.keys.has("ArrowDown")) {
-      this.y = spriteComponent.speed;
+    if (
+      (this.keys.has("q") || this.keys.has("ArrowLeft")) &&
+      (this.keys.has("d") || this.keys.has("ArrowRight"))
+    ) {
+      this.velocityComponent.vx = 0;
+    } else if (
+      (this.keys.has("z") || this.keys.has("ArrowUp")) &&
+      (this.keys.has("s") || this.keys.has("ArrowDown"))
+    ) {
+      this.velocityComponent.vy = 0;
+    } else if (this.keys.has("q") || this.keys.has("ArrowLeft")) {
+      console.log("q");
+      this.velocityComponent.vx = -this.spriteComponent.speed;
+    } else if (this.keys.has("d") || this.keys.has("ArrowRight")) {
+      this.velocityComponent.vx = this.spriteComponent.speed;
+    } else if (this.keys.has("z") || this.keys.has("ArrowUp")) {
+      console.log("z");
+      this.velocityComponent.vy = -this.spriteComponent.speed;
+    } else if (this.keys.has("s") || this.keys.has("ArrowDown")) {
+      this.velocityComponent.vy = this.spriteComponent.speed;
     }
 
-    if (this.x !== 0 || this.y !== 0) {
+    if (this.velocityComponent.vx !== 0 || this.velocityComponent.vy !== 0) {
+      console.log("true");
       this.spriteComponent.isMoving = true;
     } else {
+      console.log("false");
       this.spriteComponent.isMoving = false;
     }
   }

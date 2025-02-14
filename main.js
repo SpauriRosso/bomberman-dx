@@ -44,7 +44,6 @@ for (let i = 0; i < coordinatesLength; i++) {
 let { x, y } = findPlayerPosition();
 player = new PlayerEntity(10, x * 64, y * 64); // Initialize player entity with position based on tilemap
 gameLogicSystem.addEntity(player);
-
 gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
 console.log(gameLogicSystem);

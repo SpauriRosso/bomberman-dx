@@ -57,14 +57,14 @@ class EnemyAnimationComponent {
 
     const posX = -this.frame * this.frameWidth;
     const posY = -this.direction * this.frameHeight;
-    const enemyElement = document.getElementById(this.enemy.id);
+    const enemyElement = document.getElementById(this.enemyId);
     if (enemyElement) {
       enemyElement.style.backgroundPosition = `${posX}px ${posY}px`;
       enemyElement.style.top = `${
-        this.enemy.getComponent("position").y + this.velocity.vy * 64
+        this.enemyId.getComponent("position").y + this.velocity.vy * 64
       }px`;
       enemyElement.style.left = `${
-        this.enemy.getComponent("position").x + this.velocity.vx * 64
+        this.enemyId.getComponent("position").x + this.velocity.vx * 64
       }px`;
     }
   }
