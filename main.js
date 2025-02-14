@@ -13,7 +13,7 @@ import { tileMapDefault } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 
 const collisionSystem = new CollisionSystem(tileMapDefault); // Initialisation
-const movementSystem = new MovementSystem(collisionSystem); // On passe collisionSystem
+const movementSystem = new MovementSystem(collisionSystem);// On passe collisionSystem
 
 generateGrid();
 let { x, y } = findPlayerPosition();
@@ -25,7 +25,6 @@ gameLogicSystem.addEntity(player);
 // gameLogicSystem.addSystem(new MovementSystem());
 gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
-console.log(gameLogicSystem);
 
 function gameLoop() {
   gameLogicSystem.update();

@@ -1,9 +1,10 @@
 export default class RenderSystem {
-  constructor() {
+  constructor(inputComponent) {
     this.container = document.getElementById("gameGrid");
   }
 
   update(entities) {
+    // this.clearDOM();
     // Afficher les entités sur l'écran
     entities.forEach((entity) => {
       let entityDOM = document.getElementById(entity.id);

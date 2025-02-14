@@ -1,4 +1,4 @@
-import HealthComponent from "./HealthComponent";
+import HealthComponent from "./HealthComponent.js";
 
 class PlayerDataComponent {
   constructor() {

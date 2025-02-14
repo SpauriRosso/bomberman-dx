@@ -1,3 +1,5 @@
+import RenderSystem from "../systems/RenderSystem.js";
+
 export default class InputComponent {
   constructor(playerId, spriteComponent) {
     this.playerId = playerId;
@@ -6,8 +8,9 @@ export default class InputComponent {
     this.y = 0;
     this.keys = new Set();
     this.directionMap = this.spriteComponent.animation;
-
     this.animate(spriteComponent);
+    this.lastPauseUpdate = Date.now();
+    this.isPaused = false;
 
     window.addEventListener("keydown", (e) => this.handleKeyDown(e));
     window.addEventListener("keyup", (e) => this.handleKeyUp(e));
@@ -51,6 +54,45 @@ export default class InputComponent {
     }
   }
 
+  togglePause() {
+    const now = Date.now()
+    if (now - this.lastPauseUpdate > 100) {
+      if (!this.isPaused) {
+        this.isPaused = true;
+        this.displayPause()
+        this.lastPauseUpdate = now
+      } else {
+        this.isPaused = false;
+        this.removePause()
+        this.lastPauseUpdate = now;
+      }
+    }
+  }
+
+  displayPause() {
+    const pauseScreen = document.createElement("div");
+    pauseScreen.id = "pauseScreen";
+    pauseScreen.style.position = "absolute";
+    pauseScreen.style.width = "100%";
+    pauseScreen.style.height = "100%";
+    pauseScreen.style.background = "rgba(0,0,0,0.5)";
+    pauseScreen.style.color = "white";
+    pauseScreen.style.display = "flex";
+    pauseScreen.style.justifyContent = "center";
+    pauseScreen.style.alignItems = "center";
+    pauseScreen.style.fontSize = "3em";
+    pauseScreen.innerHTML = "PAUSE";
+    document.getElementById("gameGrid").appendChild(pauseScreen);
+  }
+
+  removePause() {
+    const pauseScreen = document.getElementById("pauseScreen");
+    if (pauseScreen) {
+      pauseScreen.remove();
+    }
+  }
+
+
   animate(sC) {
     setInterval(() => {
       if (!sC.isMoving) return;
@@ -71,6 +113,18 @@ export default class InputComponent {
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
+    document.addEventListener("keypress", (e) => {
+      if (e.key === "p") {
+        this.togglePause();
+      }
+    })
+
+    if (this.isPaused) {
+      this.x = 0;
+      this.y = 0;
+      return;
+    }
+
     this.x = 0;
     this.y = 0;
 
@@ -87,7 +141,7 @@ export default class InputComponent {
       this.y = spriteComponent.speed;
     }
 
-    if (this.x !== 0 || this.y !== 0) {
+    if (this.x !== 0 || this.y !== 0 && isPaused === false) {
       this.spriteComponent.isMoving = true;
     } else {
       this.spriteComponent.isMoving = false;

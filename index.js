@@ -1,4 +1,5 @@
 import { tileMapDefault, tileTypes } from "./tileMap.js";
+import InputComponent from "./Components/inputsComponents";
 
 const entities = [];
 
@@ -22,12 +23,10 @@ const playerMovementSystem = new playerMovementSystem(
   tileTypes
 );
 
-const inputs = new inputsComponents();
+const inputs = new InputComponent(playerEntity.id, playerEntity.getComponent("sprite"));
 
 function update() {
   // Update the player's position using the inputsComponent class
-  inputs.updatePlayerPosition(playerEntity);
-
   movementSystem.update();
   collisionSystem.update();
   bombSystem.update();
