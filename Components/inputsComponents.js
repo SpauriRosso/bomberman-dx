@@ -129,60 +129,70 @@ export default class InputComponent {
 
   //------------------ create the bomb ----------------------------//
   createBomb() {
-    if (this.bombActive) return; // Prevent multiple bombs from being spawned
+    if (this.bombActive) return;
 
-    // Create a new bomb element
     const bombElement = document.createElement("div");
     bombElement.classList.add("bomb");
 
-    // Set the bomb's position to the player's position
     const playerElement = document.getElementById(this.playerId);
     if (playerElement) {
-      const bombX = this.positionComponent.x + 16;
-      const bombY = this.positionComponent.y + 16;
-      bombElement.style.top = `${bombY}px`;
-      bombElement.style.left = `${bombX}px`;
+      // Snap bomb position to grid (assuming 64px grid)
+      const gridSize = 64;
+      const bombSize = 48;
 
-      // Log the bomb position
-      console.log(`Bomb placed at position: (${bombX}, ${bombY})`);
+      // Calculate the grid cell position
+      const gridX =
+        Math.floor((this.positionComponent.x + 16) / gridSize) * gridSize;
+      const gridY =
+        Math.floor((this.positionComponent.y + 16) / gridSize) * gridSize;
 
-      // Set the bomb's background image
+      // Calculate the offset to center the bomb in the grid cell
+      const offsetX = (gridSize - bombSize) / 2;
+      const offsetY = (gridSize - bombSize) / 2;
+
+      // Position the bomb with the centering offset
+      bombElement.style.top = `${gridY + offsetY}px`;
+      bombElement.style.left = `${gridX + offsetX}px`;
+
       bombElement.style.backgroundImage = "url('./pictures/bomb.png')";
-      bombElement.style.backgroundSize = "cover"; // Ensure the image covers the entire bomb element
-      bombElement.style.width = "40px"; // Set the width of the bomb element to match the image size
-      bombElement.style.height = "40px"; // Set the height of the bomb element to match the image size
+      bombElement.style.backgroundSize = "cover";
+      bombElement.style.width = "50px";
+      bombElement.style.height = "50px";
     }
 
-    // Create a new bomb hitbox element
+    // Create bomb hitbox that's completely unwalkable
     const bombHitboxElement = document.createElement("div");
     bombHitboxElement.classList.add("bomb-hitbox");
-    bombHitboxElement.style.width = "64px"; // Set the width of the hitbox to be slightly larger than the bomb
-    bombHitboxElement.style.height = "64px"; // Set the height of the hitbox to be slightly larger than the bomb
+    bombHitboxElement.style.width = "64px";
+    bombHitboxElement.style.height = "64px";
     bombHitboxElement.style.position = "absolute";
-    bombHitboxElement.style.border = "1px solid red"; // Add a red border to visualize the hitbox
+    bombHitboxElement.style.border = "1px solid red";
 
-    // Position the hitbox around the bomb
-    bombHitboxElement.style.top = `${parseInt(bombElement.style.top) - 10}px`;
-    bombHitboxElement.style.left = `${parseInt(bombElement.style.left) - 16}px`;
+    // Position the hitbox to block the entire grid cell
+    // The hitbox stays aligned to the grid without offset
+    bombHitboxElement.style.top = `${
+      Math.floor((this.positionComponent.x + 16) / 64) * 64
+    }px`;
+    bombHitboxElement.style.left = `${
+      Math.floor((this.positionComponent.y + 16) / 64) * 64
+    }px`;
 
-    // Add the bomb element and hitbox element to the game container
     const gameContainer = document.getElementById("game-container");
     if (gameContainer) {
       gameContainer.appendChild(bombElement);
       gameContainer.appendChild(bombHitboxElement);
     }
 
-    this.bombActive = true; // Set the bomb active flag
+    this.bombActive = true;
     this.bombElement = bombElement;
     this.bombHitboxElement = bombHitboxElement;
 
-    // Add a timeout to create the explosion after 3 seconds
     setTimeout(() => {
       this.createExplosion(bombElement);
       gameContainer.removeChild(bombElement);
       gameContainer.removeChild(bombHitboxElement);
-      this.bombActive = false; // Reset the bomb active flag
-    }, 3000); // Create the explosion after 3 seconds
+      this.bombActive = false;
+    }, 3000);
   }
   //------------------ create the explosion ----------------------------//
   createExplosion(bombElement) {
