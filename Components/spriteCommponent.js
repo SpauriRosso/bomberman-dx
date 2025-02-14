@@ -5,7 +5,7 @@ class SpriteComponent {
     this.frameSequence = [0, 1, 2]; // Frames utilisées
     this.frameWidth = 64;
     this.frameHeight = 64;
-    this.speed = 5;
+    this.speed = 3;
     this.direction = 0; // Direction par défaut (bas)
     this.isMoving = false;
     this.frameIndex = 0;
