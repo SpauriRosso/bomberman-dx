@@ -158,41 +158,36 @@ export default class InputComponent {
       bombElement.style.backgroundSize = "cover";
       bombElement.style.width = "50px";
       bombElement.style.height = "50px";
+
+      // Create bomb hitbox that's completely unwalkable
+      const bombHitboxElement = document.createElement("div");
+      bombHitboxElement.classList.add("bomb-hitbox");
+      bombHitboxElement.style.width = "64px";
+      bombHitboxElement.style.height = "64px";
+      bombHitboxElement.style.position = "absolute";
+      bombHitboxElement.style.border = "1px solid red";
+
+      // Position the hitbox to block the entire grid cell - fixed positioning
+      bombHitboxElement.style.top = `${gridY}px`;
+      bombHitboxElement.style.left = `${gridX}px`;
+
+      const gameContainer = document.getElementById("game-container");
+      if (gameContainer) {
+        gameContainer.appendChild(bombElement);
+        gameContainer.appendChild(bombHitboxElement);
+      }
+
+      this.bombActive = true;
+      this.bombElement = bombElement;
+      this.bombHitboxElement = bombHitboxElement;
+
+      setTimeout(() => {
+        this.createExplosion(bombElement);
+        gameContainer.removeChild(bombElement);
+        gameContainer.removeChild(bombHitboxElement);
+        this.bombActive = false;
+      }, 3000);
     }
-
-    // Create bomb hitbox that's completely unwalkable
-    const bombHitboxElement = document.createElement("div");
-    bombHitboxElement.classList.add("bomb-hitbox");
-    bombHitboxElement.style.width = "64px";
-    bombHitboxElement.style.height = "64px";
-    bombHitboxElement.style.position = "absolute";
-    bombHitboxElement.style.border = "1px solid red";
-
-    // Position the hitbox to block the entire grid cell
-    // The hitbox stays aligned to the grid without offset
-    bombHitboxElement.style.top = `${
-      Math.floor((this.positionComponent.x + 16) / 64) * 64
-    }px`;
-    bombHitboxElement.style.left = `${
-      Math.floor((this.positionComponent.y + 16) / 64) * 64
-    }px`;
-
-    const gameContainer = document.getElementById("game-container");
-    if (gameContainer) {
-      gameContainer.appendChild(bombElement);
-      gameContainer.appendChild(bombHitboxElement);
-    }
-
-    this.bombActive = true;
-    this.bombElement = bombElement;
-    this.bombHitboxElement = bombHitboxElement;
-
-    setTimeout(() => {
-      this.createExplosion(bombElement);
-      gameContainer.removeChild(bombElement);
-      gameContainer.removeChild(bombHitboxElement);
-      this.bombActive = false;
-    }, 3000);
   }
   //------------------ create the explosion ----------------------------//
   createExplosion(bombElement) {
@@ -214,20 +209,41 @@ export default class InputComponent {
       { x: bombX + 1, y: bombY }, // East
     ];
 
+    const explosionElements = [];
+    const explosionHitboxes = [];
+
     // Create explosion elements
     explosionCoords.forEach((coord) => {
       // Create visual explosion effect
       const explosionElement = document.createElement("div");
       explosionElement.classList.add("explosion");
-      explosionElement.style.left = `${coord.x * 64}px`;
-      explosionElement.style.top = `${coord.y * 64}px`;
+      explosionElement.style.left = `${coord.x * 64 + 2}px`; // +2px offset to center within hitbox
+      explosionElement.style.top = `${coord.y * 64 + 2}px`; // +2px offset to center within hitbox
       explosionElement.style.backgroundImage =
         "url('./pictures/explosion.png')";
       explosionElement.style.backgroundSize = "cover";
       explosionElement.style.width = "60px";
       explosionElement.style.height = "60px";
       explosionElement.style.position = "absolute";
+
+      // Create explosion hitbox
+      const hitboxElement = document.createElement("div");
+      hitboxElement.classList.add("explosion-hitbox");
+      hitboxElement.style.position = "absolute";
+      hitboxElement.style.left = `${coord.x * 64}px`;
+      hitboxElement.style.top = `${coord.y * 64}px`;
+      hitboxElement.style.width = "64px";
+      hitboxElement.style.height = "64px";
+      hitboxElement.style.border = "1px solid red";
+
+      hitboxElement.style.zIndex = "1"; // Place hitbox behind explosion sprite
+
+      // Add elements to the game container
+      gameContainer.appendChild(hitboxElement);
       gameContainer.appendChild(explosionElement);
+
+      explosionElements.push(explosionElement);
+      explosionHitboxes.push(hitboxElement);
 
       // Handle tile destruction
       const tileElements = gameContainer.querySelectorAll(".tile");
@@ -236,13 +252,10 @@ export default class InputComponent {
         const tileY = Math.floor(index / tileMapDefault[0].length);
 
         if (tileX === coord.x && tileY === coord.y) {
-          // Check if this is a breakable tile
           if (tileMapDefault[tileY][tileX] === 2) {
             console.log(`Breaking tile at ${tileY}, ${tileX}`);
-            // Update the tile map
             tileMapDefault[tileY][tileX] = 0;
-            this.tileMap = [...tileMapDefault]; // Update tileMap array
-            // Update tile appearance
+            this.tileMap = [...tileMapDefault];
             tile.classList.remove("breakable");
             tile.classList.add("floor");
           }
@@ -266,12 +279,13 @@ export default class InputComponent {
       });
     });
 
-    // Clean up explosions after animation
+    // Clean up explosions and hitboxes after animation
     setTimeout(() => {
       console.log("Removing explosion elements...");
-      gameContainer.querySelectorAll(".explosion").forEach((explosion) => {
-        gameContainer.removeChild(explosion);
-      });
+      explosionElements.forEach((element) =>
+        gameContainer.removeChild(element)
+      );
+      explosionHitboxes.forEach((hitbox) => gameContainer.removeChild(hitbox));
     }, 1000);
   }
 }
