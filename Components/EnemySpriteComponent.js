@@ -5,7 +5,7 @@ class EnemyAnimationComponent {
     this.frameSequence = [0, 1, 2]; // Frames utilisées
     this.frameWidth = 64;
     this.frameHeight = 64;
-    this.speed = 5;
+    this.speed = 3;
     this.direction = 0; // Direction par défaut (bas)
     this.isMoving = true; // Activer le mouvement
     this.frameIndex = 0;
@@ -13,32 +13,108 @@ class EnemyAnimationComponent {
     this.lastUpdateTime = 0; // Pour gérer la vitesse de l'animation
     this.sprite = url;
     this.velocityComponent = velocityComponent;
+    this.isAnimating = false;
 
-    setInterval(() => {
-      this.generateRandomMovement();
-    }, 1000);
+    this.keys = new Set();
+    this.directionMap = this.animation;
+
+    this.simulateKeyPress();
+    this.animate();
   }
 
-  generateRandomMovement() {
+  simulateKeyPress() {
+    // Simuler des touches aléatoires
+    this.simulateNextKey();
+  }
+
+  simulateNextKey() {
     const direction = Math.floor(Math.random() * 4);
     switch (direction) {
       case 0: // Q
-        this.velocityComponent.vx = -1;
-        this.velocityComponent.vy = 0;
+        this.simulateKey("q");
+        this.velocityComponent.vx = -this.speed;
         break;
       case 1: // D
-        this.velocityComponent.vx = 1;
-        this.velocityComponent.vy = 0;
+        this.simulateKey("d");
+        this.velocityComponent.vx = this.speed;
         break;
       case 2: // S
-        this.velocityComponent.vx = 0;
-        this.velocityComponent.vy = -1;
+        this.simulateKey("s");
+        this.velocityComponent.vy = this.speed;
         break;
       case 3: // Z
-        this.velocityComponent.vx = 0;
-        this.velocityComponent.vy = 1;
+        this.simulateKey("z");
+        this.velocityComponent.vy = -this.speed;
         break;
     }
+  }
+
+  // simulateKey(key) {
+  //   // Simuler un événement de touche
+  //   this.handleKeyDown({ key });
+
+  //   setTimeout(() => {
+  //     this.handleKeyUp({ key });
+
+  //     setTimeout(() => {
+  //       this.simulateNextKey();
+  //     }, 200);
+  //   }, 1000);
+  // }
+
+  simulateKey(key) {
+    // Simuler un événement de touche
+    this.handleKeyDown({ key });
+
+    setTimeout(() => {
+      this.handleKeyUp({ key });
+
+      setTimeout(() => {
+        this.simulateNextKey();
+      }, Math.random() * (200 - 0) + 0); // Générer un nombre aléatoire entre 1000 et 2000
+    }, Math.random() * (2000 - 1000) + 1000); // Générer un nombre aléatoire entre 0 et 200
+  }
+
+  handleKeyDown(e) {
+    if (!this.directionMap.hasOwnProperty(e.key)) return;
+
+    if (!this.isMoving) {
+      this.isMoving = true;
+      this.frameIndex = 0; // Commence à la frame 0
+    }
+    // Met à jour la direction de la sprite sheet
+    this.direction = this.directionMap[e.key];
+  }
+
+  handleKeyUp(e) {
+    this.velocityComponent.vy = 0;
+    this.velocityComponent.vx = 0;
+    if (!this.directionMap.hasOwnProperty(e.key)) return;
+
+    this.isMoving = false;
+    this.frame = 0;
+    const posX = -this.frame * this.frameWidth;
+    const posY = -this.direction * this.frameHeight;
+    const enemyElement = document.getElementById(this.enemyId);
+    if (enemyElement) {
+      enemyElement.style.backgroundPosition = `${posX}px ${posY}px`;
+    }
+  }
+
+  animate() {
+    setInterval(() => {
+      if (!this.isMoving) return;
+      // Alterne entre frame 0 → 1 → 2 en boucle
+      this.frame = this.frameSequence[this.frameIndex];
+      this.frameIndex = (this.frameIndex + 1) % this.frameSequence.length; // Boucle sur 0 → 1 → 2 → 0 → 1 → 2...
+
+      const posX = -this.frame * this.frameWidth;
+      const posY = -this.direction * this.frameHeight;
+      const enemyElement = document.getElementById(this.enemyId);
+      if (enemyElement) {
+        enemyElement.style.backgroundPosition = `${posX}px ${posY}px`;
+      }
+    }, 150);
   }
 
   update() {
@@ -59,10 +135,10 @@ class EnemyAnimationComponent {
     if (enemyElement) {
       enemyElement.style.backgroundPosition = `${posX}px ${posY}px`;
       enemyElement.style.top = `${
-        this.enemyId.getComponent("position").y + this.velocity.vy * 64
+        this.enemyId.getComponent("position").y + this.velocityComponent.vy * 64
       }px`;
       enemyElement.style.left = `${
-        this.enemyId.getComponent("position").x + this.velocity.vx * 64
+        this.enemyId.getComponent("position").x + this.velocityComponent.vx * 64
       }px`;
     }
   }

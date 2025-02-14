@@ -13,11 +13,11 @@ import {
 } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 
-import { tileMapDefault } from "./utils/tileMap.js";
+import { tileMap2 } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
-const collisionSystem = new CollisionSystem(tileMapDefault); // Initialisation
+const collisionSystem = new CollisionSystem(tileMap2); // Initialisation
 const movementSystem = new MovementSystem(collisionSystem);
 
 export let player;
