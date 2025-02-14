@@ -13,7 +13,7 @@ export default class CollisionSystem {
    */
   isCollide(x, y) {
     const tileSize = 64; // Taille d'une tuile
-    const hitboxSize = 50; // Taille de la hitbox réduite
+    const hitboxSize = 50; // Taille de la hitbox réduite du joueur
     const offset = (tileSize - hitboxSize) / 2; // Décalage pour centrer la hitbox
 
     // Nouvelle liste de points de collision avec la hitbox réduite
