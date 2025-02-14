@@ -137,6 +137,10 @@ export default class InputComponent {
       "url('./pictures//bomb_sprite/bomb3.png')",
     ];
 
+    const Bombplant = new Audio(
+      "./pictures/bomb_sprite/Bomb_sound/heavy_splash.ogg"
+    );
+    Bombplant.play();
     const bombElement = document.createElement("div");
     bombElement.classList.add("bomb");
 
@@ -211,6 +215,11 @@ export default class InputComponent {
 
     const gameContainer = document.getElementById("game-container");
     if (!gameContainer) return;
+
+    const explosionSound = new Audio(
+      "./pictures/bomb_sprite/Bomb_sound/8bit_bomb_explosion.wav"
+    );
+    explosionSound.play();
 
     // Calculate bomb position in grid coordinates
     const bombX = Math.floor((parseInt(bombElement.style.left) || 0) / 64);
