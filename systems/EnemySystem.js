@@ -9,7 +9,6 @@ class EnemySystem {
       const positionComponent = entity.getComponent("PositionComponent");
 
       if (enemyComponent && positionComponent) {
-        // Mettez à jour la position de l'ennemi
         positionComponent.x += 1;
       }
     });

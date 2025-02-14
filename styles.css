@@ -27,19 +27,18 @@ body {
 
 .wall {
   background-image: url("./pictures/Side\ Wall\ Rock.png");
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
 }
 
 .mapWall {
-  background-image: url("./pictures/Side%20Wall%20Rock.png");
+  background-image: url("./pictures/Side\ Wall\ Rock.png");
 }
 
 .breakable {
-  background-image: url(./pictures/wood%20box.png);
+  background-image: url(./pictures/breakable\ wall1.png);
 }
 
 .enemy {
-  background-color: red;
+  background-image: url(./pictures/floor.png);
 }
 /*--------------- BOMB CSS ------------------------ */
 .bomb {
