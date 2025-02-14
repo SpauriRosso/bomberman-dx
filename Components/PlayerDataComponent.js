@@ -14,6 +14,16 @@ class PlayerDataComponent {
   heal(amount) {
     return this.healthComponent.addLives(amount);
   }
+
+  addScore(amount) {
+    this.score += amount;
+    return this.score;
+  }
+
+  removeScore(amount) {
+    this.score -= amount;
+    return this.score;
+  }
 }
 
 export default PlayerDataComponent;
