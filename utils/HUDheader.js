@@ -8,10 +8,6 @@ class HUDHeader {
     this.HUDHeader.style.top = "-35px";
     this.HUDHeader.style.left = "540px";
     this.HUDHeader.style.fontSize = "20px";
-    this.HUDHeader.style.fontWeight = "bold";
-    this.HUDHeader.style.color = "white";
-    this.HUDHeader.style.padding = "0px";
-    this.HUDHeader.style.borderRadius = "0px";
     this.HUDHeader.style.cursor = "default";
     this.HUDHeader.style.fontFamily = "bomberman";
 
