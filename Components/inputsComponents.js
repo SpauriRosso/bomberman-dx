@@ -131,6 +131,12 @@ export default class InputComponent {
   createBomb() {
     if (this.bombActive) return;
 
+    const bombImages = [
+      "url('./pictures/bomb_sprite/bomb1.png')",
+      "url('./pictures//bomb_sprite/bomb2.png')",
+      "url('./pictures//bomb_sprite/bomb3.png')",
+    ];
+
     const bombElement = document.createElement("div");
     bombElement.classList.add("bomb");
 
@@ -154,7 +160,6 @@ export default class InputComponent {
       bombElement.style.top = `${gridY + offsetY}px`;
       bombElement.style.left = `${gridX + offsetX}px`;
 
-      bombElement.style.backgroundImage = "url('./pictures/bomb.png')";
       bombElement.style.backgroundSize = "cover";
       bombElement.style.width = "50px";
       bombElement.style.height = "50px";
@@ -181,7 +186,18 @@ export default class InputComponent {
       this.bombElement = bombElement;
       this.bombHitboxElement = bombHitboxElement;
 
+      // Create a counter to cycle through the bomb images
+      let bombImageIndex = 0;
+
+      // Create an interval to update the bomb image
+      const bombInterval = setInterval(() => {
+        bombElement.style.backgroundImage = bombImages[bombImageIndex];
+        bombImageIndex = (bombImageIndex + 1) % bombImages.length;
+      }, 95); // Update the bomb image every 95ms
+
+      // Clear the interval when the bomb explodes
       setTimeout(() => {
+        clearInterval(bombInterval);
         this.createExplosion(bombElement);
         gameContainer.removeChild(bombElement);
         gameContainer.removeChild(bombHitboxElement);
