@@ -1,5 +1,4 @@
 import RenderSystem from "../systems/RenderSystem.js";
-
 export default class InputComponent {
   constructor(playerId, spriteComponent) {
     this.playerId = playerId;
