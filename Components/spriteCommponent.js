@@ -1,4 +1,4 @@
-export default class SpriteComponent {
+class SpriteComponent {
   constructor(animation, player) {
     this.player = player;
     this.frame = 0;
@@ -13,3 +13,5 @@ export default class SpriteComponent {
     this.lastUpdateTime = 0; // Pour gérer la vitesse de l'animation
   }
 }
+
+export default SpriteComponent;

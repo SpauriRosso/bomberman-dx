@@ -1,11 +1,10 @@
-// import BombSystem from "../systems/BombSystem.js";
 import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, positionComponent) {
+  constructor(playerId, spriteComponent, velocityComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
-    this.positionComponent = positionComponent;
+    this.velocityComponent = velocityComponent;
     this.tileMap = tileMapDefault;
     this.tileTypes = tileTypes;
     this.x = 0;
@@ -16,39 +15,34 @@ export default class InputComponent {
     this.bombElement = null;
     this.explosionElement = null;
 
-    this.animate(spriteComponent);
-
     window.addEventListener("keydown", (e) => this.handleKeyDown(e));
     window.addEventListener("keyup", (e) => this.handleKeyUp(e));
+    this.animate(spriteComponent);
   }
 
   handleKeyDown(e) {
-    if (!this.directionMap.hasOwnProperty(e.key)); //return;
+    if (!this.directionMap.hasOwnProperty(e.key));
 
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
     this.keys.add(e.key);
 
-    console.log(`Key pressed: ${e.key}`);
-
     if (!spriteComponent.isMoving) {
       spriteComponent.isMoving = true;
       spriteComponent.frameIndex = 0; // Commence à la frame 0
     }
-
     // Met à jour la direction de la sprite sheet
     spriteComponent.direction = this.directionMap[e.key];
   }
 
   handleKeyUp(e) {
-    if (!this.directionMap.hasOwnProperty(e.key)); //return;
+    if (!this.directionMap.hasOwnProperty(e.key));
 
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
     this.keys.delete(e.key);
-    console.log(`Key pressed: ${e.key}`);
 
     if (this.keys.size === 0) {
       spriteComponent.isMoving = false;
@@ -83,30 +77,31 @@ export default class InputComponent {
     let spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
-    this.x = 0;
-    this.y = 0;
+    this.velocityComponent.vy = 0;
+    this.velocityComponent.vx = 0;
 
-    if (this.keys.has("q") || this.keys.has("ArrowLeft")) {
-      this.x = -spriteComponent.speed;
-    }
-    if (this.keys.has("d") || this.keys.has("ArrowRight")) {
-      this.x = spriteComponent.speed;
-    }
-    if (this.keys.has("z") || this.keys.has("ArrowUp")) {
-      this.y = -spriteComponent.speed;
-    }
-    if (this.keys.has("s") || this.keys.has("ArrowDown")) {
-      this.y = spriteComponent.speed;
+    if (
+      (this.keys.has("q") || this.keys.has("ArrowLeft")) &&
+      (this.keys.has("d") || this.keys.has("ArrowRight"))
+    ) {
+      this.velocityComponent.vx = 0;
+    } else if (
+      (this.keys.has("z") || this.keys.has("ArrowUp")) &&
+      (this.keys.has("s") || this.keys.has("ArrowDown"))
+    ) {
+      this.velocityComponent.vy = 0;
+    } else if (this.keys.has("q") || this.keys.has("ArrowLeft")) {
+      this.velocityComponent.vx = -this.spriteComponent.speed;
+    } else if (this.keys.has("d") || this.keys.has("ArrowRight")) {
+      this.velocityComponent.vx = this.spriteComponent.speed;
+    } else if (this.keys.has("z") || this.keys.has("ArrowUp")) {
+      this.velocityComponent.vy = -this.spriteComponent.speed;
+    } else if (this.keys.has("s") || this.keys.has("ArrowDown")) {
+      this.velocityComponent.vy = this.spriteComponent.speed;
     }
     if (this.keys.has(" ") || this.keys.has("Spacebar")) {
       this.createBomb();
       console.log("Spacebar pressed", "bomb placed");
-    }
-
-    if (this.x !== 0 || this.y !== 0) {
-      this.spriteComponent.isMoving = true;
-    } else {
-      this.spriteComponent.isMoving = false;
     }
 
     // Check for collision with the bomb hitbox
@@ -125,8 +120,13 @@ export default class InputComponent {
         console.log("Player collided with bomb hitbox!");
       }
     }
-  }
 
+    if (this.velocityComponent.vx !== 0 || this.velocityComponent.vy !== 0) {
+      this.spriteComponent.isMoving = true;
+    } else {
+      this.spriteComponent.isMoving = false;
+    }
+  }
   //------------------ create the bomb ----------------------------//
   createBomb() {
     if (this.bombActive) return;
@@ -141,20 +141,23 @@ export default class InputComponent {
       "./pictures/bomb_sprite/Bomb_sound/heavy_splash.ogg"
     );
     Bombplant.play();
+
     const bombElement = document.createElement("div");
     bombElement.classList.add("bomb");
 
     const playerElement = document.getElementById(this.playerId);
     if (playerElement) {
+      // Get the player's position
+      const playerX = playerElement.offsetLeft;
+      const playerY = playerElement.offsetTop;
+
       // Snap bomb position to grid (assuming 64px grid)
       const gridSize = 64;
       const bombSize = 48;
 
       // Calculate the grid cell position
-      const gridX =
-        Math.floor((this.positionComponent.x + 16) / gridSize) * gridSize;
-      const gridY =
-        Math.floor((this.positionComponent.y + 16) / gridSize) * gridSize;
+      const gridX = Math.floor((playerX + 16) / gridSize) * gridSize;
+      const gridY = Math.floor((playerY + 16) / gridSize) * gridSize;
 
       // Calculate the offset to center the bomb in the grid cell
       const offsetX = (gridSize - bombSize) / 2;
@@ -209,6 +212,7 @@ export default class InputComponent {
       }, 3000);
     }
   }
+
   //------------------ create the explosion ----------------------------//
   createExplosion(bombElement) {
     console.log("Creating explosion...");
@@ -314,3 +318,4 @@ export default class InputComponent {
     }, 1000);
   }
 }
+
