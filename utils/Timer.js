@@ -1,31 +1,51 @@
-export default class Timer {
+class Timer {
   constructor() {
-    this.time = 0;
-    this.interval = 1000; // Start at 1 second
-    this.lastUpdate = performance.now();
-
-    // Create a timer display element
-    this.timerElement = document.createElement("div");
-    this.timerElement.style.position = "absolute";
-    this.timerElement.style.top = "6px";
-    this.timerElement.style.left = "870px";
-    this.timerElement.style.padding = "10px 20px";
-    this.timerElement.style.color = "#fff";
-    this.timerElement.style.fontSize = "15px";
-    this.timerElement.style.fontFamily = "Bomberman";
-    this.timerElement.style.borderRadius = "8px";
-
-    this.timerElement.innerText = `${this.time}s`;
-    document.body.appendChild(this.timerElement);
+    this.seconds = 0;
+    this.minutes = 0;
+    this.intervalId = null;
+    this.isRunning = false;
   }
 
-  update() {
-    const now = performance.now();
-    if (now - this.lastUpdate >= this.interval) {
-      this.time++;
-      this.timerElement.innerText = ` ${this.time}s`; // Update UI
-      this.interval *= 1; // Increase delay gradually
-      this.lastUpdate = now;
+  start() {
+    if (!this.isRunning) {
+      this.isRunning = true;
+      this.intervalId = setInterval(() => {
+        this.increment();
+        this.display();
+      }, 1000);
     }
+  }
+
+  stop() {
+    if (this.isRunning) {
+      clearInterval(this.intervalId);
+      this.isRunning = false;
+    }
+  }
+
+  reset() {
+    this.stop();
+    this.seconds = 0;
+    this.minutes = 0;
+    this.display();
+  }
+
+  increment() {
+    this.seconds++;
+    if (this.seconds >= 60) {
+      this.seconds = 0;
+      this.minutes++;
+    }
+  }
+
+  display() {
+    const timeString = `${this.formatTime(this.minutes)}:${this.formatTime(
+      this.seconds
+    )}`;
+    document.getElementById("timer").textContent = timeString;
+  }
+
+  formatTime(num) {
+    return num.toString().padStart(2, "0");
   }
 }
