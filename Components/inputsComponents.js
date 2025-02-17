@@ -156,8 +156,8 @@ export default class InputComponent {
       const gridSize = 64;
 
       // Calculate the grid cell position
-      const gridX = Math.floor((playerX + 16) / gridSize) * gridSize;
-      const gridY = Math.floor((playerY + 16) / gridSize) * gridSize;
+      const gridX = Math.floor((playerX + 15) / gridSize) * gridSize;
+      const gridY = Math.floor((playerY + 15) / gridSize) * gridSize;
 
       // Calculate the offset to center the bomb in the grid cell
       const offsetX = (gridSize - bombSize) / 2;
@@ -180,8 +180,8 @@ export default class InputComponent {
       bombHitboxElement.style.border = "1px solid red";
 
       // Position the hitbox to block the entire grid cell - fixed positioning
-      bombHitboxElement.style.top = `${gridY}px`;
-      bombHitboxElement.style.left = `${gridX}px`;
+      bombHitboxElement.style.top = `${gridY + offsetY - 7}px`;
+      bombHitboxElement.style.left = `${gridX + offsetX - 7}px`;
 
       const gameContainer = document.getElementById("game-container");
       if (gameContainer) {
@@ -246,8 +246,8 @@ export default class InputComponent {
       // Create visual explosion effect
       const explosionElement = document.createElement("div");
       explosionElement.classList.add("explosion");
-      explosionElement.style.left = `${coord.x * 64 + 5}px`; // +2px offset to center within hitbox
-      explosionElement.style.top = `${coord.y * 64 + 5}px`; // +2px offset to center within hitbox
+      explosionElement.style.left = `${coord.x * 64 + 7}px`; // +2px offset to center within hitbox
+      explosionElement.style.top = `${coord.y * 64 + 7}px`; // +2px offset to center within hitbox
       explosionElement.style.backgroundImage =
         "url('./pictures/explosion.png')";
       explosionElement.style.backgroundSize = "cover";
