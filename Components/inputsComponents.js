@@ -1,10 +1,9 @@
 import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, velocityComponent, positionComponent) {
+  constructor(playerId, spriteComponent, velocityComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
-    this.positionComponent = positionComponent;
     this.velocityComponent = velocityComponent;
     this.tileMap = tileMapDefault;
     this.tileTypes = tileTypes;
@@ -128,65 +127,7 @@ export default class InputComponent {
       this.spriteComponent.isMoving = false;
     }
   }
-
-  update() {
-    let spriteComponent = this.spriteComponent;
-    if (!spriteComponent) return;
-
-    this.velocityComponent.vy = 0;
-    this.velocityComponent.vx = 0;
-
-    if (
-      (this.keys.has("q") || this.keys.has("ArrowLeft")) &&
-      (this.keys.has("d") || this.keys.has("ArrowRight"))
-    ) {
-      this.velocityComponent.vx = 0;
-    } else if (
-      (this.keys.has("z") || this.keys.has("ArrowUp")) &&
-      (this.keys.has("s") || this.keys.has("ArrowDown"))
-    ) {
-      this.velocityComponent.vy = 0;
-    } else if (this.keys.has("q") || this.keys.has("ArrowLeft")) {
-      this.velocityComponent.vx = -this.spriteComponent.speed;
-    } else if (this.keys.has("d") || this.keys.has("ArrowRight")) {
-      this.velocityComponent.vx = this.spriteComponent.speed;
-    } else if (this.keys.has("z") || this.keys.has("ArrowUp")) {
-      this.velocityComponent.vy = -this.spriteComponent.speed;
-    } else if (this.keys.has("s") || this.keys.has("ArrowDown")) {
-      this.velocityComponent.vy = this.spriteComponent.speed;
-    }
-    if (this.keys.has(" ") || this.keys.has("Spacebar")) {
-      this.createBomb();
-      console.log("Spacebar pressed", "bomb placed");
-    }
-
-    // Check for collision with the bomb hitbox
-    if (this.bombHitboxElement) {
-      const bombHitboxX = parseInt(this.bombHitboxElement.style.left) || 0;
-      const bombHitboxY = parseInt(this.bombHitboxElement.style.top) || 0;
-      const playerElement = document.getElementById(this.playerId);
-      if (playerElement) {
-        const playerX = playerElement.offsetLeft;
-        const playerY = playerElement.offsetTop;
-
-        if (
-          playerX + 32 > bombHitboxX &&
-          playerX < bombHitboxX + 60 &&
-          playerY + 32 > bombHitboxY &&
-          playerY < bombHitboxY + 60
-        ) {
-          console.log("Player collided with bomb-Hitbox!");
-        }
-      }
-    }
-
-    if (this.velocityComponent.vx !== 0 || this.velocityComponent.vy !== 0) {
-      this.spriteComponent.isMoving = true;
-    } else {
-      this.spriteComponent.isMoving = false;
-    }
-  }
-
+  //------------------ create the bomb ----------------------------//
   createBomb() {
     if (this.bombActive) return;
 
@@ -203,41 +144,44 @@ export default class InputComponent {
 
     const bombElement = document.createElement("div");
     bombElement.classList.add("bomb");
-    bombElement.style.backgroundSize = "cover";
-    bombElement.style.width = "50px"; // Adjusted to be divisible by 2
-    bombElement.style.height = "50px"; // Adjusted to be divisible by 2
-    bombElement.style.position = "absolute";
 
     const playerElement = document.getElementById(this.playerId);
     if (playerElement) {
+      // Get the player's position
+      const playerX = playerElement.offsetLeft;
+      const playerY = playerElement.offsetTop;
+
+      // Snap bomb position to grid (assuming 64px grid)
+      const bombSize = 32;
       const gridSize = 64;
-      const bombSize = 48; // Matches the bomb element size
 
-      // Get player's center position
-      const playerCenterX =
-        playerElement.offsetLeft + playerElement.offsetWidth / 2;
-      const playerCenterY =
-        playerElement.offsetTop + playerElement.offsetHeight / 2;
+      // Calculate the grid cell position
+      const gridX = Math.floor((playerX + 16) / gridSize) * gridSize;
+      const gridY = Math.floor((playerY + 16) / gridSize) * gridSize;
 
-      // Calculate grid cell position based on player's center
-      const gridX = Math.floor(playerCenterX / gridSize);
-      const gridY = Math.floor(playerCenterY / gridSize);
+      // Calculate the offset to center the bomb in the grid cell
+      const offsetX = (gridSize - bombSize) / 2;
+      const offsetY = (gridSize - bombSize) / 2;
 
-      // Calculate pixel position for bomb (centered in grid cell)
-      const bombX = gridX * gridSize + (gridSize - bombSize) / 0.95;
-      const bombY = gridY * gridSize + (gridSize - bombSize) / 0.95;
+      // Position the bomb with the centering offset
+      bombElement.style.top = `${gridY + offsetY + 2}px`;
+      bombElement.style.left = `${gridX + offsetX + 2}px`;
 
-      bombElement.style.left = `${bombX}px`;
-      bombElement.style.top = `${bombY}px`;
+      bombElement.style.backgroundSize = "cover";
+      bombElement.style.width = "50px";
+      bombElement.style.height = "50px";
 
-      // Create centered hitbox
+      // Create bomb hitbox that's completely unwalkable
       const bombHitboxElement = document.createElement("div");
       bombHitboxElement.classList.add("bomb-hitbox");
-      bombHitboxElement.style.width = `${gridSize}px`;
-      bombHitboxElement.style.height = `${gridSize}px`;
+      bombHitboxElement.style.width = "64px";
+      bombHitboxElement.style.height = "64px";
       bombHitboxElement.style.position = "absolute";
-      bombHitboxElement.style.left = `${gridX * gridSize}px`;
-      bombHitboxElement.style.top = `${gridY * gridSize}px`;
+      bombHitboxElement.style.border = "1px solid red";
+
+      // Position the hitbox to block the entire grid cell - fixed positioning
+      bombHitboxElement.style.top = `${gridY}px`;
+      bombHitboxElement.style.left = `${gridX}px`;
 
       const gameContainer = document.getElementById("game-container");
       if (gameContainer) {
@@ -268,6 +212,7 @@ export default class InputComponent {
       }, 3000);
     }
   }
+
   //------------------ create the explosion ----------------------------//
   createExplosion(bombElement) {
     console.log("Creating explosion...");
@@ -301,8 +246,8 @@ export default class InputComponent {
       // Create visual explosion effect
       const explosionElement = document.createElement("div");
       explosionElement.classList.add("explosion");
-      explosionElement.style.left = `${coord.x * 64 + 7}px`; // +2px offset to center within hitbox
-      explosionElement.style.top = `${coord.y * 64 + 7}px`; // +2px offset to center within hitbox
+      explosionElement.style.left = `${coord.x * 64 + 5}px`; // +2px offset to center within hitbox
+      explosionElement.style.top = `${coord.y * 64 + 5}px`; // +2px offset to center within hitbox
       explosionElement.style.backgroundImage =
         "url('./pictures/explosion.png')";
       explosionElement.style.backgroundSize = "cover";
@@ -314,8 +259,8 @@ export default class InputComponent {
       const hitboxElement = document.createElement("div");
       hitboxElement.classList.add("explosion-hitbox");
       hitboxElement.style.position = "absolute";
-      hitboxElement.style.left = `${coord.x * 64 + 5}px`;
-      hitboxElement.style.top = `${coord.y * 64 + 5}px`;
+      hitboxElement.style.left = `${coord.x * 64 + 2}px`;
+      hitboxElement.style.top = `${coord.y * 64 + 2}px`;
       hitboxElement.style.width = "64px";
       hitboxElement.style.height = "64px";
       hitboxElement.style.border = "1px solid red";
