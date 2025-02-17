@@ -1,6 +1,6 @@
 import HealthComponent from "./HealthComponent.js";
 
-class PlayerDataComponent {
+export default class PlayerDataComponent {
   constructor() {
     this.score = 0;
     this.health = 3;
@@ -25,5 +25,3 @@ class PlayerDataComponent {
     return this.score;
   }
 }
-
-export default PlayerDataComponent;
