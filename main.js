@@ -8,12 +8,18 @@ import {
 } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 
+import FPS from "./utils/FPS.js";
+import Timer from "./utils/Timer.js";
+
 import { tileMapDefault } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
 const collisionSystem = new CollisionSystem(tileMapDefault);
 const movementSystem = new MovementSystem(collisionSystem);
+
+const timer = new Timer();
+const fps = new FPS();
 
 export let player;
 export let gameLogicSystem;
@@ -45,6 +51,9 @@ console.log(gameLogicSystem);
 
 function gameLoop() {
   gameLogicSystem.update();
+
+  fps.update(performance.now());
+  timer.start();
 
   requestAnimationFrame(gameLoop);
 }

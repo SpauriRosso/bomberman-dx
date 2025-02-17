@@ -14,8 +14,14 @@
   /* Set the margin to auto to center the container horizontally */
   margin: auto;
 }
+@font-face {
+  font-family: "bomberman";
+  src: url("./pictures/Font/Bomberman-font.ttf");
+}
+
 #gameGrid {
   position: absolute;
+
   margin: auto;
   display: grid;
   gap: 0px;

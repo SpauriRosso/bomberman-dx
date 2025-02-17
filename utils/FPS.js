@@ -11,7 +11,7 @@ export default class FPS {
     this.fpsElement.style.right = "10px";
     this.fpsElement.style.fontSize = "20px";
     this.fpsElement.style.fontWeight = "bold";
-    this.fpsElement.style.color = "white";
+    this.fpsElement.style.color = "black";
     this.fpsElement.style.padding = "5px";
     this.fpsElement.style.borderRadius = "5px";
     this.fpsElement.style.cursor = "default";
