@@ -1,8 +1,8 @@
-import Entity from './entity.js';
-import PositionComponent from '../Components/PositionComponent.js';
-import VelocityComponent from '../Components/VelocityComponent.js';
-import HealthComponent from '../Components/HealthComponent.js';
-import EnemyComponent from '../Components/EnemyComponent.js';
+import Entity from "../entities/Entity.js";
+import PositionComponent from "../Components/PositionComponent.js";
+import VelocityComponent from "../Components/VelocityComponent.js";
+import HealthComponent from "../Components/HealthComponent.js";
+import EnemyComponent from "../Components/EnemyComponent.js";
 
 class EnemyEntity extends Entity {
   constructor(id, x, y) {
