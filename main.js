@@ -1,3 +1,8 @@
+/*const timer = new Timer();
+timer.start();
+
+const scoreManager = new ScoreManager();*/
+
 import PlayerEntity from "./entities/PlayerEntity.js";
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
@@ -12,7 +17,7 @@ import { tileMapDefault } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
-const collisionSystem = new CollisionSystem(tileMapDefault);
+const collisionSystem = new CollisionSystem(tileMapDefault); // Initialisation
 const movementSystem = new MovementSystem(collisionSystem);
 
 export let player;
