@@ -1,28 +1,32 @@
 import { tileMapDefault, tileTypes } from "./tileMap.js";
+import PlayerEntity from "./entities/PlayerEntity.js";
+import EnemyEntity from "./entities/EnemyEntity.js";
+import BombEntity from "./entities/BombEntity.js";
+import MovementSystem from "./systems/MovementSystem.js";
+import CollisionSystem from "./systems/CollisionSystem.js";
+import BombSystem from "./systems/BombSystem.js";
+import EnemySystem from "./systems/EnemySystem.js";
+import PlayerSystem from "./systems/PlayerSystem.js";
+import InputsComponent from "./Components/inputsComponents.js";
 
 const entities = [];
 
-const playerEntity = new playerEntity(1);
+const playerEntity = new PlayerEntity(1);
 entities.push(playerEntity);
 
-const enemyEntity = new enemyEntity(2);
+const enemyEntity = new EnemyEntity(2);
 entities.push(enemyEntity);
 
-const bombEntity = new bombEntity(3);
+const bombEntity = new BombEntity(3);
 entities.push(bombEntity);
 
-const movementSystem = new movementSystem(entities);
-const collisionSystem = new collisionSystem(entities);
-const bombSystem = new bombSystem(entities);
-const enemySystem = new enemySystem(entities);
-const playerSystem = new playerSystem(entities);
+const movementSystem = new MovementSystem(entities);
+const collisionSystem = new CollisionSystem(entities);
+const bombSystem = new BombSystem(entities);
+const enemySystem = new EnemySystem(entities);
+const playerSystem = new PlayerSystem(entities);
 
-const playerMovementSystem = new playerMovementSystem(
-  tileMapDefault,
-  tileTypes
-);
-
-const inputs = new inputsComponents();
+const inputs = new InputsComponent();
 
 function update() {
   // Update the player's position using the inputsComponent class
@@ -33,7 +37,6 @@ function update() {
   bombSystem.update();
   enemySystem.update();
   playerSystem.update();
-  playerMovementSystem.update();
 
   requestAnimationFrame(update);
 }
