@@ -175,7 +175,7 @@ export default class InputComponent {
           playerY + 32 > bombHitboxY &&
           playerY < bombHitboxY + 60
         ) {
-          console.log("Player collided with bomb hitbox!");
+          console.log("Player collided with bomb-Hitbox!");
         }
       }
     }
