@@ -16,10 +16,6 @@ import GridUpdateSystem from "./systems/GridUpdateSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
-
-const collisionSystem = new CollisionSystem(tileMapDefault); // Initialisation
-const movementSystem = new MovementSystem(collisionSystem);
-
 export let player;
 export let gameLogicSystem;
 
@@ -36,18 +32,12 @@ animate();
 const collisionSystem = new CollisionSystem(tileMapDefault);
 const movementSystem = new MovementSystem(collisionSystem);
 
-
 generateGrid();
-
 
 let coordinates = findEnemyPosition();
 let coordinatesLength = coordinates.length;
 
 gameLogicSystem = new GameLogicSystem();
-
-const gameLogicSystem = new GameLogicSystem();
-const player = new PlayerEntity(10, x * 64, y * 64);
-
 
 let urlEnnemy = [
   "url('./pictures/spritesheet black.png')",
