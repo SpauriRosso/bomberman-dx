@@ -1,13 +1,12 @@
 import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, velocityComponent, object) {
+  constructor(playerId, spriteComponent, velocityComponent) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.velocityComponent = velocityComponent;
     this.tileMap = tileMapDefault;
     this.tileTypes = tileTypes;
-    this.object = object;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
@@ -109,8 +108,8 @@ export default class InputComponent {
     if (this.bombHitboxElement) {
       const bombHitboxX = parseInt(this.bombHitboxElement.style.left) || 0;
       const bombHitboxY = parseInt(this.bombHitboxElement.style.top) || 0;
-      const playerX = this.positionComponent.x + 16;
-      const playerY = this.positionComponent.y + 16;
+      const playerX = this.positionComponent?.x + 16;
+      const playerY = this.positionComponent?.y + 16;
 
       if (
         playerX + 32 > bombHitboxX &&
@@ -153,8 +152,8 @@ export default class InputComponent {
       const playerY = playerElement.offsetTop;
 
       // Snap bomb position to grid (assuming 64px grid)
+      const bombSize = 32;
       const gridSize = 64;
-      const bombSize = 48;
 
       // Calculate the grid cell position
       const gridX = Math.floor((playerX + 16) / gridSize) * gridSize;
@@ -165,8 +164,8 @@ export default class InputComponent {
       const offsetY = (gridSize - bombSize) / 2;
 
       // Position the bomb with the centering offset
-      bombElement.style.top = `${gridY + offsetY}px`;
-      bombElement.style.left = `${gridX + offsetX}px`;
+      bombElement.style.top = `${gridY + offsetY + 2}px`;
+      bombElement.style.left = `${gridX + offsetX + 2}px`;
 
       bombElement.style.backgroundSize = "cover";
       bombElement.style.width = "50px";
@@ -247,8 +246,8 @@ export default class InputComponent {
       // Create visual explosion effect
       const explosionElement = document.createElement("div");
       explosionElement.classList.add("explosion");
-      explosionElement.style.left = `${coord.x * 64 + 2}px`; // +2px offset to center within hitbox
-      explosionElement.style.top = `${coord.y * 64 + 2}px`; // +2px offset to center within hitbox
+      explosionElement.style.left = `${coord.x * 64 + 5}px`; // +2px offset to center within hitbox
+      explosionElement.style.top = `${coord.y * 64 + 5}px`; // +2px offset to center within hitbox
       explosionElement.style.backgroundImage =
         "url('./pictures/explosion.png')";
       explosionElement.style.backgroundSize = "cover";
@@ -260,8 +259,8 @@ export default class InputComponent {
       const hitboxElement = document.createElement("div");
       hitboxElement.classList.add("explosion-hitbox");
       hitboxElement.style.position = "absolute";
-      hitboxElement.style.left = `${coord.x * 64}px`;
-      hitboxElement.style.top = `${coord.y * 64}px`;
+      hitboxElement.style.left = `${coord.x * 64 + 2}px`;
+      hitboxElement.style.top = `${coord.y * 64 + 2}px`;
       hitboxElement.style.width = "64px";
       hitboxElement.style.height = "64px";
       hitboxElement.style.border = "1px solid red";
