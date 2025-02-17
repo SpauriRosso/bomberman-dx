@@ -1,3 +1,19 @@
+#game-container {
+  /* Set the display property to flex to center the content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Set the width and height to a specific value or a percentage */
+  width: 80%;
+  height: 80vh;
+
+  /* Add a border to visualize the container */
+  border: 1px solid black;
+
+  /* Set the margin to auto to center the container horizontally */
+  margin: auto;
+}
 #gameGrid {
   position: absolute;
   margin: auto;
