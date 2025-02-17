@@ -1,12 +1,13 @@
 import { tileMapDefault, tileTypes } from "../utils/tileMap.js";
 
 export default class InputComponent {
-  constructor(playerId, spriteComponent, velocityComponent) {
+  constructor(playerId, spriteComponent, velocityComponent, object) {
     this.playerId = playerId;
     this.spriteComponent = spriteComponent;
     this.velocityComponent = velocityComponent;
     this.tileMap = tileMapDefault;
     this.tileTypes = tileTypes;
+    this.object = object;
     this.x = 0;
     this.y = 0;
     this.keys = new Set();
@@ -318,4 +319,3 @@ export default class InputComponent {
     }, 1000);
   }
 }
-
