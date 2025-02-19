@@ -3,6 +3,57 @@
   src: url("./pictures/Font/Bomberman-font.ttf");
 }
 
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+#menu {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+}
+
+#menu-content {
+  position: relative;
+  z-index: 1;
+}
+
+#button-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#press-start-container {
+  margin-top: 830px;
+  margin-left: -50px;
+}
+
+#press-start {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  animation: moveZoom 2s infinite;
+}
+
+#press-start img {
+  width: 150px; 
+  background: transparent; 
+}
+
 #gameGrid {
   position: absolute;
 
@@ -100,15 +151,17 @@
   width: 960px;
 }
 
-@keyframes move {
+@keyframes moveZoom {
   0% {
-    transform: translateX(0);
+    transform: translateX(0px) scale(1); /* Ajustez cette valeur pour centrer l'animation */
   }
-
+  50% {
+    transform: translateX(0px) scale(1.1); /* Ajustez cette valeur pour centrer l'animation */
+  }
   100% {
-    transform: translateX(10px);
-  }
+    transform: translateX(0px) scale(1); /* Ajustez cette valeur pour centrer l'animation */
 }
+}  
 
 /* Média query pour adapter les styles à différentes tailles d'écran */
 @media (max-width: 768px) {

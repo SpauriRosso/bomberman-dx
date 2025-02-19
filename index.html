@@ -8,11 +8,39 @@
   </head>
 
   <body>
-    <div id="fps"></div>
-    <div id="timer"></div>
-
-    <div id="game-container"></div>
-
-    <script type="module" src="main.js"></script>
+    <div id="menu">
+      <video autoplay muted loop playsinline id="background-video">
+        <source src="./videos/bomberman DX background start menu.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div id="menu-content">
+        <div id="button-grid">
+          <div id="press-start-container">
+            <button id="press-start">
+              <img src="./videos/PressStart.gif" alt="Press Start">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("keydown", (e) => {
+          if (e.key === " ") {
+            window.location.href = "game.html";
+          }
+        });
+        const video = document.getElementById("background-video");
+        video.volume = 0; // Démarrer la vidéo avec le son coupé
+        video.play().then(() => {
+          setTimeout(() => {
+            video.muted = false; // Activer le son après 1 seconde
+            video.volume = 1.0; // Assurez-vous que le volume est à 100%
+          }, 1000); // 1000 millisecondes = 1 seconde
+        }).catch(error => {
+          console.error("La vidéo n'a pas pu être lue automatiquement avec le son activé.", error);
+        });
+      });
+    </script>
   </body>
 </html>
