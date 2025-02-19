@@ -14,7 +14,7 @@ export default class CollisionSystem {
    */
   isCollide(x, y) {
     const tileSize = 64; // Tile size
-    const hitboxSize = 48; // Reduced hitbox size
+    const hitboxSize = 45; // Reduced hitbox size
     const offset = (tileSize - hitboxSize) / 2; // Offset to center hitbox
     const padding = this.hitboxPadding; // Collision padding
 
@@ -36,7 +36,7 @@ export default class CollisionSystem {
         x: x + offset + hitboxSize / 2,
         y: y + offset + hitboxSize - 1 + padding,
       }, // Bottom-center
-      { x: x + offset - padding, y: y + offset + hitboxSize / 2 }, // Left-center
+      { x: x + offset - padding, y: y + offset + hitboxSize / 7 }, // Left-center
       {
         x: x + offset + hitboxSize - 1 + padding,
         y: y + offset + hitboxSize / 2,
