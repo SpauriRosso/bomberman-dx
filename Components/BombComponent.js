@@ -116,9 +116,9 @@ export default class BombComponent {
         hitboxElement.style.height = `${this.tileSize}px`;
 
         // Debug hitbox visuals for the explosion
-        hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
-        hitboxElement.style.position = "absolute"; // Important for positioning
-        hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
+        // hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+        // hitboxElement.style.position = "absolute"; // Important for positioning
+        // hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
         // Store elements for cleanup
         this.explosionElements.push(explosionElement);
