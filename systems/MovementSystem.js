@@ -17,10 +17,10 @@ export default class MovementSystem {
         const nextX = position.x + velocity.vx;
         const nextY = position.y + velocity.vy;
 
-        if (this.collisionSystem.isCollide(nextX, position.y)) {
+        if (this.collisionSystem.isCollide(nextX, position.y, entity)) {
           position.x = nextX;
         }
-        if (this.collisionSystem.isCollide(position.x, nextY)) {
+        if (this.collisionSystem.isCollide(position.x, nextY, entity)) {
           position.y = nextY;
         }
       }
