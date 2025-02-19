@@ -9,7 +9,7 @@ export default class BombComponent {
     this.hitboxElement = null;
     this.explosionElements = [];
     this.explosionHitboxes = [];
-    this.tileSize = 32; // Assuming 32px tiles, adjust as needed
+    this.tileSize = 50; // Assuming 32px tiles, adjust as needed
 
     this.bombImages = [
       "url('./pictures/bomb_sprite/bomb1.png')",
@@ -64,8 +64,10 @@ export default class BombComponent {
     directions.forEach((dir) => {
       for (let i = 0; i < (dir.x === 0 && dir.y === 0 ? 1 : this.power); i++) {
         // Calculate position based on the original bomb's pixel position
-        const xPos = this.position.x + dir.x * this.tileSize * i;
-        const yPos = this.position.y + dir.y * this.tileSize * i;
+        const xPos =
+          this.position.x + dir.x * this.tileSize * i - this.tileSize / 2;
+        const yPos =
+          this.position.y + dir.y * this.tileSize * i - this.tileSize / 2;
 
         // Create explosion element
         const explosionElement = document.createElement("div");
