@@ -1,4 +1,5 @@
 import BombComponent from "../Components/BombComponent.js";
+import { tileMapDefault } from "../utils/tileMap.js";
 
 class BombSystem {
   constructor(entities) {
@@ -88,8 +89,51 @@ class BombSystem {
       console.warn("Invalid bomb component provided to handleExplosionEffects");
       return;
     }
-    // Implement collision detection and tile destruction logic
-    // This should interact with CollisionSystem and GameLogicSystem
+
+    const tileSize = 64; // Tile size in pixels
+    const { position, power } = bombComponent;
+
+    // Convert bomb position to tile coordinates
+    const centerX = Math.floor(position.x / tileSize);
+    const centerY = Math.floor(position.y / tileSize);
+
+    // Check tiles in cross pattern based on explosion power
+    for (let dir of [
+      { x: 1, y: 0 }, // Right
+      { x: -1, y: 0 }, // Left
+      { x: 0, y: 1 }, // Down
+      { x: 0, y: -1 }, // Up
+    ]) {
+      for (let i = 0; i <= power; i++) {
+        const tileX = centerX + dir.x * i;
+        const tileY = centerY + dir.y * i;
+
+        // Check if tile is within map bounds
+        if (
+          tileY >= 0 &&
+          tileY < tileMapDefault.length &&
+          tileX >= 0 &&
+          tileX < tileMapDefault[0].length
+        ) {
+          // Check if tile is breakable (value 2)
+          if (tileMapDefault[tileY][tileX] === 2) {
+            // Destroy tile by setting it to floor (value 0)
+            tileMapDefault[tileY][tileX] = 0;
+
+            // Update visual representation
+            const tileElement = document.querySelector(
+              `#gameGrid > div:nth-child(${
+                tileY * tileMapDefault[0].length + tileX + 1
+              })`
+            );
+            if (tileElement) {
+              tileElement.classList.remove("breakable");
+              tileElement.classList.add("floor");
+            }
+          }
+        }
+      }
+    }
   }
 
   scheduleCleanup(bombId, component) {
