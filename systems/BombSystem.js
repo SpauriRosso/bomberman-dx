@@ -99,6 +99,7 @@ class BombSystem {
 
     // Check tiles in cross pattern based on explosion power
     for (let dir of [
+      { x: 0, y: 0 }, // Center
       { x: 1, y: 0 }, // Right
       { x: -1, y: 0 }, // Left
       { x: 0, y: 1 }, // Down
