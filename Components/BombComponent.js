@@ -17,6 +17,18 @@ export default class BombComponent {
       "url('./pictures/bomb_sprite/bomb3.png')",
     ];
   }
+  playSound() {
+    const audioElement = new Audio(
+      "/pictures/bomb_sprite/Bomb_sound/heavy_splash.ogg"
+    );
+    audioElement.play();
+  }
+  playExplosionSound() {
+    const audioElement = new Audio(
+      "/pictures/bomb_sprite/Bomb_sound/8bit_bomb_explosion.wav"
+    );
+    audioElement.play();
+  }
 
   // Helper method to calculate tile-centered position
   getTileCenterPosition(x, y) {
@@ -28,6 +40,7 @@ export default class BombComponent {
     };
   }
   createVisuals() {
+    this.playSound();
     this.element = document.createElement("div");
     this.element.classList.add("bomb");
 
@@ -71,6 +84,7 @@ export default class BombComponent {
   }
 
   createExplosion() {
+    this.playExplosionSound();
     const explosionParts = [];
     const directions = [
       { x: 0, y: 0 }, // Center
