@@ -9,7 +9,7 @@ export default class BombComponent {
     this.hitboxElement = null;
     this.explosionElements = [];
     this.explosionHitboxes = [];
-    this.tileSize = 50; // Assuming 32px tiles, adjust as needed
+    this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
       "url('./pictures/bomb_sprite/bomb1.png')",
@@ -18,24 +18,44 @@ export default class BombComponent {
     ];
   }
 
+  // Helper method to calculate tile-centered position
+  getTileCenterPosition(x, y) {
+    const tileX = Math.floor(x / this.tileSize);
+    const tileY = Math.floor(y / this.tileSize);
+    return {
+      x: tileX * this.tileSize + this.tileSize / 2,
+      y: tileY * this.tileSize + this.tileSize / 2,
+    };
+  }
   createVisuals() {
     this.element = document.createElement("div");
     this.element.classList.add("bomb");
 
-    // Use pixel positions directly without multiplying by tile size
-    this.element.style.left = `${this.position.x - this.tileSize / 2}px`;
-    this.element.style.top = `${this.position.y - this.tileSize / 2}px`;
-    this.element.style.width = `${this.tileSize}px`;
-    this.element.style.height = `${this.tileSize}px`;
+    // Force bomb to only be placed at valid tile positions (multiples of tileSize)
+    const snappedX =
+      Math.floor(this.position.x / this.tileSize) * this.tileSize;
+    const snappedY =
+      Math.floor(this.position.y / this.tileSize) * this.tileSize;
+    const bombSize = 64; // Fixed size
+
+    this.element.style.left = `${snappedX}px`;
+    this.element.style.top = `${snappedY}px`;
+    this.element.style.width = `${bombSize}px`;
+    this.element.style.height = `${bombSize}px`;
     this.element.style.backgroundImage = this.bombImages[0];
 
-    // Create bomb hitbox
+    // Create bomb hitbox (aligned with tile grid)
     this.hitboxElement = document.createElement("div");
     this.hitboxElement.classList.add("bomb-hitbox");
-    this.hitboxElement.style.left = `${this.position.x - this.tileSize / 2}px`;
-    this.hitboxElement.style.top = `${this.position.y - this.tileSize / 2}px`;
-    this.hitboxElement.style.width = `${this.tileSize}px`;
-    this.hitboxElement.style.height = `${this.tileSize}px`;
+    this.hitboxElement.style.left = `${snappedX}px`;
+    this.hitboxElement.style.top = `${snappedY}px`;
+    this.hitboxElement.style.width = `${bombSize}px`;
+    this.hitboxElement.style.height = `${bombSize}px`;
+
+    // Debug hitbox visuals for the bomb element
+    this.hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+    this.hitboxElement.style.position = "absolute"; // Important for positioning
+    this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
     // Start bomb animation
     let currentFrame = 0;
@@ -53,37 +73,52 @@ export default class BombComponent {
   createExplosion() {
     const explosionParts = [];
     const directions = [
-      { x: 0, y: 0 }, // center
+      { x: 0, y: 0 }, // Center
       { x: 1, y: 0 }, // Right
       { x: -1, y: 0 }, // Left
       { x: 0, y: 1 }, // Down
       { x: 0, y: -1 }, // Up
     ];
 
+    // Ensure explosion also aligns with tile grid
+    const snappedX =
+      Math.floor(this.position.x / this.tileSize) * this.tileSize;
+    const snappedY =
+      Math.floor(this.position.y / this.tileSize) * this.tileSize;
+
     // Create explosion for each direction
     directions.forEach((dir) => {
-      for (let i = 1; i <= this.power; i++) {
-        // Calculate position based on the original bomb's pixel position
-        const xPos =
-          this.position.x + dir.x * this.tileSize * i - this.tileSize / 2;
-        const yPos =
-          this.position.y + dir.y * this.tileSize * i - this.tileSize / 2;
+      for (let i = 0; i <= this.power; i++) {
+        // Calculate explosion position based on exact tile steps
+        const xPos = snappedX + dir.x * this.tileSize * i;
+        const yPos = snappedY + dir.y * this.tileSize * i;
+
+        // Ensure explosions stay on valid tile coordinates
+        const snappedExplosionX =
+          Math.floor(xPos / this.tileSize) * this.tileSize;
+        const snappedExplosionY =
+          Math.floor(yPos / this.tileSize) * this.tileSize;
 
         // Create explosion element
         const explosionElement = document.createElement("div");
         explosionElement.classList.add("explosion");
-        explosionElement.style.left = `${xPos}px`;
-        explosionElement.style.top = `${yPos}px`;
+        explosionElement.style.left = `${snappedExplosionX}px`;
+        explosionElement.style.top = `${snappedExplosionY}px`;
         explosionElement.style.width = `${this.tileSize}px`;
         explosionElement.style.height = `${this.tileSize}px`;
 
         // Create explosion hitbox
         const hitboxElement = document.createElement("div");
         hitboxElement.classList.add("explosion-hitbox");
-        hitboxElement.style.left = `${xPos}px`;
-        hitboxElement.style.top = `${yPos}px`;
+        hitboxElement.style.left = `${snappedExplosionX}px`;
+        hitboxElement.style.top = `${snappedExplosionY}px`;
         hitboxElement.style.width = `${this.tileSize}px`;
         hitboxElement.style.height = `${this.tileSize}px`;
+
+        // Debug hitbox visuals for the explosion
+        hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+        hitboxElement.style.position = "absolute"; // Important for positioning
+        hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
         // Store elements for cleanup
         this.explosionElements.push(explosionElement);
