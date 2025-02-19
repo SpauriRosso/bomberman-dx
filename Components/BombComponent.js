@@ -70,6 +70,12 @@ export default class BombComponent {
     this.hitboxElement.style.position = "absolute"; // Important for positioning
     this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
+    // Store bomb visuals
+    this.visuals = {
+      bomb: this.element,
+      hitbox: this.hitboxElement,
+    };
+
     // Start bomb animation
     let currentFrame = 0;
     const animateInterval = setInterval(() => {
@@ -80,7 +86,14 @@ export default class BombComponent {
     // Clear animation when bomb explodes
     setTimeout(() => clearInterval(animateInterval), this.timer);
 
-    return { bomb: this.element, hitbox: this.hitboxElement };
+    return this.visuals;
+  }
+
+  cleanupBombVisuals() {
+    if (this.visuals && this.visuals.bomb && this.visuals.hitbox) {
+      this.visuals.bomb.remove();
+      this.visuals.hitbox.remove();
+    }
   }
 
   createExplosion() {
