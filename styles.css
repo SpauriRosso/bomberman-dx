@@ -2,7 +2,9 @@
   font-family: "bomberman";
   src: url("./pictures/Font/Bomberman-font.ttf");
 }
-
+#game-container {
+  position: relative;
+}
 #gameGrid {
   position: absolute;
   margin: auto;
