@@ -96,6 +96,7 @@ export default class BombComponent {
     }
   }
 
+  // create the Cross Visual pattern
   createExplosion() {
     this.playExplosionSound();
     const explosionParts = [];
