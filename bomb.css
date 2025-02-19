@@ -1,6 +1,7 @@
 .explosion {
   position: absolute;
-  background: #ff6b6b;
+
+  background-image: url(./pictures/explosion.png);
   animation: explosion-fade 1s ease-out;
   z-index: 3;
 }
