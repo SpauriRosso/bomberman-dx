@@ -4,6 +4,7 @@ class BombSystem {
   constructor(entities) {
     this.entities = entities;
     this.activeBombs = new Map();
+    this.playerBombTracking = new Map();
     this.gameContainer = document.getElementById("game-container");
 
     if (!this.gameContainer) {
@@ -12,6 +13,10 @@ class BombSystem {
   }
 
   createBomb(playerId, position, power = 1) {
+    if (this.playerBombTracking.has(playerId)) {
+      return null; // Player already has an active bomb
+    }
+
     console.log("Bomb position:", position); // log the coordinates of Bomb
     if (!position || typeof position !== "object") {
       console.error("Invalid position provided to createBomb");
@@ -40,6 +45,7 @@ class BombSystem {
       ),
     });
 
+    this.playerBombTracking.set(playerId, bombId);
     return bombId;
   }
 
@@ -103,6 +109,15 @@ class BombSystem {
     if (component && typeof component.cleanup === "function") {
       component.cleanup();
     }
+
+    // Remove player from tracking
+    for (const [playerId, trackedBombId] of this.playerBombTracking.entries()) {
+      if (trackedBombId === bombId) {
+        this.playerBombTracking.delete(playerId);
+        break;
+      }
+    }
+
     this.activeBombs.delete(bombId);
   }
 
