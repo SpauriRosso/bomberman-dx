@@ -30,6 +30,7 @@ let coordinates = findEnemyPosition();
 let coordinatesLength = coordinates.length;
 
 gameLogicSystem = new GameLogicSystem();
+gameLogicSystem.startGame();
 
 let urlEnnemy = [
   "url('./pictures/spritesheet black.png')",
