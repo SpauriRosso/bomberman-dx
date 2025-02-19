@@ -53,7 +53,7 @@ export default class BombComponent {
   createExplosion() {
     const explosionParts = [];
     const directions = [
-      { x: 0, y: 0 }, // Center
+      { x: 0, y: 0 }, // center
       { x: 1, y: 0 }, // Right
       { x: -1, y: 0 }, // Left
       { x: 0, y: 1 }, // Down
@@ -62,7 +62,7 @@ export default class BombComponent {
 
     // Create explosion for each direction
     directions.forEach((dir) => {
-      for (let i = 0; i < (dir.x === 0 && dir.y === 0 ? 1 : this.power); i++) {
+      for (let i = 1; i <= this.power; i++) {
         // Calculate position based on the original bomb's pixel position
         const xPos =
           this.position.x + dir.x * this.tileSize * i - this.tileSize / 2;
