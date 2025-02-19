@@ -31,15 +31,15 @@ export default class BombComponent {
     this.element = document.createElement("div");
     this.element.classList.add("bomb");
 
-    // Force bomb to only be placed at valid tile positions (multiples of tileSize)
-    const snappedX =
-      Math.floor(this.position.x / this.tileSize) * this.tileSize;
-    const snappedY =
-      Math.floor(this.position.y / this.tileSize) * this.tileSize;
+    // Center bomb on the tile using tile center position
+    const centerPos = this.getTileCenterPosition(
+      this.position.x,
+      this.position.y
+    );
     const bombSize = 64; // Fixed size
 
-    this.element.style.left = `${snappedX}px`;
-    this.element.style.top = `${snappedY}px`;
+    this.element.style.left = `${centerPos.x - bombSize / 2}px`;
+    this.element.style.top = `${centerPos.y - bombSize / 2}px`;
     this.element.style.width = `${bombSize}px`;
     this.element.style.height = `${bombSize}px`;
     this.element.style.backgroundImage = this.bombImages[0];
@@ -47,8 +47,8 @@ export default class BombComponent {
     // Create bomb hitbox (aligned with tile grid)
     this.hitboxElement = document.createElement("div");
     this.hitboxElement.classList.add("bomb-hitbox");
-    this.hitboxElement.style.left = `${snappedX}px`;
-    this.hitboxElement.style.top = `${snappedY}px`;
+    this.hitboxElement.style.left = `${centerPos.x - bombSize / 2}px`;
+    this.hitboxElement.style.top = `${centerPos.y - bombSize / 2}px`;
     this.hitboxElement.style.width = `${bombSize}px`;
     this.hitboxElement.style.height = `${bombSize}px`;
 
