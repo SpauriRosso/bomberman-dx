@@ -66,6 +66,9 @@ class BombSystem {
       return;
     }
 
+    // Remove bomb visuals immediately after explosion
+    component.cleanupBombVisuals();
+
     if (this.gameContainer) {
       explosionElements.forEach(({ element, hitbox }) => {
         if (element && hitbox) {
@@ -151,19 +154,36 @@ class BombSystem {
   }
 
   cleanupBomb(bombId, component) {
-    if (component && typeof component.cleanup === "function") {
-      component.cleanup();
-    }
-
-    // Remove player from tracking
-    for (const [playerId, trackedBombId] of this.playerBombTracking.entries()) {
-      if (trackedBombId === bombId) {
-        this.playerBombTracking.delete(playerId);
-        break;
+    try {
+      // Clean up bomb and explosion visuals
+      if (component && typeof component.cleanup === "function") {
+        component.cleanup();
       }
-    }
 
-    this.activeBombs.delete(bombId);
+      // Remove player from tracking
+      for (const [
+        playerId,
+        trackedBombId,
+      ] of this.playerBombTracking.entries()) {
+        if (trackedBombId === bombId) {
+          this.playerBombTracking.delete(playerId);
+          break;
+        }
+      }
+
+      // Remove from active bombs
+      this.activeBombs.delete(bombId);
+
+      // Verify cleanup
+      if (this.gameContainer) {
+        const bombElements = this.gameContainer.querySelectorAll(
+          ".bomb, .bomb-hitbox, .explosion, .explosion-hitbox"
+        );
+        bombElements.forEach((el) => el.remove());
+      }
+    } catch (error) {
+      console.error("Error during bomb cleanup:", error);
+    }
   }
 
   update() {
