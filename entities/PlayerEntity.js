@@ -5,11 +5,16 @@ import HealthComponent from "../Components/HealthComponent.js";
 import PlayerDataComponent from "../Components/PlayerDataComponent.js";
 import inputsComponent from "../Components/inputsComponents.js";
 import SpriteComponent from "../Components/spriteCommponent.js";
+import InputSystem from "../systems/InputSystem.js";
+import BombSystem from "../systems/BombSystem.js";
 
 class PlayerEntity extends Entity {
-  constructor(id, x, y) {
+  constructor(id, x, y, entities) {
     super(id);
     let velocityComponent = new VelocityComponent(0, 0);
+    const inputSystem = new InputSystem();
+    const bombSystem = new BombSystem(entities);
+
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
     this.addComponent("health", new HealthComponent(100));
@@ -32,7 +37,13 @@ class PlayerEntity extends Entity {
     this.addComponent("sprite", spriteComponent);
     this.addComponent(
       "inputs",
-      new inputsComponent(id, spriteComponent, velocityComponent)
+      new inputsComponent(
+        id,
+        spriteComponent,
+        velocityComponent,
+        inputSystem,
+        bombSystem
+      )
     );
   }
 }
