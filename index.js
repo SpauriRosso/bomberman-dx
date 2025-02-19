@@ -11,7 +11,8 @@ import InputsComponent from "./Components/inputsComponents.js";
 
 const entities = [];
 
-const playerEntity = new PlayerEntity(1);
+const collisionSystem = new CollisionSystem(entities);
+const playerEntity = new PlayerEntity(1, 0, 0, entities, collisionSystem);
 entities.push(playerEntity);
 
 const enemyEntity = new EnemyEntity(2);
@@ -21,8 +22,7 @@ const bombEntity = new BombEntity(3);
 entities.push(bombEntity);
 
 const movementSystem = new MovementSystem(entities);
-const collisionSystem = new CollisionSystem(entities);
-const bombSystem = new BombSystem(entities);
+const bombSystem = new BombSystem(entities, collisionSystem);
 const enemySystem = new EnemySystem(entities);
 const playerSystem = new PlayerSystem(entities);
 
