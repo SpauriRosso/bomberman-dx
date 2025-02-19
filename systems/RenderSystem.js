@@ -31,10 +31,10 @@ export default class RenderSystem {
         entityDOM.style.width = "64px";
         entityDOM.style.height = "64px";
 
-        // Debug hitbox visuals for the explosion
-        entityDOM.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
-        entityDOM.style.position = "absolute"; // Important for positioning
-        entityDOM.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
+        // Debug hitbox visuals for the the sprite
+        // entityDOM.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+        // entityDOM.style.position = "absolute"; // Important for positioning
+        // entityDOM.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
       }
 
       this.container.appendChild(entityDOM);
