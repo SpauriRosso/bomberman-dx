@@ -1,7 +1,15 @@
+import AudioSystem from "./AudioSystem.js";
 export default class GameLogicSystem {
   constructor() {
     this.entities = [];
     this.systems = [];
+    this.audioContext = new AudioContext();
+    this.audioSystem = new AudioSystem(this.audioContext);
+    this.addSystem(this.audioSystem);
+  }
+  startGame() {
+    this.audioSystem.playMusic("/OST/Dynamite Night.mp3");
+    this.update();
   }
 
   addEntity(entity) {

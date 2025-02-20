@@ -1,6 +1,6 @@
-import Entity from './entity.js';
-import PositionComponent from '../Components/PositionComponent.js';
-import BombDataComponent from '../Components/BombDataComponent.js';
+import Entity from "./Entity.js";
+import PositionComponent from "../Components/PositionComponent.js";
+import BombDataComponent from "../Components/BombDataComponent.js";
 
 class BombEntity extends Entity {
   constructor(id, x, y) {
