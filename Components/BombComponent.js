@@ -32,13 +32,14 @@ export default class BombComponent {
 
   // Helper method to calculate tile-centered position
   getTileCenterPosition(x, y) {
-    const tileX = Math.floor(x / this.tileSize);
-    const tileY = Math.floor(y / this.tileSize);
+    const tileX = Math.round(x / this.tileSize);
+    const tileY = Math.round(y / this.tileSize);
     return {
       x: tileX * this.tileSize + this.tileSize / 2,
       y: tileY * this.tileSize + this.tileSize / 2,
     };
   }
+
   createVisuals() {
     this.playSound();
     this.element = document.createElement("div");
@@ -111,11 +112,16 @@ export default class BombComponent {
       { x: 0, y: -1 }, // Up
     ];
 
+    const centerPos = this.getTileCenterPosition(
+      this.position.x,
+      this.position.y
+    );
+
     // Ensure explosion also aligns with tile grid
     const snappedX =
-      Math.floor(this.position.x / this.tileSize) * this.tileSize;
+      Math.floor(this.centerPos.x / this.tileSize) * this.tileSize;
     const snappedY =
-      Math.floor(this.position.y / this.tileSize) * this.tileSize;
+      Math.floor(this.centerPos.y / this.tileSize) * this.tileSize;
 
     // Create explosion for each direction
     directions.forEach((dir) => {

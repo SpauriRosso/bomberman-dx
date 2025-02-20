@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "bomberman";
+  src: url("./videos/Font/Bomberman-font.ttf");
+}
+
 #background-game {
   position: fixed;
   top: 0;

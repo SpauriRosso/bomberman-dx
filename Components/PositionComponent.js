@@ -3,16 +3,16 @@ class PositionComponent {
     this.tileSize = 64; // Tile size in pixels
     this.x = x;
     this.y = y;
-    this.tileX = Math.floor(x / this.tileSize);
-    this.tileY = Math.floor(y / this.tileSize);
+    this.tileX = Math.round(x / this.tileSize);
+    this.tileY = Math.round(y / this.tileSize);
   }
 
   // Update both pixel and tile positions
   setPosition(x, y) {
     this.x = x;
     this.y = y;
-    this.tileX = Math.floor(x / this.tileSize);
-    this.tileY = Math.floor(y / this.tileSize);
+    this.tileX = Math.round(x / this.tileSize);
+    this.tileY = Math.round(y / this.tileSize);
   }
 
   // Get tile-centered position
