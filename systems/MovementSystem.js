@@ -1,6 +1,7 @@
 export default class MovementSystem {
-  constructor(collisionSystem) {
+  constructor(collisionSystem, gameStateEntity) {
     this.collisionSystem = collisionSystem;
+    this.gameStateEntity = gameStateEntity;
   }
 
   update(entities) {
@@ -17,10 +18,10 @@ export default class MovementSystem {
         const nextX = position.x + velocity.vx;
         const nextY = position.y + velocity.vy;
 
-        if (this.collisionSystem.isCollide(nextX, position.y, entity)) {
+        if (this.collisionSystem.isCollide(nextX, position.y)) {
           position.x = nextX;
         }
-        if (this.collisionSystem.isCollide(position.x, nextY, entity)) {
+        if (this.collisionSystem.isCollide(position.x, nextY)) {
           position.y = nextY;
         }
       }

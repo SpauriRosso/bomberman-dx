@@ -1,17 +1,22 @@
 import PlayerEntity from "./entities/PlayerEntity.js";
 import GameLogicSystem from "./systems/GameLogicSystem.js";
 import RenderSystem from "./systems/RenderSystem.js";
+import createGameStatEntity from "./entities/GameStateEntity.js";
+import PauseSystem from "./systems/PauseSystem.js";
+import createGameStateEntity from "./entities/GameStateEntity.js";
+import GameStateEntity from "./entities/GameStateEntity.js";
+
 import {
-  generateGrid,
-  findPlayerPosition,
-  findEnemyPosition,
+    generateGrid,
+    findPlayerPosition,
+    findEnemyPosition,
 } from "./utils/tileMap.js";
 import MovementSystem from "./systems/MovementSystem.js";
 
 import FPS from "./utils/FPS.js";
 import Timer from "./utils/Timer.js";
 
-import { tileMapDefault } from "./utils/tileMap.js";
+import {tileMapDefault} from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
@@ -30,34 +35,53 @@ let coordinates = findEnemyPosition();
 let coordinatesLength = coordinates.length;
 
 gameLogicSystem = new GameLogicSystem();
+
+const gameStateEntity = createGameStatEntity();
+gameLogicSystem.addEntity(gameStateEntity);
+const pauseSystem = new PauseSystem(gameStateEntity);
+gameLogicSystem.addSystem(pauseSystem);
+
 gameLogicSystem.startGame();
 
 let urlEnnemy = [
-  "url('./pictures/spritesheet black.png')",
-  "url('./pictures/spritesheet yellow.png')",
-  "url('./pictures/spritesheet orange.png')",
+    "url('./pictures/spritesheet black.png')",
+    "url('./pictures/spritesheet yellow.png')",
+    "url('./pictures/spritesheet orange.png')",
 ];
 for (let i = 0; i < coordinatesLength; i++) {
-  let { x, y } = coordinates[i];
-  const enemy = new EnemyEntity(11 + i, x * 64, y * 64, urlEnnemy[i]); // Initialize enemy entity with position based on tilemap[]
-  gameLogicSystem.addEntity(enemy); // Initialize enemy entity with position based on tilemap
+    let {x, y} = coordinates[i];
+    const enemy = new EnemyEntity(11 + i, x * 64, y * 64, urlEnnemy[i]); // Initialize enemy entity with position based on tilemap[]
+    gameLogicSystem.addEntity(enemy); // Initialize enemy entity with position based on tilemap
 }
 
-let { x, y } = findPlayerPosition();
+let {x, y} = findPlayerPosition();
 player = new PlayerEntity(10, x * 64, y * 64, gameLogicSystem.entities); // Initialize player entity with position based on tilemap
 gameLogicSystem.addEntity(player);
 gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
 console.log(gameLogicSystem);
 
+// function gameLoop() {
+//     gameLogicSystem.update();
+//
+//     fps.update(performance.now());
+//     timer.start();
+//
+//     requestAnimationFrame(gameLoop);
+// }
+
 function gameLoop() {
-  gameLogicSystem.update();
+    const isPaused = gameStateEntity.getComponent("Pause").isPaused;
+    if (!isPaused) {
+        gameLogicSystem.update();
+    }
 
-  fps.update(performance.now());
-  timer.start();
-
-  requestAnimationFrame(gameLoop);
+    fps.update(performance.now());
+    timer.start();
+    requestAnimationFrame(gameLoop);
 }
+
+
 console.log("player position on the map", findPlayerPosition());
 
 requestAnimationFrame(gameLoop);
