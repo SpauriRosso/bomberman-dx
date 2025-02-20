@@ -8,11 +8,21 @@
   </head>
 
   <body>
+    <img id="background-game"src="./pictures/foret 4.jpg
+    " />
     <div id="fps"></div>
     <div id="timer"></div>
 
     <div id="game-container"></div>
-
+    
+<script>document.addEventListener("DOMContentLoaded", () => {
+  const gameContainer = document.getElementById("game-container");
+  gameContainer.style.opacity = 0;
+  setTimeout(() => {
+    gameContainer.style.opacity = 1;
+  }, 1000);
+});
+</script>
     <script type="module" src="main.js"></script>
   </body>
 </html>

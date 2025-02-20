@@ -6,6 +6,11 @@
     <title>Bomberman</title>
     <link rel="icon" href="/pictures/Bomberman.png" type="image/png" />
     <link rel="stylesheet" href="background.css" />
+    <style>
+      #menu {
+        transition: opacity 1s;
+      }
+    </style>
   </head>
 
   <body>
@@ -31,7 +36,11 @@
       document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("keydown", (e) => {
           if (e.key === " ") {
-            window.location.href = "game.html";
+            const menu = document.getElementById("menu");
+            menu.style.opacity = 0;
+            setTimeout(() => {
+              window.location.href = "game.html";
+            }, 1000);
           }
         });
         const video = document.getElementById("background-video");

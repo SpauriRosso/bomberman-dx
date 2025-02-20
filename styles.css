@@ -3,6 +3,16 @@
   src: url("./pictures/Font/Bomberman-font.ttf");
 }
 
+#background-game {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
 #background-video {
   position: fixed;
   top: 0;
@@ -56,9 +66,10 @@
 
 #gameGrid {
   position: absolute;
-  margin: auto;
+  top: 50%;
+  left: 51.7%;
+  transform: translate(-50%, -50%);
   display: grid;
-  gap: 0px;
 }
 
 .tile {
