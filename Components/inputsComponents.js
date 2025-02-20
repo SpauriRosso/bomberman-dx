@@ -103,26 +103,31 @@ export default class InputComponent {
         this.inputSystem.isKeyPressed("s"))
     ) {
       this.velocityComponent.vy = 0;
-    } else if (
-      this.inputSystem.isKeyPressed("ArrowLeft") ||
-      this.inputSystem.isKeyPressed("q")
-    ) {
-      this.velocityComponent.vx = -this.spriteComponent.speed;
-    } else if (
-      this.inputSystem.isKeyPressed("ArrowRight") ||
-      this.inputSystem.isKeyPressed("d")
-    ) {
-      this.velocityComponent.vx = this.spriteComponent.speed;
-    } else if (
-      this.inputSystem.isKeyPressed("ArrowUp") ||
-      this.inputSystem.isKeyPressed("z")
-    ) {
-      this.velocityComponent.vy = -this.spriteComponent.speed;
-    } else if (
-      this.inputSystem.isKeyPressed("ArrowDown") ||
-      this.inputSystem.isKeyPressed("s")
-    ) {
-      this.velocityComponent.vy = this.spriteComponent.speed;
+    } else {
+      if (
+        this.inputSystem.isKeyPressed("ArrowLeft") ||
+        this.inputSystem.isKeyPressed("q")
+      ) {
+        this.velocityComponent.vx = -this.spriteComponent.speed;
+      }
+      if (
+        this.inputSystem.isKeyPressed("ArrowRight") ||
+        this.inputSystem.isKeyPressed("d")
+      ) {
+        this.velocityComponent.vx = this.spriteComponent.speed;
+      }
+      if (
+        this.inputSystem.isKeyPressed("ArrowUp") ||
+        this.inputSystem.isKeyPressed("z")
+      ) {
+        this.velocityComponent.vy = -this.spriteComponent.speed;
+      }
+      if (
+        this.inputSystem.isKeyPressed("ArrowDown") ||
+        this.inputSystem.isKeyPressed("s")
+      ) {
+        this.velocityComponent.vy = this.spriteComponent.speed;
+      }
     }
 
     // Handle bomb placement

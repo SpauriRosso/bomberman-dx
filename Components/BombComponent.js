@@ -12,9 +12,9 @@ export default class BombComponent {
     this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
-      "url('./pictures/bomb_sprite/bomb1.png')",
-      "url('./pictures/bomb_sprite/bomb2.png')",
-      "url('./pictures/bomb_sprite/bomb3.png')",
+      "url('./pictures/bomb.png')",
+      "url('./pictures/bomb.png')",
+      "url('./pictures/bomb.png')",
     ];
   }
   playSound() {
@@ -70,9 +70,9 @@ export default class BombComponent {
     this.hitboxElement.style.height = `${bombSize}px`;
 
     // Debug hitbox visuals for the bomb element
-    this.hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
-    this.hitboxElement.style.position = "absolute"; // Important for positioning
-    this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
+    // this.hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+    // this.hitboxElement.style.position = "absolute"; // Important for positioning
+    // this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
     // Store bomb visuals
     this.visuals = {
