@@ -70,9 +70,9 @@ export default class BombComponent {
     this.hitboxElement.style.height = `${bombSize}px`;
 
     // Debug hitbox visuals for the bomb element
-    // this.hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
-    // this.hitboxElement.style.position = "absolute"; // Important for positioning
-    // this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
+    this.hitboxElement.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Red, semi-transparent
+    this.hitboxElement.style.position = "absolute"; // Important for positioning
+    this.hitboxElement.style.zIndex = "10"; // Ensure it's above the bomb image (adjust as needed)
 
     // Store bomb visuals
     this.visuals = {
@@ -118,10 +118,8 @@ export default class BombComponent {
     );
 
     // Ensure explosion also aligns with tile grid
-    const snappedX =
-      Math.floor(this.centerPos.x / this.tileSize) * this.tileSize;
-    const snappedY =
-      Math.floor(this.centerPos.y / this.tileSize) * this.tileSize;
+    const snappedX = Math.floor(centerPos.x / this.tileSize) * this.tileSize;
+    const snappedY = Math.floor(centerPos.y / this.tileSize) * this.tileSize;
 
     // Create explosion for each direction
     directions.forEach((dir) => {
