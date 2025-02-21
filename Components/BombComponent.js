@@ -12,9 +12,9 @@ export default class BombComponent {
     this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
-      "url('./pictures/bomb_sprite/bomb1.png')",
-      "url('./pictures/bomb_sprite/bomb2.png')",
-      "url('./pictures/bomb_sprite/bomb3.png')",
+      "url('./pictures/bomb.png')",
+      "url('./pictures/bomb.png')",
+      "url('./pictures/bomb.png')",
     ];
   }
   playSound() {
@@ -133,6 +133,8 @@ export default class BombComponent {
           Math.floor(xPos / this.tileSize) * this.tileSize;
         const snappedExplosionY =
           Math.floor(yPos / this.tileSize) * this.tileSize;
+
+        console.log(snappedExplosionX, snappedExplosionY);
 
         // Create explosion element
         const explosionElement = document.createElement("div");

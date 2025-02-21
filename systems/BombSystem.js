@@ -1,6 +1,15 @@
 import BombComponent from "../Components/BombComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
 
+function getTileCenterPosition(x, y) {
+  const tileX = Math.round(x / this.tileSize);
+  const tileY = Math.round(y / this.tileSize);
+  return {
+    x: tileX * this.tileSize + this.tileSize / 2,
+    y: tileY * this.tileSize + this.tileSize / 2,
+  };
+}
+
 class BombSystem {
   constructor(entities) {
     this.entities = entities;
@@ -93,12 +102,15 @@ class BombSystem {
       return;
     }
 
+    const centerPos = getTileCenterPosition(this.position.x, this.position.y);
+    console.log(centerPos);
+
     const tileSize = 64; // Tile size in pixels
     const { position, power } = bombComponent;
 
     // Convert bomb position to tile coordinates
-    const centerX = Math.floor(position.x / tileSize);
-    const centerY = Math.floor(position.y / tileSize);
+    const centerX = Math.floor(centerPos.x / tileSize);
+    const centerY = Math.floor(centerPos.y / tileSize);
 
     // Check tiles in cross pattern based on explosion power
     for (let dir of [
