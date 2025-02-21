@@ -12,9 +12,9 @@ export default class BombComponent {
     this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
-      "url('./pictures/bomb.png')",
-      "url('./pictures/bomb.png')",
-      "url('./pictures/bomb.png')",
+      "url('./pictures/bomb_sprite/bomb1.png')",
+      "url('./pictures/bomb_sprite/bomb2.png')",
+      "url('./pictures/bomb_sprite/bomb3.png')",
     ];
   }
   playSound() {
