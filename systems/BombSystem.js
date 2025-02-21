@@ -2,11 +2,11 @@ import BombComponent from "../Components/BombComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
 
 function getTileCenterPosition(x, y) {
-  const tileX = Math.round(x / this.tileSize);
-  const tileY = Math.round(y / this.tileSize);
+  const tileX = Math.round(x / 64);
+  const tileY = Math.round(y / 64);
   return {
-    x: tileX * this.tileSize + this.tileSize / 2,
-    y: tileY * this.tileSize + this.tileSize / 2,
+    x: tileX * 64 + 64 / 2,
+    y: tileY * 64 + 64 / 2,
   };
 }
 
@@ -102,11 +102,10 @@ class BombSystem {
       return;
     }
 
-    const centerPos = getTileCenterPosition(this.position.x, this.position.y);
-    console.log(centerPos);
-
     const tileSize = 64; // Tile size in pixels
     const { position, power } = bombComponent;
+    const centerPos = getTileCenterPosition(position.x, position.y);
+    console.log(centerPos);
 
     // Convert bomb position to tile coordinates
     const centerX = Math.floor(centerPos.x / tileSize);

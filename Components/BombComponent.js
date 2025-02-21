@@ -134,8 +134,6 @@ export default class BombComponent {
         const snappedExplosionY =
           Math.floor(yPos / this.tileSize) * this.tileSize;
 
-        console.log(snappedExplosionX, snappedExplosionY);
-
         // Create explosion element
         const explosionElement = document.createElement("div");
         explosionElement.classList.add("explosion");
