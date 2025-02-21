@@ -67,7 +67,7 @@
 #game-container {
   position: absolute;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
   padding: 0;
@@ -127,16 +127,6 @@
 
 .player {
   background-image: url("./pictures/floor.png");
-}
-
-#game-container {
-  position: absolute;
-  top: 50%;
-  left: 51.7%;
-  transform: translate(-50%, -50%);
-  margin: 0 auto;
-  height: 832px;
-  width: 960px;
 }
 
 @keyframes moveZoom {
