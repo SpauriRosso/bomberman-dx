@@ -1,4 +1,5 @@
 import BombComponent from "../Components/BombComponent.js";
+import gameStateEntity from "../Components/PauseComponent.js"
 import { tileMapDefault } from "../utils/tileMap.js";
 
 function getTileCenterPosition(x, y) {
@@ -11,7 +12,8 @@ function getTileCenterPosition(x, y) {
 }
 
 class BombSystem {
-  constructor(entities) {
+  constructor(entities, gameStateEntity) {
+    this.gameStateEntity = gameStateEntity;
     this.entities = entities;
     this.activeBombs = new Map();
     this.playerBombTracking = new Map();
@@ -198,6 +200,7 @@ class BombSystem {
   }
 
   update() {
+    if (gameStateEntity.getComponent("Pause").isPaused) return;
     if (this.activeBombs.size === 0) return;
 
     this.activeBombs.forEach((bombData, bombId) => {
