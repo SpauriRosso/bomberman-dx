@@ -87,16 +87,20 @@ export default class PauseSystem {
     resetButton.style.cursor = "pointer";
     resetButton.addEventListener("click", () => window.location.reload());
 
-    const closeButton = document.createElement("img");
-    closeButton.src = "./pictures/pause-assests/Cancel.png";
-    closeButton.style.width = "49px";
-    closeButton.style.height = "49px";
-    closeButton.style.cursor = "pointer";
-    closeButton.addEventListener("click", () => this.togglePause());
+    // Bouton pour retourner au menu principal
+    const mainMenuButton = document.createElement("img");
+    mainMenuButton.src = "./pictures/pause-assests/Cancel.png";
+    mainMenuButton.style.width = "49px";
+    mainMenuButton.style.height = "49px";
+    mainMenuButton.style.cursor = "pointer";
+    mainMenuButton.addEventListener(
+      "click",
+      () => (window.location.href = "mainmenu.html")
+    );
 
     buttonContainer.appendChild(pauseButton);
     buttonContainer.appendChild(resetButton);
-    buttonContainer.appendChild(closeButton);
+    buttonContainer.appendChild(mainMenuButton);
     pauseScreen.appendChild(buttonContainer);
     document.getElementById("gameGrid").appendChild(pauseScreen);
   }
