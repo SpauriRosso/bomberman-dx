@@ -176,4 +176,77 @@ export default class BombComponent {
     this.explosionElements.forEach((el) => el.remove());
     this.explosionHitboxes.forEach((hb) => hb.remove());
   }
+  handleExplosionEffects(bombComponent) {
+    if (!bombComponent) {
+      console.warn("Invalid bomb component provided to handleExplosionEffects");
+      return;
+    }
+
+    const tileSize = 64; // Tile size in pixels
+    const { position, power } = bombComponent;
+    const centerPos = getTileCenterPosition(position.x, position.y);
+    console.log(centerPos);
+
+    // Convert bomb position to tile coordinates
+    const centerX = Math.floor(centerPos.x / tileSize);
+    const centerY = Math.floor(centerPos.y / tileSize);
+
+    // Check tiles in cross pattern based on explosion power
+    for (let dir of [
+      { x: 0, y: 0 }, // Center
+      { x: 1, y: 0 }, // Right
+      { x: -1, y: 0 }, // Left
+      { x: 0, y: 1 }, // Down
+      { x: 0, y: -1 }, // Up
+    ]) {
+      for (let i = 0; i <= power; i++) {
+        const tileX = centerX + dir.x * i;
+        const tileY = centerY + dir.y * i;
+
+        // Check if tile is within map bounds
+        if (
+          tileY >= 0 &&
+          tileY < tileMapDefault.length &&
+          tileX >= 0 &&
+          tileX < tileMapDefault[0].length
+        ) {
+          // Check if tile is breakable (value 2)
+          if (tileMapDefault[tileY][tileX] === 2) {
+            // Destroy tile by setting it to floor (value 0)
+            tileMapDefault[tileY][tileX] = 0;
+
+            // Update visual representation
+            const tileElement = document.querySelector(
+              `#gameGrid > div:nth-child(${
+                tileY * tileMapDefault[0].length + tileX + 1
+              })`
+            );
+            if (tileElement) {
+              tileElement.classList.remove("breakable");
+              tileElement.classList.add("floor");
+            }
+          }
+
+          // Check for entities in the explosion area
+          this.entities.forEach((entity) => {
+            const entityPosition = entity.getComponent("Position");
+            if (entityPosition) {
+              const entityTileX = Math.floor(entityPosition.x / tileSize);
+              const entityTileY = Math.floor(entityPosition.y / tileSize);
+
+              if (
+                entityTileX === tileX &&
+                entityTileY === tileY &&
+                entity.hasComponent("Health")
+              ) {
+                // Apply damage to the entity
+                const healthComponent = entity.getComponent("Health");
+                healthComponent.takeDamage(1);
+              }
+            }
+          });
+        }
+      }
+    }
+  }
 }
