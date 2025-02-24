@@ -7,7 +7,7 @@ import MovementSystem from "./systems/MovementSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 
-import { generateGrid, findPlayerPosition, findEnemyPosition, tileMapDefault } from "./utils/tileMap.js";
+import {generateGrid, findPlayerPosition, findEnemyPosition, tileMapDefault} from "./utils/tileMap.js";
 import FPS from "./utils/FPS.js";
 import Timer from "./utils/Timer.js";
 
@@ -53,7 +53,7 @@ const enemySprites = [
 
 // Create enemy entities based on positions from the tile map
 for (let i = 0; i < numEnemies; i++) {
-    const { x, y } = enemyPositions[i];
+    const {x, y} = enemyPositions[i];
     // Create enemy entity with an ID starting at 11 (arbitrary)
     const enemy = new EnemyEntity(11 + i, x * 64, y * 64, enemySprites[i]);
     gameLogicSystem.addEntity(enemy);
@@ -69,27 +69,26 @@ gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
 
 // Debug log of the game logic system state
-console.log(gameLogicSystem);
+// console.log(gameLogicSystem);
 
-// Main game loop function
-function gameLoop() {
-    // Check the pause state from the Pause component
-    const isPaused = gameStateEntity.getComponent("Pause").isPaused;
-    if (!isPaused) {
-        // Update the game logic only if the game is not paused
-        gameLogicSystem.update();
+let lastFrameTime = 0;
+const targetFrameTime = 1000 / 60; // 60 FPS target (16.67ms per frame)
+
+function gameLoop(timestamp) {
+    const elapsedTime = timestamp - lastFrameTime;
+
+    if (elapsedTime >= targetFrameTime) {
+        lastFrameTime = timestamp - (elapsedTime % targetFrameTime); // Adjust for drift
+
+        // Check if game is not paused
+        const isPaused = gameStateEntity.getComponent("Pause").isPaused;
+        if (!isPaused) {
+            gameLogicSystem.update(); // Run your game updates
+        }
+        fps.update(performance.now()); // Update FPS counter
+        timer.start(); // Update timer
     }
-
-    // Update FPS counter and timer
-    fps.update(performance.now());
-    timer.start();
-
-    // Request the next frame
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop); // Continue loop
 }
-
-// Debug log: output the player's position on the map
-console.log("Player position on the map", findPlayerPosition());
-
-// Start the game loop
 requestAnimationFrame(gameLoop);
+
