@@ -12,6 +12,6 @@ export default class HealthDisplayComponent {
   }
 
   update(health) {
-    this.container.textContent = `Life: ${health}`;
+    this.container.textContent = `health: ${health}`;
   }
 }

@@ -4,6 +4,7 @@ export default class BombComponent {
     this.position = position;
     this.power = power;
     this.timer = 3000; // 3 seconds
+    this.chainReaction = false; // Whether this bomb can trigger others
     this.explosionLength = 1000; // 1 second
     this.element = null;
     this.hitboxElement = null;
@@ -51,7 +52,6 @@ export default class BombComponent {
       this.position.y
     );
     const bombSize = 64; // Fixed size
-
 
     this.element.style.left = `${centerPos.x - bombSize / 2}px`;
     this.element.style.top = `${centerPos.y - bombSize / 2}px`;
@@ -109,6 +109,17 @@ export default class BombComponent {
       { x: 0, y: 1 }, // Down
       { x: 0, y: -1 }, // Up
     ];
+
+    // Trigger chain reaction if enabled
+    if (this.chainReaction) {
+      const nearbyBombs = this.getNearbyBombs();
+      nearbyBombs.forEach((bomb) => {
+        if (!bomb.chainReaction) {
+          bomb.chainReaction = true;
+          bomb.timer = 100; // Explode almost immediately
+        }
+      });
+    }
 
     const centerPos = this.getTileCenterPosition(
       this.position.x,
@@ -173,5 +184,11 @@ export default class BombComponent {
     if (this.hitboxElement) this.hitboxElement.remove();
     this.explosionElements.forEach((el) => el.remove());
     this.explosionHitboxes.forEach((hb) => hb.remove());
+  }
+
+  getNearbyBombs() {
+    // This method should be implemented in BombSystem to return nearby bombs
+    // Placeholder implementation
+    return [];
   }
 }
