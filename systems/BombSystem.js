@@ -1,8 +1,6 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import HealthComponent from "../Components/HealthComponent.js";
-import PositionComponent from "../Components/PositionComponent.js";
 
 function getTileCenterPosition(x, y) {
   const tileX = Math.round(x / 64);
