@@ -1,10 +1,65 @@
-import gameStateEntity from "../entities/GameStateEntity.js"
+import gameStateEntity from "../entities/GameStateEntity.js";
 
 export default class LifeComponent {
   constructor(initialLives, gameStateEntity) {
     this.lives = initialLives; // Track the number of lives
     this.isInvincible = false; // Prevents taking multiple hits from a single explosion
     this.gameStateEntity = gameStateEntity; // Reference to the game state entity
+
+    // Create and initialize the life counter display
+    this.createLifeCounter();
+    this.updateLifeCounter();
+  }
+
+  createLifeCounter() {
+    // Check if a life counter already exists to avoid duplicates
+    if (document.getElementById("lifeCounter")) return;
+
+    // Create container for life counter
+    const lifeCounter = document.createElement("div");
+    lifeCounter.id = "lifeCounter";
+    lifeCounter.style.position = "absolute";
+    lifeCounter.style.top = "-50px";
+    lifeCounter.style.left = "150px";
+    lifeCounter.style.display = "flex";
+    lifeCounter.style.alignItems = "center";
+    lifeCounter.style.gap = "10px";
+    lifeCounter.style.zIndex = "100";
+
+    // Create heart icon or label
+    const heartIcon = document.createElement("img");
+    heartIcon.src = "./pictures/heart.png"; // Path to your heart icon
+    heartIcon.style.width = "40px";
+    heartIcon.style.height = "40px";
+    heartIcon.alt = "Lives";
+
+    // Fallback to text if image doesn't load
+    heartIcon.onerror = function () {
+      this.outerHTML = `<span style="color: red; font-size: 32px;">❤</span>`;
+    };
+
+    // Create life count text
+    const lifeCount = document.createElement("span");
+    lifeCount.id = "lifeCountText";
+    lifeCount.style.color = "#ffffff";
+    lifeCount.style.fontFamily = "bomberman";
+    lifeCount.style.fontSize = "32px";
+    lifeCount.style.fontWeight = "500";
+    lifeCount.style.textShadow = "0px 2px 2px rgba(0, 0, 0, 0.5)";
+
+    // Assemble the counter
+    lifeCounter.appendChild(heartIcon);
+    lifeCounter.appendChild(lifeCount);
+
+    // Add to the game grid
+    document.getElementById("gameGrid").appendChild(lifeCounter);
+  }
+
+  updateLifeCounter() {
+    const lifeCountText = document.getElementById("lifeCountText");
+    if (lifeCountText) {
+      lifeCountText.textContent = `${this.lives}`;
+    }
   }
 
   loseLife() {
@@ -13,6 +68,12 @@ export default class LifeComponent {
     if (this.lives > 0) {
       this.lives -= 1;
       console.log(`Player lost a life! ${this.lives} lives remaining.`);
+
+      // Update the life counter display
+      this.updateLifeCounter();
+
+      // Add visual feedback
+      this.flashLifeCounter();
 
       this.isInvincible = true; // Activate invincibility to prevent multiple hits
       setTimeout(() => {
@@ -23,6 +84,39 @@ export default class LifeComponent {
         this.triggerGameOver();
       }
     }
+  }
+
+  flashLifeCounter() {
+    // Add a flashing effect when player loses a life
+    const lifeCounter = document.getElementById("lifeCounter");
+    if (lifeCounter) {
+      lifeCounter.style.animation = "flash 0.5s";
+
+      // Define the flash animation if it doesn't exist
+      if (!document.getElementById("flashAnimation")) {
+        const style = document.createElement("style");
+        style.id = "flashAnimation";
+        style.textContent = `
+          @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      // Remove the animation after it completes
+      setTimeout(() => {
+        lifeCounter.style.animation = "";
+      }, 500);
+    }
+  }
+
+  // Add a method to gain lives (for power-ups, etc.)
+  gainLife() {
+    this.lives += 1;
+    console.log(`Player gained a life! ${this.lives} lives remaining.`);
+    this.updateLifeCounter();
   }
 
   triggerGameOver() {
@@ -66,7 +160,6 @@ export default class LifeComponent {
 
     gameOverScreen.appendChild(gameOverText);
 
-
     const buttonContainer = document.createElement("div");
     buttonContainer.style.display = "flex";
     buttonContainer.style.gap = "20px";
@@ -86,7 +179,10 @@ export default class LifeComponent {
     mainMenuButton.style.width = "49px";
     mainMenuButton.style.height = "49px";
     mainMenuButton.style.cursor = "pointer";
-    mainMenuButton.addEventListener("click", () => window.location.href = "mainmenu.html");
+    mainMenuButton.addEventListener(
+      "click",
+      () => (window.location.href = "mainmenu.html")
+    );
 
     buttonContainer.appendChild(restartButton);
     buttonContainer.appendChild(mainMenuButton);
@@ -95,16 +191,15 @@ export default class LifeComponent {
   }
 
   pauseGame() {
-    const pauseComponent = gameStateEntity
+    const pauseComponent = gameStateEntity;
     pauseComponent.isPaused = true;
 
     document.dispatchEvent(
-        new CustomEvent("pauseToggled", {
-          detail: { isPaused: true },
-        })
+      new CustomEvent("pauseToggled", {
+        detail: { isPaused: true },
+      })
     );
 
     console.log("Game paused due to Game Over.");
   }
-
 }
