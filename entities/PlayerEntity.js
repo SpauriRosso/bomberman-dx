@@ -19,7 +19,7 @@ class PlayerEntity extends Entity {
 
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
-    const healthComponent = new HealthComponent(1);
+    const healthComponent = new HealthComponent(100);
     this.addComponent("health", healthComponent);
     this.addComponent("data", new PlayerDataComponent());
     this.healthDisplay = new HealthDisplayComponent(id);
