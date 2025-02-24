@@ -1,6 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
+import {gameLogicSystem} from "../main.js";
 
 const TILE_SIZE = 64;
 
@@ -125,11 +126,74 @@ class BombSystem {
       return;
     }
 
+    // this.entities.forEach((entity) => {
+    //   this.applyDamageIfHit(entity, bombComponent);
+    // });
     this.entities.forEach((entity) => {
-      this.applyDamageIfHit(entity, bombComponent);
-    });
+      if (entity.getComponent("ai") || entity.getComponent("sprite")) {
+        this.isHit(entity, bombComponent)
+      }
+    })
 
     this.destroyBreakableTiles(bombComponent);
+  }
+
+  isHit(entity, bombComponent) {
+    const entityPos = entity.getComponent("position")
+    const entityHitbox = entity.getComponent("hitbox")
+
+    if (!entityPos) {
+      console.warn(`⚠️ ${entity.id} don't have a position.`);
+      return;
+    }
+
+    if (!entityHitbox) {
+      console.warn(`⚠️ ${entity.id} don't have hitbox.`);
+      return;
+    }
+
+    bombComponent.explosionHitboxes.forEach(hitbox => {
+      const hitboxX = parseInt(hitbox.style.left);
+      const hitboxY = parseInt(hitbox.style.top);
+      const hitboxSize = bombComponent.tileSize;
+
+      if (
+          entityPos.x < hitboxX + hitboxSize &&
+          entityPos.x + entityHitbox.width > hitboxX &&
+          entityPos.y < hitboxY + hitboxSize &&
+          entityPos.y + entityHitbox.height > hitboxY
+      ) {
+        console.log(`💥 ${entity.id} got hit!`);
+        this.handleEntityHit(entity);
+      }
+    });
+  }
+
+  handleEntityHit(entity) {
+    const livesComponent = entity.getComponent("lives");
+
+    if (livesComponent) {
+      livesComponent.loseLife();
+      console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
+
+      if (livesComponent.lives <= 0) {
+        console.log(`☠️ ${entity.id} is dead !`);
+
+        if (entity.getComponent("ai")) {
+          this.entities = this.entities.filter(e => e.id !== entity);
+          gameLogicSystem.entities = gameLogicSystem.entities.filter(e => e !== entity);
+          console.log("Entities after removal:", this.entities.map(e => e.id));
+
+          const entityElement = document.getElementById(entity.id);
+          if (entityElement) {
+            entityElement.remove();
+          }
+          document.getElementById(entity.id)?.remove();
+        } else if (entity.getComponent("sprite") && entity.getComponent("lives") === 0) {
+          livesComponent.triggerGameOver();
+        }
+      }
+    }
   }
 
   applyDamageIfHit(entity, bombComponent) {
