@@ -6,8 +6,6 @@ export default class BombComponent {
     this.timer = 3000; // 3 seconds
     this.chainReaction = false; // Whether this bomb can trigger others
     this.explosionLength = 1000; // 1 second
-    this.element = null;
-    this.hitboxElement = null;
     this.explosionElements = [];
     this.explosionHitboxes = [];
     this.tileSize = 64; // Tile size in pixels
@@ -184,11 +182,5 @@ export default class BombComponent {
     if (this.hitboxElement) this.hitboxElement.remove();
     this.explosionElements.forEach((el) => el.remove());
     this.explosionHitboxes.forEach((hb) => hb.remove());
-  }
-
-  getNearbyBombs() {
-    // This method should be implemented in BombSystem to return nearby bombs
-    // Placeholder implementation
-    return [];
   }
 }
