@@ -33,9 +33,12 @@ export default class LifeComponent {
     heartIcon.style.height = "40px";
     heartIcon.alt = "Lives";
 
+    // Add heartbeat animation
+    heartIcon.style.animation = "heartbeat 1s infinite";
+
     // Fallback to text if image doesn't load
     heartIcon.onerror = function () {
-      this.outerHTML = `<span style="color: red; font-size: 32px;">❤</span>`;
+      this.outerHTML = `<span style="color: red; font-size: 32px; animation: heartbeat 1s infinite;">❤</span>`;
     };
 
     // Create life count text
@@ -53,6 +56,17 @@ export default class LifeComponent {
 
     // Add to the game grid
     document.getElementById("gameGrid").appendChild(lifeCounter);
+
+    // Append the heartbeat animation style to the document
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   updateLifeCounter() {
@@ -75,6 +89,9 @@ export default class LifeComponent {
       // Add visual feedback
       this.flashLifeCounter();
 
+      // Make the player flash 3 times
+      // this.flashPlayer();
+
       this.isInvincible = true; // Activate invincibility to prevent multiple hits
       setTimeout(() => {
         this.isInvincible = false; // Reset invincibility after 1 second
@@ -85,7 +102,33 @@ export default class LifeComponent {
       }
     }
   }
+  // flashPlayer() {
+  //   // We need to find the player element - assuming it has an id or class
+  //   const player = document.querySelector(".player"); // Adjust this selector based on your player element
 
+  //   if (player) {
+  //     // Make sure the flash animation style exists
+  //     if (!document.getElementById("playerFlashAnimation")) {
+  //       const style = document.createElement("style");
+  //       style.id = "playerFlashAnimation";
+  //       style.textContent = `
+  //         @keyframes playerFlash {
+  //           0%, 33%, 66%, 100% { opacity: 1; }
+  //           16.5%, 49.5%, 82.5% { opacity: 0.3; }
+  //         }
+  //       `;
+  //       document.head.appendChild(style);
+  //     }
+
+  //     // Apply the flash animation (3 flashes)
+  //     player.style.animation = "playerFlash 1s";
+
+  //     // Remove the animation after it completes
+  //     setTimeout(() => {
+  //       player.style.animation = "";
+  //     }, 1000);
+  //   }
+  // }
   flashLifeCounter() {
     // Add a flashing effect when player loses a life
     const lifeCounter = document.getElementById("lifeCounter");
