@@ -2,10 +2,15 @@ export default class HealthComponent {
   constructor(max = 100) {
     this.current = max;
     this.max = max;
+    this.onDamage = null; // Callback for when damage is taken
   }
 
   takeDamage(amount) {
-    this.current = Math.max(0, this.current - amount);
+    const newHealth = Math.max(0, this.current - amount);
+    this.current = newHealth;
+    if (this.onDamage) {
+      this.onDamage(newHealth);
+    }
   }
 
   heal(amount) {

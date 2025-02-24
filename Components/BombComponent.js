@@ -52,8 +52,6 @@ export default class BombComponent {
     );
     const bombSize = 64; // Fixed size
 
-    const gameGridLeft = document.getElementById("gameGrid").offsetLeft;
-    const gameGridTop = document.getElementById("gameGrid").offsetTop;
 
     this.element.style.left = `${centerPos.x - bombSize / 2}px`;
     this.element.style.top = `${centerPos.y - bombSize / 2}px`;
