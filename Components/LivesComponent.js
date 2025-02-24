@@ -41,8 +41,8 @@ export default class LifeComponent {
     gameOverScreen.style.top = "50%";
     gameOverScreen.style.left = "50%";
     gameOverScreen.style.transform = "translate(-50%, -50%)";
-    gameOverScreen.style.width = "292px";
-    gameOverScreen.style.height = "135px";
+    gameOverScreen.style.width = "auto";
+    gameOverScreen.style.height = "auto";
     gameOverScreen.style.background = "rgba(209, 196, 233, 0.29)";
     gameOverScreen.style.borderRadius = "10px";
     gameOverScreen.style.border = "1px solid #ffffff";
@@ -62,7 +62,10 @@ export default class LifeComponent {
     gameOverText.style.fontSize = "48px";
     gameOverText.style.fontWeight = "500";
     gameOverText.style.textShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
+    gameOverText.style.whiteSpace = "nowrap"; // Empêche le retour à la ligne
+
     gameOverScreen.appendChild(gameOverText);
+
 
     const buttonContainer = document.createElement("div");
     buttonContainer.style.display = "flex";
@@ -92,7 +95,7 @@ export default class LifeComponent {
   }
 
   pauseGame() {
-    const pauseComponent = gameStateEntity.getComponent("Pause");
+    const pauseComponent = gameStateEntity
     pauseComponent.isPaused = true;
 
     document.dispatchEvent(
