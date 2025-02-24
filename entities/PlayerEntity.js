@@ -2,6 +2,7 @@ import Entity from "./Entity.js";
 import PositionComponent from "../Components/PositionComponent.js";
 import VelocityComponent from "../Components/VelocityComponent.js";
 import HealthComponent from "../Components/HealthComponent.js";
+import HealthDisplayComponent from "../Components/HealthDisplayComponent.js";
 import PlayerDataComponent from "../Components/PlayerDataComponent.js";
 import inputsComponent from "../Components/inputsComponents.js";
 import SpriteComponent from "../Components/spriteCommponent.js";
@@ -18,8 +19,11 @@ class PlayerEntity extends Entity {
 
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
-    this.addComponent("health", new HealthComponent(100));
+    const healthComponent = new HealthComponent(1);
+    this.addComponent("health", healthComponent);
     this.addComponent("data", new PlayerDataComponent());
+    this.healthDisplay = new HealthDisplayComponent(id);
+    this.healthDisplay.update(healthComponent.current);
 
     let spriteComponent = new SpriteComponent(
       {
@@ -46,6 +50,10 @@ class PlayerEntity extends Entity {
         bombSystem
       )
     );
+    // Update health display when health changes
+    healthComponent.onDamage = (newHealth) => {
+      this.healthDisplay.update(newHealth);
+    };
   }
 }
 
