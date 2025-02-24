@@ -18,7 +18,7 @@ class PlayerEntity extends Entity {
 
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
-    this.addComponent(new LivesComponent(3));
+    this.addComponent(new LivesComponent(1));
     this.addComponent("data", new PlayerDataComponent());
 
     let spriteComponent = new SpriteComponent(
