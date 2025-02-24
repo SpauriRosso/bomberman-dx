@@ -62,7 +62,7 @@ export default class PauseSystem {
     const pauseText = document.createElement("div");
     pauseText.innerText = "PAUSE";
     pauseText.style.color = "#ffffff";
-    pauseText.style.fontFamily = "Inter, sans-serif";
+    pauseText.style.fontFamily = "bomberman";
     pauseText.style.fontSize = "48px";
     pauseText.style.fontWeight = "500";
     pauseText.style.textShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)";
