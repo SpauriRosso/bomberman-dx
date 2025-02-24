@@ -16,9 +16,16 @@ class EnemyAnimationComponent {
         this.isAnimating = false;
         this.isPaused = false;
 
+        /**
+         * Event listener for the 'pauseToggled' event.
+         * This event toggles the animation pause state based on the event detail.
+         *
+         * @param {Event} e - The event object containing the detail about the pause state.
+         * @property {boolean} e.detail.isPaused - Indicates whether the animation should be paused or not.
+         */
         document.addEventListener("pauseToggled", (e) => {
             this.isPaused = e.detail.isPaused;
-        })
+        });
 
         this.keys = new Set();
         this.directionMap = this.animation;
@@ -28,11 +35,13 @@ class EnemyAnimationComponent {
     }
 
     simulateKeyPress() {
+        if (this.isPaused === true) return;
         // Simuler des touches aléatoires
         this.simulateNextKey();
     }
 
     simulateNextKey() {
+        if (this.isPaused === true) return;
         const direction = Math.floor(Math.random() * 4);
         switch (direction) {
             case 0: // Q
@@ -81,6 +90,7 @@ class EnemyAnimationComponent {
     }
 
     handleKeyDown(e) {
+        if (this.isPaused === true) return;
         if (!this.directionMap.hasOwnProperty(e.key)) return;
 
         if (!this.isMoving) {
@@ -92,6 +102,7 @@ class EnemyAnimationComponent {
     }
 
     handleKeyUp(e) {
+        if (this.isPaused === true) return;
         this.velocityComponent.vy = 0;
         this.velocityComponent.vx = 0;
         if (!this.directionMap.hasOwnProperty(e.key)) return;
