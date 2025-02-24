@@ -26,6 +26,11 @@ export default class InputComponent {
     this.x = 0;
     this.y = 0;
     this.directionMap = this.spriteComponent.animation;
+    this.isPaused = false
+
+    document.addEventListener("pauseToggled", (e) => {
+      this.isPaused = e.detail.isPaused;
+    });
 
     // Register with input system
     this.inputSystem.addListener((eventType, key) =>
@@ -35,6 +40,7 @@ export default class InputComponent {
   }
 
   handleInput(eventType, key) {
+    if (this.isPaused) return;
     if (!this.directionMap.hasOwnProperty(key)) return;
 
     const spriteComponent = this.spriteComponent;
@@ -67,7 +73,9 @@ export default class InputComponent {
   }
 
   animate(sC) {
+
     setInterval(() => {
+      if (this.isPaused) return;
       if (!sC.isMoving) return;
       // Alterne entre frame 0 → 1 → 2 en boucle
       sC.frame = sC.frameSequence[sC.frameIndex];
@@ -83,6 +91,7 @@ export default class InputComponent {
   }
 
   update() {
+    if (this.isPaused) return;
     const spriteComponent = this.spriteComponent;
     if (!spriteComponent) return;
 
