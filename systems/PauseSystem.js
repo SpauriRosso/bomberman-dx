@@ -3,7 +3,7 @@ export default class PauseSystem {
         this.gameStateEntity = gameStateEntity;
 
         document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" || e.key === "p" || e.key === "P") {
+            if (e.key === "Escape" || e.key.toLowerCase() === "p") {
                 this.togglePause();
             }
         });
@@ -13,10 +13,11 @@ export default class PauseSystem {
         const pauseComponent = this.gameStateEntity.getComponent("Pause");
         pauseComponent.isPaused = !pauseComponent.isPaused;
 
-        const menu = document.getElementById("pause-menu");
-        if (menu) {
-            menu.style.display = pauseComponent.isPaused ? "block" : "none";
-        }
+        document.dispatchEvent(new CustomEvent("pauseToggled", {
+            detail: {isPaused: pauseComponent.isPaused}
+        }));
+
+        console.log(`Pause status: ${pauseComponent.isPaused}`);
     }
 
     update() {
