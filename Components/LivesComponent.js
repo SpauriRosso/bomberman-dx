@@ -20,7 +20,7 @@ export default class LifeComponent {
     lifeCounter.id = "lifeCounter";
     lifeCounter.style.position = "absolute";
     lifeCounter.style.top = "-50px";
-    lifeCounter.style.left = "150px";
+    lifeCounter.style.left = "10px";
     lifeCounter.style.display = "flex";
     lifeCounter.style.alignItems = "center";
     lifeCounter.style.gap = "10px";
