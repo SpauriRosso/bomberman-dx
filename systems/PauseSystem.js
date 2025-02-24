@@ -74,14 +74,14 @@ export default class PauseSystem {
     buttonContainer.style.marginTop = "20px";
 
     const pauseButton = document.createElement("img");
-    pauseButton.src = "pictures/Pause-Button.png";
+    pauseButton.src = "./pictures/pause-assests/Pause-Button.png";
     pauseButton.style.width = "49px";
     pauseButton.style.height = "49px";
     pauseButton.style.cursor = "pointer";
     pauseButton.addEventListener("click", () => this.togglePause());
 
     const resetButton = document.createElement("img");
-    resetButton.src = "pictures/Reset.png";
+    resetButton.src = "./pictures/pause-assests/Reset.png";
     resetButton.style.width = "49px";
     resetButton.style.height = "49px";
     resetButton.style.cursor = "pointer";
