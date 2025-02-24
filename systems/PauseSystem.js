@@ -25,7 +25,7 @@ export default class PauseSystem {
             this.removePause()
         }
 
-        console.log("Pause status: ${pauseComponent.isPaused}");
+        console.log(`Pause status: ${pauseComponent.isPaused}`);
     }
 
     displayPause() {
