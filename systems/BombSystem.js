@@ -1,6 +1,8 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
+import HealthComponent from "../Components/HealthComponent.js";
+import PositionComponent from "../Components/PositionComponent.js";
 
 function getTileCenterPosition(x, y) {
   const tileX = Math.round(x / 64);
@@ -18,6 +20,7 @@ class BombSystem {
     this.activeBombs = new Map();
     this.playerBombTracking = new Map();
     this.gameContainer = document.getElementById("game-container");
+    this.chainReactionRange = 64;
 
     if (!this.gameContainer) {
       console.error("Game container element not found!");
@@ -26,16 +29,20 @@ class BombSystem {
 
   createBomb(playerId, position, power = 1) {
     if (this.playerBombTracking.has(playerId)) {
-      return null; // Player already has an active bomb
+      return null;
     }
 
-    console.log("Bomb position:", position); // log the coordinates of Bomb
+    const nearbyBombs = this.getNearbyBombs(position);
+    const chainReaction = nearbyBombs.length > 0;
+
+    console.log("Bomb position:", position);
     if (!position || typeof position !== "object") {
       console.error("Invalid position provided to createBomb");
       return null;
     }
 
     const bombComponent = new BombComponent(playerId, position, power);
+    bombComponent.chainReaction = chainReaction;
     const visuals = bombComponent.createVisuals();
 
     if (!visuals || !visuals.bomb || !visuals.hitbox) {
@@ -77,7 +84,6 @@ class BombSystem {
       return;
     }
 
-    // Remove bomb visuals immediately after explosion
     component.cleanupBombVisuals();
 
     if (this.gameContainer) {
@@ -91,11 +97,25 @@ class BombSystem {
       });
     }
 
-    // Handle collision detection and tile destruction
     this.handleExplosionEffects(component);
-
-    // Clean up after explosion
     this.scheduleCleanup(bombId, component);
+  }
+
+  getNearbyBombs(position) {
+    const nearbyBombs = [];
+    const tileSize = 64;
+
+    this.activeBombs.forEach((bombData, bombId) => {
+      const bombPos = bombData.component.position;
+      const dx = Math.abs(position.x - bombPos.x);
+      const dy = Math.abs(position.y - bombPos.y);
+
+      if (dx <= tileSize && dy <= tileSize) {
+        nearbyBombs.push(bombData.component);
+      }
+    });
+
+    return nearbyBombs;
   }
 
   handleExplosionEffects(bombComponent) {
@@ -104,40 +124,71 @@ class BombSystem {
       return;
     }
 
-    const tileSize = 64; // Tile size in pixels
+    this.entities.forEach((entity) => {
+      const healthComponent = entity.getComponent("HealthComponent");
+      const positionComponent = entity.getComponent("PositionComponent");
+
+      if (healthComponent && positionComponent) {
+        const dx = Math.abs(bombComponent.position.x - positionComponent.x);
+        const dy = Math.abs(bombComponent.position.y - positionComponent.y);
+        const explosionRadius = bombComponent.power * 64;
+
+        console.log(
+          "Player Position:",
+          positionComponent.x,
+          positionComponent.y
+        );
+        console.log(
+          "Bomb Position:",
+          bombComponent.position.x,
+          bombComponent.position.y
+        );
+        console.log("dx:", dx, "dy:", dy, "Radius:", explosionRadius);
+
+        if (dx <= explosionRadius && dy <= explosionRadius) {
+          console.log("Player hit!");
+          healthComponent.takeDamage(50);
+          console.log("Player Health:", healthComponent.health);
+        }
+      }
+    });
+
+    const nearbyBombs = this.getNearbyBombs(bombComponent.position);
+    nearbyBombs.forEach((bomb) => {
+      if (!bomb.chainReaction) {
+        bomb.chainReaction = true;
+        bomb.timer = 100;
+      }
+    });
+
+    const tileSize = 64;
     const { position, power } = bombComponent;
     const centerPos = getTileCenterPosition(position.x, position.y);
     console.log(centerPos);
 
-    // Convert bomb position to tile coordinates
     const centerX = Math.floor(centerPos.x / tileSize);
     const centerY = Math.floor(centerPos.y / tileSize);
 
-    // Check tiles in cross pattern based on explosion power
     for (let dir of [
-      { x: 0, y: 0 }, // Center
-      { x: 1, y: 0 }, // Right
-      { x: -1, y: 0 }, // Left
-      { x: 0, y: 1 }, // Down
-      { x: 0, y: -1 }, // Up
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
     ]) {
       for (let i = 0; i <= power; i++) {
         const tileX = centerX + dir.x * i;
         const tileY = centerY + dir.y * i;
 
-        // Check if tile is within map bounds
         if (
           tileY >= 0 &&
           tileY < tileMapDefault.length &&
           tileX >= 0 &&
           tileX < tileMapDefault[0].length
         ) {
-          // Check if tile is breakable (value 2)
           if (tileMapDefault[tileY][tileX] === 2) {
-            // Destroy tile by setting it to floor (value 0)
             tileMapDefault[tileY][tileX] = 0;
 
-            // Update visual representation
             const tileElement = document.querySelector(
               `#gameGrid > div:nth-child(${
                 tileY * tileMapDefault[0].length + tileX + 1
@@ -168,12 +219,10 @@ class BombSystem {
 
   cleanupBomb(bombId, component) {
     try {
-      // Clean up bomb and explosion visuals
       if (component && typeof component.cleanup === "function") {
         component.cleanup();
       }
 
-      // Remove player from tracking
       for (const [
         playerId,
         trackedBombId,
@@ -184,10 +233,8 @@ class BombSystem {
         }
       }
 
-      // Remove from active bombs
       this.activeBombs.delete(bombId);
 
-      // Verify cleanup
       if (this.gameContainer) {
         const bombElements = this.gameContainer.querySelectorAll(
           ".bomb, .bomb-hitbox, .explosion, .explosion-hitbox"
