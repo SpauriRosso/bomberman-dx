@@ -23,8 +23,15 @@ class EnemyAnimationComponent {
          * @param {Event} e - The event object containing the detail about the pause state.
          * @property {boolean} e.detail.isPaused - Indicates whether the animation should be paused or not.
          */
+        // document.addEventListener("pauseToggled", (e) => {
+        //     this.isPaused = e.detail.isPaused;
+        // });
         document.addEventListener("pauseToggled", (e) => {
             this.isPaused = e.detail.isPaused;
+
+            if (!this.isPaused) {
+                this.simulateKeyPress();
+            }
         });
 
         this.keys = new Set();
