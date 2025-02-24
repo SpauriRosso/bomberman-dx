@@ -2,7 +2,6 @@
 import Entity from "./Entity.js";
 import PositionComponent from "../Components/PositionComponent.js";
 import VelocityComponent from "../Components/VelocityComponent.js";
-import HealthComponent from "../Components/HealthComponent.js";
 import EnemyComponent from "../Components/EnemyComponent.js";
 import EnemyAnimationComponent from "../Components/EnemySpriteComponent.js";
 
@@ -12,7 +11,6 @@ class EnemyEntity extends Entity {
     this.addComponent("position", new PositionComponent(x, y));
     let velocityComponent = new VelocityComponent(0, 0);
     this.addComponent("velocity", velocityComponent);
-    this.addComponent("health", new HealthComponent(1));
     this.addComponent("ai", new EnemyComponent());
 
     let spriteComponent = new EnemyAnimationComponent(
