@@ -12,7 +12,7 @@ class EnemyEntity extends Entity {
     this.addComponent("position", new PositionComponent(x, y));
     let velocityComponent = new VelocityComponent(0, 0);
     this.addComponent("velocity", velocityComponent);
-    this.addComponent("health", new HealthComponent(50));
+    this.addComponent("health", new HealthComponent(1));
     this.addComponent("ai", new EnemyComponent());
 
     let spriteComponent = new EnemyAnimationComponent(
