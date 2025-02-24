@@ -1,6 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
+import {gameLogicSystem} from "../main.js";
 
 const TILE_SIZE = 64;
 
@@ -170,14 +171,27 @@ class BombSystem {
 
   handleEntityHit(entity) {
     const livesComponent = entity.getComponent("lives");
+
     if (livesComponent) {
-      livesComponent.lives -= 1;
-      console.log(`${entity.id} a ${livesComponent.lives} lives left !`);
+      livesComponent.loseLife();
+      console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
 
       if (livesComponent.lives <= 0) {
         console.log(`☠️ ${entity.id} is dead !`);
-        this.entities = this.entities.filter(e => e.id !== entity.id);
-        document.getElementById(entity.id)?.remove();
+
+        if (entity.getComponent("ai")) {
+          this.entities = this.entities.filter(e => e.id !== entity);
+          gameLogicSystem.entities = gameLogicSystem.entities.filter(e => e !== entity);
+          console.log("Entities after removal:", this.entities.map(e => e.id));
+
+          const entityElement = document.getElementById(entity.id);
+          if (entityElement) {
+            entityElement.remove();
+          }
+          document.getElementById(entity.id)?.remove();
+        } else if (entity.getComponent("sprite") && entity.getComponent("lives") === 0) {
+          livesComponent.triggerGameOver();
+        }
       }
     }
   }
