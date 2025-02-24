@@ -4,6 +4,7 @@ import PositionComponent from "../Components/PositionComponent.js";
 import VelocityComponent from "../Components/VelocityComponent.js";
 import EnemyComponent from "../Components/EnemyComponent.js";
 import EnemyAnimationComponent from "../Components/EnemySpriteComponent.js";
+import HitboxComponent from "../Components/HitboxComponent.js";
 
 class EnemyEntity extends Entity {
   constructor(id, x, y, url) {
@@ -12,6 +13,7 @@ class EnemyEntity extends Entity {
     let velocityComponent = new VelocityComponent(0, 0);
     this.addComponent("velocity", velocityComponent);
     this.addComponent("ai", new EnemyComponent());
+    this.addComponent("hitbox", new HitboxComponent())
 
     let spriteComponent = new EnemyAnimationComponent(
       {

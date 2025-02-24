@@ -8,6 +8,7 @@ import InputSystem from "../systems/InputSystem.js";
 import BombSystem from "../systems/BombSystem.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import LivesComponent from "../Components/LivesComponent.js";
+import HitboxComponent from "../Components/HitboxComponent.js";
 
 class PlayerEntity extends Entity {
   constructor(id, x, y, entities) {
@@ -20,6 +21,7 @@ class PlayerEntity extends Entity {
     this.addComponent("velocity", velocityComponent);
     this.addComponent(new LivesComponent(1));
     this.addComponent("data", new PlayerDataComponent());
+    this.addComponent("hitbox", new HitboxComponent())
 
     let spriteComponent = new SpriteComponent(
       {

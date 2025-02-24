@@ -125,11 +125,61 @@ class BombSystem {
       return;
     }
 
+    // this.entities.forEach((entity) => {
+    //   this.applyDamageIfHit(entity, bombComponent);
+    // });
     this.entities.forEach((entity) => {
-      this.applyDamageIfHit(entity, bombComponent);
-    });
+      if (entity.getComponent("ai") || entity.getComponent("sprite")) {
+        this.isHit(entity, bombComponent)
+      }
+    })
 
     this.destroyBreakableTiles(bombComponent);
+  }
+
+  isHit(entity, bombComponent) {
+    const entityPos = entity.getComponent("position")
+    const entityHitbox = entity.getComponent("hitbox")
+
+    if (!entityPos) {
+      console.warn(`⚠️ ${entity.id} don't have a position.`);
+      return;
+    }
+
+    if (!entityHitbox) {
+      console.warn(`⚠️ ${entity.id} don't have hitbox.`);
+      return;
+    }
+
+    bombComponent.explosionHitboxes.forEach(hitbox => {
+      const hitboxX = parseInt(hitbox.style.left);
+      const hitboxY = parseInt(hitbox.style.top);
+      const hitboxSize = bombComponent.tileSize;
+
+      if (
+          entityPos.x < hitboxX + hitboxSize &&
+          entityPos.x + entityHitbox.width > hitboxX &&
+          entityPos.y < hitboxY + hitboxSize &&
+          entityPos.y + entityHitbox.height > hitboxY
+      ) {
+        console.log(`💥 ${entity.id} got hit!`);
+        this.handleEntityHit(entity);
+      }
+    });
+  }
+
+  handleEntityHit(entity) {
+    const livesComponent = entity.getComponent("lives");
+    if (livesComponent) {
+      livesComponent.lives -= 1;
+      console.log(`${entity.id} a ${livesComponent.lives} lives left !`);
+
+      if (livesComponent.lives <= 0) {
+        console.log(`☠️ ${entity.id} is dead !`);
+        this.entities = this.entities.filter(e => e.id !== entity.id);
+        document.getElementById(entity.id)?.remove();
+      }
+    }
   }
 
   applyDamageIfHit(entity, bombComponent) {
