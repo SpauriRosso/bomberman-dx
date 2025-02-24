@@ -30,9 +30,6 @@ class BombSystem {
       return null;
     }
 
-    const nearbyBombs = this.getNearbyBombs(position);
-    const chainReaction = nearbyBombs.length > 0;
-
     console.log("Bomb position:", position);
     if (!position || typeof position !== "object") {
       console.error("Invalid position provided to createBomb");
@@ -40,7 +37,6 @@ class BombSystem {
     }
 
     const bombComponent = new BombComponent(playerId, position, power);
-    bombComponent.chainReaction = chainReaction;
     const visuals = bombComponent.createVisuals();
 
     if (!visuals || !visuals.bomb || !visuals.hitbox) {
@@ -99,23 +95,6 @@ class BombSystem {
     this.scheduleCleanup(bombId, component);
   }
 
-  getNearbyBombs(position) {
-    const nearbyBombs = [];
-    const tileSize = 64;
-
-    this.activeBombs.forEach((bombData, bombId) => {
-      const bombPos = bombData.component.position;
-      const dx = Math.abs(position.x - bombPos.x);
-      const dy = Math.abs(position.y - bombPos.y);
-
-      if (dx <= tileSize && dy <= tileSize) {
-        nearbyBombs.push(bombData.component);
-      }
-    });
-
-    return nearbyBombs;
-  }
-
   handleExplosionEffects(bombComponent) {
     if (!bombComponent) {
       console.warn("Invalid bomb component provided to handleExplosionEffects");
@@ -148,14 +127,6 @@ class BombSystem {
           healthComponent.takeDamage(50);
           console.log("Player Health:", healthComponent.health);
         }
-      }
-    });
-
-    const nearbyBombs = this.getNearbyBombs(bombComponent.position);
-    nearbyBombs.forEach((bomb) => {
-      if (!bomb.chainReaction) {
-        bomb.chainReaction = true;
-        bomb.timer = 100;
       }
     });
 
@@ -248,7 +219,7 @@ class BombSystem {
     if (gameStateEntity.getComponent("Pause").isPaused) return;
     if (this.activeBombs.size === 0) return;
 
-    this.activeBombs.forEach((bombData, bombId) => {
+    this.activeBombs.forEach((bombData) => {
       const { component } = bombData;
       if (component && typeof component.update === "function") {
         component.update();
