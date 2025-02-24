@@ -104,7 +104,7 @@ export default class LifeComponent {
   }
   // flashPlayer() {
   //   // We need to find the player element - assuming it has an id or class
-  //   const player = document.querySelector(".player"); // Adjust this selector based on your player element
+  //   const player = document.querySelector(".player"); // Adjust this selector based on your player element (it should be the sprite flashing not the player element)
 
   //   if (player) {
   //     // Make sure the flash animation style exists
