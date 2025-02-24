@@ -1,19 +1,14 @@
-class HealthComponent {
-  constructor(maxHealth) {
-    this.maxHealth = maxHealth;
-    this.currentHealth = maxHealth;
+export default class HealthComponent {
+  constructor(max = 100) {
+    this.current = max;
+    this.max = max;
   }
 
   takeDamage(amount) {
-    this.currentHealth -= amount;
-    if (this.currentHealth <= 0) {
-      this.currentHealth = 0;
-      // Entity is dead, you can add logic here to handle death
-    }
+    this.current = Math.max(0, this.current - amount);
   }
 
-  isAlive() {
-    return this.currentHealth > 0;
+  heal(amount) {
+    this.current = Math.min(this.max, this.current + amount);
   }
 }
-export default HealthComponent;
