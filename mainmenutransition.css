@@ -1,0 +1,76 @@
+/* Smooth PS2-Like Transition with Blackout */
+@keyframes ps2Transition {
+  0% {
+    filter: blur(0px);
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    filter: blur(20px);
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeToBlack {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Apply when transition starts */
+.ps2-exit {
+  animation: ps2Transition 1.5s ease-in-out forwards;
+}
+
+/* Black screen overlay for fade-out */
+#black-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.fade-out {
+  animation: fadeToBlack 1s ease-in-out forwards;
+}
+
+/* Background Video */
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Menu Content */
+#menu-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* Press Start Button */
+#press-start-container {
+  text-align: center;
+}
+
+#press-start {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
