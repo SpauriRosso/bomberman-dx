@@ -11,9 +11,9 @@ export default class BombComponent {
     this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
-      "url('./pictures/bomb_sprite/bomb1.png')",
-      "url('./pictures/bomb_sprite/bomb2.png')",
-      "url('./pictures/bomb_sprite/bomb3.png')",
+      "url('./pictures/bomb_sprite/bomb.gif')",
+      "url('./pictures/bomb_sprite/bomb.gif')",
+      "url('./pictures/bomb_sprite/bomb.gif')",
     ];
   }
   playSound() {
@@ -49,7 +49,7 @@ export default class BombComponent {
       this.position.x,
       this.position.y
     );
-    const bombSize = 64; // Fixed size
+    const bombSize = 48; // Fixed size
 
     this.element.style.left = `${centerPos.x - bombSize / 2}px`;
     this.element.style.top = `${centerPos.y - bombSize / 2}px`;
