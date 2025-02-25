@@ -27,7 +27,6 @@ BombermanDX is a classic arcade-style game where players navigate through a maze
 
 - Use the arrow keys to move your character.
 - Place bombs strategically to defeat enemies and clear paths.
-- Collect power-ups and bonuses to enhance your gameplay.
 
 ## Scoring
 
