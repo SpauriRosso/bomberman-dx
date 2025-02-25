@@ -41,4 +41,4 @@ BombermanDX is a classic arcade-style game where players navigate through a maze
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the General Public License V3.O License. See the [LICENSE](LICENSE) file for details.
