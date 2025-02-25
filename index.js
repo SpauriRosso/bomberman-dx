@@ -34,6 +34,7 @@ function update() {
 
   movementSystem.update();
   collisionSystem.update();
+  collisionSystem.handleBombCollisions(entities);
   bombSystem.update();
   enemySystem.update();
   playerSystem.update();

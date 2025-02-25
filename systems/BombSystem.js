@@ -1,17 +1,22 @@
 import BombComponent from "../Components/BombComponent.js";
+import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
+import {gameLogicSystem} from "../main.js";
+
+const TILE_SIZE = 64;
 
 function getTileCenterPosition(x, y) {
-  const tileX = Math.round(x / 64);
-  const tileY = Math.round(y / 64);
+  const tileX = Math.round(x / TILE_SIZE);
+  const tileY = Math.round(y / TILE_SIZE);
   return {
-    x: tileX * 64 + 64 / 2,
-    y: tileY * 64 + 64 / 2,
+    x: tileX * TILE_SIZE + TILE_SIZE / 2,
+    y: tileY * TILE_SIZE + TILE_SIZE / 2,
   };
 }
 
 class BombSystem {
-  constructor(entities) {
+  constructor(entities, gameStateEntity) {
+    this.gameStateEntity = gameStateEntity;
     this.entities = entities;
     this.activeBombs = new Map();
     this.playerBombTracking = new Map();
@@ -24,27 +29,22 @@ class BombSystem {
 
   createBomb(playerId, position, power = 1) {
     if (this.playerBombTracking.has(playerId)) {
-      return null; // Player already has an active bomb
+      console.warn(`Player ${playerId} already has an active bomb.`);
+      return null;
     }
 
-    console.log("Bomb position:", position); // log the coordinates of Bomb
-    if (!position || typeof position !== "object") {
-      console.error("Invalid position provided to createBomb");
+    if (!this.isValidPosition(position)) {
       return null;
     }
 
     const bombComponent = new BombComponent(playerId, position, power);
     const visuals = bombComponent.createVisuals();
 
-    if (!visuals || !visuals.bomb || !visuals.hitbox) {
-      console.error("Failed to create bomb visuals");
+    if (!this.isValidVisuals(visuals)) {
       return null;
     }
 
-    if (this.gameContainer) {
-      this.gameContainer.appendChild(visuals.bomb);
-      this.gameContainer.appendChild(visuals.hitbox);
-    }
+    this.addVisualsToContainer(visuals);
 
     const bombId = `bomb-${Date.now()}`;
     this.activeBombs.set(bombId, {
@@ -59,6 +59,29 @@ class BombSystem {
     return bombId;
   }
 
+  isValidPosition(position) {
+    if (!position || typeof position !== "object") {
+      console.error("Invalid position provided to createBomb");
+      return false;
+    }
+    return true;
+  }
+
+  isValidVisuals(visuals) {
+    if (!visuals || !visuals.bomb || !visuals.hitbox) {
+      console.error("Failed to create bomb visuals");
+      return false;
+    }
+    return true;
+  }
+
+  addVisualsToContainer(visuals) {
+    if (this.gameContainer) {
+      this.gameContainer.appendChild(visuals.bomb);
+      this.gameContainer.appendChild(visuals.hitbox);
+    }
+  }
+
   handleExplosion(bombId) {
     const bombData = this.activeBombs.get(bombId);
     if (!bombData) {
@@ -69,15 +92,22 @@ class BombSystem {
     const { component } = bombData;
     const explosionElements = component.createExplosion();
 
-    if (!explosionElements || !Array.isArray(explosionElements)) {
-      console.error("Invalid explosion elements returned from createExplosion");
+    if (!this.isValidExplosionElements(explosionElements)) {
       this.cleanupBomb(bombId, component);
       return;
     }
 
-    // Remove bomb visuals immediately after explosion
     component.cleanupBombVisuals();
+    this.addExplosionToContainer(explosionElements);
+    this.handleExplosionEffects(component);
+    this.scheduleCleanup(bombId, component);
+  }
 
+  isValidExplosionElements(explosionElements) {
+    return explosionElements && Array.isArray(explosionElements);
+  }
+
+  addExplosionToContainer(explosionElements) {
     if (this.gameContainer) {
       explosionElements.forEach(({ element, hitbox }) => {
         if (element && hitbox) {
@@ -88,12 +118,6 @@ class BombSystem {
         }
       });
     }
-
-    // Handle collision detection and tile destruction
-    this.handleExplosionEffects(component);
-
-    // Clean up after explosion
-    this.scheduleCleanup(bombId, component);
   }
 
   handleExplosionEffects(bombComponent) {
@@ -102,58 +126,142 @@ class BombSystem {
       return;
     }
 
-    const tileSize = 64; // Tile size in pixels
+    // this.entities.forEach((entity) => {
+    //   this.applyDamageIfHit(entity, bombComponent);
+    // });
+    this.entities.forEach((entity) => {
+      if (entity.getComponent("ai") || entity.getComponent("sprite")) {
+        this.isHit(entity, bombComponent)
+      }
+    })
+
+    this.destroyBreakableTiles(bombComponent);
+  }
+
+  isHit(entity, bombComponent) {
+    const entityPos = entity.getComponent("position")
+    const entityHitbox = entity.getComponent("hitbox")
+
+    if (!entityPos) {
+      console.warn(`⚠️ ${entity.id} don't have a position.`);
+      return;
+    }
+
+    if (!entityHitbox) {
+      console.warn(`⚠️ ${entity.id} don't have hitbox.`);
+      return;
+    }
+
+    bombComponent.explosionHitboxes.forEach(hitbox => {
+      const hitboxX = parseInt(hitbox.style.left);
+      const hitboxY = parseInt(hitbox.style.top);
+      const hitboxSize = bombComponent.tileSize;
+
+      if (
+          entityPos.x < hitboxX + hitboxSize &&
+          entityPos.x + entityHitbox.width > hitboxX &&
+          entityPos.y < hitboxY + hitboxSize &&
+          entityPos.y + entityHitbox.height > hitboxY
+      ) {
+        console.log(`💥 ${entity.id} got hit!`);
+        this.handleEntityHit(entity);
+      }
+    });
+  }
+
+  handleEntityHit(entity) {
+    const livesComponent = entity.getComponent("lives");
+
+    if (livesComponent) {
+      livesComponent.loseLife();
+      console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
+
+      if (livesComponent.lives <= 0) {
+        console.log(`☠️ ${entity.id} is dead !`);
+
+        if (entity.getComponent("ai")) {
+          this.entities = this.entities.filter(e => e.id !== entity);
+          gameLogicSystem.entities = gameLogicSystem.entities.filter(e => e !== entity);
+          console.log("Entities after removal:", this.entities.map(e => e.id));
+
+          const entityElement = document.getElementById(entity.id);
+          if (entityElement) {
+            entityElement.remove();
+          }
+          document.getElementById(entity.id)?.remove();
+        } else if (entity.getComponent("sprite") && entity.getComponent("lives") === 0) {
+          livesComponent.triggerGameOver();
+        }
+      }
+    }
+  }
+
+  applyDamageIfHit(entity, bombComponent) {
+    const healthComponent = entity.getComponent("HealthComponent");
+    const positionComponent = entity.getComponent("PositionComponent");
+
+    if (healthComponent && positionComponent) {
+      const dx = Math.abs(bombComponent.position.x - positionComponent.x);
+      const dy = Math.abs(bombComponent.position.y - positionComponent.y);
+      const explosionRadius = bombComponent.power * TILE_SIZE;
+
+      if (dx <= explosionRadius && dy <= explosionRadius) {
+        healthComponent.takeDamage(50);
+      }
+    }
+  }
+
+  destroyBreakableTiles(bombComponent) {
     const { position, power } = bombComponent;
     const centerPos = getTileCenterPosition(position.x, position.y);
-    console.log(centerPos);
+    const centerX = Math.floor(centerPos.x / TILE_SIZE);
+    const centerY = Math.floor(centerPos.y / TILE_SIZE);
 
-    // Convert bomb position to tile coordinates
-    const centerX = Math.floor(centerPos.x / tileSize);
-    const centerY = Math.floor(centerPos.y / tileSize);
-
-    // Check tiles in cross pattern based on explosion power
     for (let dir of [
-      { x: 0, y: 0 }, // Center
-      { x: 1, y: 0 }, // Right
-      { x: -1, y: 0 }, // Left
-      { x: 0, y: 1 }, // Down
-      { x: 0, y: -1 }, // Up
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
     ]) {
       for (let i = 0; i <= power; i++) {
         const tileX = centerX + dir.x * i;
         const tileY = centerY + dir.y * i;
 
-        // Check if tile is within map bounds
-        if (
-          tileY >= 0 &&
-          tileY < tileMapDefault.length &&
-          tileX >= 0 &&
-          tileX < tileMapDefault[0].length
-        ) {
-          // Check if tile is breakable (value 2)
-          if (tileMapDefault[tileY][tileX] === 2) {
-            // Destroy tile by setting it to floor (value 0)
-            tileMapDefault[tileY][tileX] = 0;
-
-            // Update visual representation
-            const tileElement = document.querySelector(
-              `#gameGrid > div:nth-child(${
-                tileY * tileMapDefault[0].length + tileX + 1
-              })`
-            );
-            if (tileElement) {
-              tileElement.classList.remove("breakable");
-              tileElement.classList.add("floor");
-            }
-          }
+        if (this.isWithinBounds(tileX, tileY)) {
+          this.breakTile(tileX, tileY);
         }
+      }
+    }
+  }
+
+  isWithinBounds(tileX, tileY) {
+    return (
+      tileY >= 0 &&
+      tileY < tileMapDefault.length &&
+      tileX >= 0 &&
+      tileX < tileMapDefault[0].length
+    );
+  }
+
+  breakTile(tileX, tileY) {
+    if (tileMapDefault[tileY][tileX] === 2) {
+      tileMapDefault[tileY][tileX] = 0;
+
+      const tileElement = document.querySelector(
+        `#gameGrid > div:nth-child(${
+          tileY * tileMapDefault[0].length + tileX + 1
+        })`
+      );
+      if (tileElement) {
+        tileElement.classList.remove("breakable");
+        tileElement.classList.add("floor");
       }
     }
   }
 
   scheduleCleanup(bombId, component) {
     if (!component || typeof component.explosionLength !== "number") {
-      console.warn("Invalid component or explosion length");
       this.cleanupBomb(bombId, component);
       return;
     }
@@ -166,41 +274,37 @@ class BombSystem {
 
   cleanupBomb(bombId, component) {
     try {
-      // Clean up bomb and explosion visuals
       if (component && typeof component.cleanup === "function") {
         component.cleanup();
       }
 
-      // Remove player from tracking
-      for (const [
-        playerId,
-        trackedBombId,
-      ] of this.playerBombTracking.entries()) {
+      this.playerBombTracking.forEach((trackedBombId, playerId) => {
         if (trackedBombId === bombId) {
           this.playerBombTracking.delete(playerId);
-          break;
         }
-      }
+      });
 
-      // Remove from active bombs
       this.activeBombs.delete(bombId);
-
-      // Verify cleanup
-      if (this.gameContainer) {
-        const bombElements = this.gameContainer.querySelectorAll(
-          ".bomb, .bomb-hitbox, .explosion, .explosion-hitbox"
-        );
-        bombElements.forEach((el) => el.remove());
-      }
+      this.removeBombElementsFromContainer();
     } catch (error) {
       console.error("Error during bomb cleanup:", error);
     }
   }
 
+  removeBombElementsFromContainer() {
+    if (this.gameContainer) {
+      const bombElements = this.gameContainer.querySelectorAll(
+        ".bomb, .bomb-hitbox, .explosion, .explosion-hitbox"
+      );
+      bombElements.forEach((el) => el.remove());
+    }
+  }
+
   update() {
+    if (this.gameStateEntity.getComponent("Pause").isPaused) return;
     if (this.activeBombs.size === 0) return;
 
-    this.activeBombs.forEach((bombData, bombId) => {
+    this.activeBombs.forEach((bombData) => {
       const { component } = bombData;
       if (component && typeof component.update === "function") {
         component.update();

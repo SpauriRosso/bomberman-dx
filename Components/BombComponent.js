@@ -4,9 +4,8 @@ export default class BombComponent {
     this.position = position;
     this.power = power;
     this.timer = 3000; // 3 seconds
+    this.chainReaction = false; // Whether this bomb can trigger others
     this.explosionLength = 1000; // 1 second
-    this.element = null;
-    this.hitboxElement = null;
     this.explosionElements = [];
     this.explosionHitboxes = [];
     this.tileSize = 64; // Tile size in pixels
@@ -51,9 +50,6 @@ export default class BombComponent {
       this.position.y
     );
     const bombSize = 64; // Fixed size
-
-    const gameGridLeft = document.getElementById("gameGrid").offsetLeft;
-    const gameGridTop = document.getElementById("gameGrid").offsetTop;
 
     this.element.style.left = `${centerPos.x - bombSize / 2}px`;
     this.element.style.top = `${centerPos.y - bombSize / 2}px`;
@@ -111,6 +107,17 @@ export default class BombComponent {
       { x: 0, y: 1 }, // Down
       { x: 0, y: -1 }, // Up
     ];
+
+    // Trigger chain reaction if enabled
+    if (this.chainReaction) {
+      const nearbyBombs = this.getNearbyBombs();
+      nearbyBombs.forEach((bomb) => {
+        if (!bomb.chainReaction) {
+          bomb.chainReaction = true;
+          bomb.timer = 100; // Explode almost immediately
+        }
+      });
+    }
 
     const centerPos = this.getTileCenterPosition(
       this.position.x,

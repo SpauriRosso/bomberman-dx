@@ -7,6 +7,28 @@ export default class CollisionSystem {
   }
 
   /**
+   * Check collision between two entities
+   * @param {Entity} entity1 - First entity
+   * @param {Entity} entity2 - Second entity
+   * @returns {boolean} - True if entities collide, false otherwise
+   */
+  checkEntityCollision(entity1, entity2) {
+    const pos1 = entity1.getComponent("position");
+    const pos2 = entity2.getComponent("position");
+    const hitbox1 = entity1.getComponent("hitbox");
+    const hitbox2 = entity2.getComponent("hitbox");
+
+    if (!pos1 || !pos2 || !hitbox1 || !hitbox2) return false;
+
+    return (
+      pos1.x < pos2.x + hitbox2.width &&
+      pos1.x + hitbox1.width > pos2.x &&
+      pos1.y < pos2.y + hitbox2.height &&
+      pos1.y + hitbox1.height > pos2.y
+    );
+  }
+
+  /**
    * Check if pos {x,y} is free of movement
    * @param {number} x - X player position (pixels)
    * @param {number} y - Y player position
@@ -54,5 +76,25 @@ export default class CollisionSystem {
           this.tileMap[tileY][tileX] === 3)
       );
     });
+  }
+
+  /**
+   * Handle bomb-player collisions
+   * @param {Entity[]} entities - Array of game entities
+   */
+  handleBombCollisions(entities) {
+    const players = entities.filter((e) => e.getComponent("health"));
+    const bombs = entities.filter((e) => e.getComponent("bombData"));
+
+    for (const player of players) {
+      for (const bomb of bombs) {
+        if (this.checkEntityCollision(player, bomb)) {
+          const health = player.getComponent("health");
+          health.takeDamage(1);
+          // Mark bomb for removal (to be handled by game logic)
+          bomb.shouldRemove = true;
+        }
+      }
+    }
   }
 }

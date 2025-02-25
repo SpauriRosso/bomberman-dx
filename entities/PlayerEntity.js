@@ -1,12 +1,14 @@
 import Entity from "./Entity.js";
 import PositionComponent from "../Components/PositionComponent.js";
 import VelocityComponent from "../Components/VelocityComponent.js";
-import HealthComponent from "../Components/HealthComponent.js";
 import PlayerDataComponent from "../Components/PlayerDataComponent.js";
 import inputsComponent from "../Components/inputsComponents.js";
 import SpriteComponent from "../Components/spriteCommponent.js";
 import InputSystem from "../systems/InputSystem.js";
 import BombSystem from "../systems/BombSystem.js";
+import gameStateEntity from "../Components/PauseComponent.js";
+import LivesComponent from "../Components/LivesComponent.js";
+import HitboxComponent from "../Components/HitboxComponent.js";
 
 class PlayerEntity extends Entity {
   constructor(id, x, y, entities) {
@@ -19,12 +21,13 @@ class PlayerEntity extends Entity {
     this.bombs = 3; // Initialiser le nombre de bombes
     let velocityComponent = new VelocityComponent(0, 0);
     const inputSystem = new InputSystem();
-    const bombSystem = new BombSystem(entities);
+    const bombSystem = new BombSystem(entities, gameStateEntity);
 
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
-    this.addComponent("health", new HealthComponent(100)); // Initialiser la vie à 100
+    this.addComponent("lives", new LivesComponent(2));
     this.addComponent("data", new PlayerDataComponent());
+    this.addComponent("hitbox", new HitboxComponent());
 
     let spriteComponent = new SpriteComponent(
       {
