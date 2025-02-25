@@ -6,7 +6,6 @@ export default class PauseSystem {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" || e.key.toLowerCase() === "p") {
         this.togglePause();
-        this.isPaused = !this.isPaused;
       }
     });
   }
@@ -102,7 +101,7 @@ export default class PauseSystem {
     buttonContainer.appendChild(resetButton);
     buttonContainer.appendChild(mainMenuButton);
     pauseScreen.appendChild(buttonContainer);
-    document.getElementById("gameGrid").appendChild(pauseScreen);
+    document.getElementById("game-container").appendChild(pauseScreen);
   }
 
   removePause() {
@@ -114,3 +113,4 @@ export default class PauseSystem {
 
   update() {}
 }
+s;
