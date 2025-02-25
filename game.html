@@ -6,25 +6,91 @@
     <title>Bomberman</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="bomb.css" />
-    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="intro.css" />
+    <link rel="icon" href="data:," />
   </head>
 
   <body>
-    <img id="background-game"src="./pictures/foret 4.jpg
-    " />
+    <img id="background-game" src="./pictures/foret 4.jpg" />
     <div id="fps"></div>
     <div id="timer"></div>
 
+    <div id="intro-container">
+      <div id="bomberman-icon">
+        <!-- Simple bomberman icon using SVG -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="60" r="35" fill="#333" />
+          <rect x="35" y="15" width="30" height="25" fill="#333" />
+          <circle cx="35" cy="40" r="5" fill="white" />
+          <circle cx="65" cy="40" r="5" fill="white" />
+          <rect x="42" y="50" width="16" height="5" fill="white" />
+          <rect x="47" y="5" width="6" height="15" fill="red" />
+        </svg>
+      </div>
+      <h1 id="intro-title">BombermanDX</h1>
+      <p class="intro-text">
+        In a world ravaged by mysterious forces, the legendary forest of Eldoria
+        has become the lair of dangerous creatures.
+      </p>
+      <p class="intro-text">
+        You are Bomberman, the only hope to restore peace. Your mission: cross
+        the enchanted forest and defeat the monsters that inhabit it.
+      </p>
+      <p class="intro-text">
+        Armed only with your bombs and your courage, you will have to navigate
+        through complex labyrinths, avoid deadly traps and face formidable
+        enemies.
+      </p>
+      <p class="intro-text">
+        Are you ready to take up the challenge and become the hero Eldoria
+        needs?
+      </p>
+      <button id="skip-intro">Start the adventure</button>
+    </div>
+
     <div id="game-container"></div>
-    
-<script>document.addEventListener("DOMContentLoaded", () => {
-  const gameContainer = document.getElementById("game-container");
-  gameContainer.style.opacity = 0;
-  setTimeout(() => {
-    gameContainer.style.opacity = 1;
-  }, 1000);
-});
-</script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const gameContainer = document.getElementById("game-container");
+        const introContainer = document.getElementById("intro-container");
+        const introTexts = document.querySelectorAll(".intro-text");
+        const skipIntroButton = document.getElementById("skip-intro");
+
+        // Hide game container initially
+        gameContainer.style.opacity = 0;
+
+        // Show intro texts one by one
+        introTexts.forEach((text, index) => {
+          setTimeout(() => {
+            text.classList.add("visible");
+          }, 1000 + index * 2000); // Show each text with delay
+        });
+
+        // Function to start the game
+        const startGame = () => {
+          // Fade out intro
+          introContainer.style.opacity = 0;
+
+          // After intro fades out, remove it and show game
+          setTimeout(() => {
+            introContainer.style.display = "none";
+            gameContainer.style.opacity = 1;
+          }, 1500);
+        };
+
+        // Start game when skip button is clicked
+        skipIntroButton.addEventListener("click", startGame);
+
+        // Also start game automatically after all texts are shown (with delay)
+        setTimeout(() => {
+          // Only start automatically if the intro is still visible
+          if (introContainer.style.opacity !== "0") {
+            startGame();
+          }
+        }, 1000 + introTexts.length * 2000 + 3000); // Total intro time + extra seconds
+      });
+    </script>
     <script type="module" src="main.js"></script>
   </body>
 </html>
