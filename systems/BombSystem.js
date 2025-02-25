@@ -29,6 +29,23 @@ class BombSystem {
 
     document.addEventListener("pauseToggled", (e) => {
       this.isPaused = e.detail.isPaused;
+      this.handlePauseState();
+    });
+  }
+
+  handlePauseState() {
+    this.activeBombs.forEach((bombData) => {
+      const { component, timer } = bombData;
+      if (this.isPaused) {
+        clearTimeout(timer);
+        bombData.remainingTime =
+          component.timer - (Date.now() - component.startTime);
+      } else {
+        bombData.timer = setTimeout(
+          () => this.handleExplosion(bombData.id),
+          bombData.remainingTime
+        );
+      }
     });
   }
 
@@ -53,11 +70,13 @@ class BombSystem {
 
     const bombId = `bomb-${Date.now()}`;
     this.activeBombs.set(bombId, {
+      id: bombId,
       component: bombComponent,
       timer: setTimeout(
         () => this.handleExplosion(bombId),
         bombComponent.timer
       ),
+      remainingTime: bombComponent.timer,
     });
 
     this.playerBombTracking.set(playerId, bombId);
@@ -131,9 +150,6 @@ class BombSystem {
       return;
     }
 
-    // this.entities.forEach((entity) => {
-    //   this.applyDamageIfHit(entity, bombComponent);
-    // });
     this.entities.forEach((entity) => {
       if (entity.getComponent("ai") || entity.getComponent("sprite")) {
         this.isHit(entity, bombComponent);
