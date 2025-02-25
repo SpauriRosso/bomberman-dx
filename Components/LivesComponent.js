@@ -27,7 +27,7 @@ export default class LifeComponent {
       // Update the life counter display
       this.updateLifeCounter();
 
-      // Add visual feedback
+      // Déclencher l'animation de flash
       this.flashLifeCounter();
 
       this.isInvincible = true; // Activate invincibility to prevent multiple hits
@@ -42,32 +42,32 @@ export default class LifeComponent {
   }
 
   flashLifeCounter() {
-    // Add a flashing effect when player loses a life
-    const lifeCounter = document.getElementById("lifeCounter");
-    if (lifeCounter) {
-      lifeCounter.style.animation = "flash 0.5s";
+    const lifeCountText = document.getElementById("lifeCountText");
+    const heartIcon = lifeCountText.parentNode.querySelector("img");
 
-      // Define the flash animation if it doesn't exist
-      if (!document.getElementById("flashAnimation")) {
-        const style = document.createElement("style");
-        style.id = "flashAnimation";
-        style.textContent = `
-          @keyframes flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-          }
-        `;
-        document.head.appendChild(style);
-      }
+    if (lifeCountText && heartIcon) {
+      lifeCountText.style.animation = "flash 0.5s";
+      heartIcon.style.animation = "flash 0.5s";
 
-      // Remove the animation after it completes
+      // Définir l'animation de flash
+      const style = document.createElement("style");
+      style.innerHTML = `
+        @keyframes flash {
+          0% { opacity: 1; }
+          50% { opacity: 0.3; }
+          100% { opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Supprimer l'animation après 0.5 seconde
       setTimeout(() => {
-        lifeCounter.style.animation = "";
+        lifeCountText.style.animation = "";
+        heartIcon.style.animation = "";
       }, 500);
     }
   }
 
-  // Add a method to gain lives (for power-ups, etc.)
   gainLife() {
     this.lives += 1;
     console.log(`Player gained a life! ${this.lives} lives remaining.`);
@@ -146,7 +146,7 @@ export default class LifeComponent {
   }
 
   pauseGame() {
-    const pauseComponent = gameStateEntity;
+    const pauseComponent = this.gameStateEntity;
     pauseComponent.isPaused = true;
 
     document.dispatchEvent(
