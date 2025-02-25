@@ -12,24 +12,90 @@
         opacity: 0;
         transition: opacity 1s;
       }
+      #stage-info {
+        font-family: "bomberman";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        color: #fff;
+        text-align: center;
+        z-index: 1; /* Add this line to position the text on top of the game container */
+        transition: opacity 1s;
+      }
+
+      #stage-info.go {
+        font-size: 80px;
+        color: #ff0000;
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        animation: fadeIn 1s forwards;
+      }
+      #stage-info.Ready {
+        font-size: 80px;
+        color: #ff0000;
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        animation: fadeIn 1s forwards;
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <img
-      id="background-game"
-      src="./pictures/foret 4.jpg
-    "
-    />
+    <img id="background-game" src="./pictures/foret 4.jpg" />
     <div id="fps"></div>
     <div id="timer"></div>
-
+    <div id="stage-info"></div>
     <div id="game-container"></div>
+    <audio
+      id="ready-sound"
+      src="/sound-effect/Ready.mp3"
+      preload="auto"
+    ></audio>
+    <audio id="go-sound" src="/sound-effect/GO!.mp3" preload="auto"></audio>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const gameContainer = document.getElementById("game-container");
-        gameContainer.style.opacity = 1;
+        const stageInfo = document.getElementById("stage-info");
+        const readySound = document.getElementById("ready-sound");
+        const goSound = document.getElementById("go-sound");
+
+        // Display stage information
+        stageInfo.textContent = "Stage1 - Ancient Forest";
+
+        // Play "Ready" sound effect after a short delay
+        setTimeout(() => {
+          readySound.play();
+          stageInfo.textContent = "Ready?";
+          stageInfo.classList.add("Ready");
+        }, 1200); // Adjust the delay as needed
+
+        // Play "Go" sound effect after a longer delay and update stage info
+        setTimeout(() => {
+          goSound.play();
+          stageInfo.textContent = "GO!";
+          stageInfo.classList.add("go");
+        }, 2800); // Adjust the delay as needed
+
+        // Hide the "GO" text after a short delay
+        setTimeout(() => {
+          stageInfo.style.display = "none";
+        }, 4000); // Adjust the delay as needed
+
+        // Fade in the game container after a short delay
+        setTimeout(() => {
+          gameContainer.style.opacity = 1;
+        }, 2000); // Adjust the delay as needed
       });
     </script>
     <script type="module" src="main.js"></script>
