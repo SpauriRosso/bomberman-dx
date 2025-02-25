@@ -8,15 +8,6 @@ class ScoreManager {
   initScoreDisplay() {
     const scoreContainer = document.createElement("div");
     scoreContainer.className = "score-container";
-    scoreContainer.innerHTML = `
-            <div class="score-label">SCORE</div>
-            <div id="current-score" class="score-value">0</div>
-            <div class="score-label">HIGH SCORE</div>
-            <div id="high-score" class="score-value high-score">0</div>
-        `;
-    document.body.appendChild(scoreContainer);
-    this.updateScoreDisplay();
-    this.updateHighScoreDisplay();
   }
 
   updateScoreDisplay() {
@@ -35,15 +26,11 @@ class ScoreManager {
 
   // Points for different game events
   addEnemyDefeatPoints() {
-    this.updateScore(100); // 100 points for defeating an enemy
+    this.updateScore(300); // 100 points for defeating an enemy
   }
 
-  addDestructibleBlockPoints() {
-    this.updateScore(50); // 50 points for destroying a block
-  }
-
-  addPowerUpPoints() {
-    this.updateScore(200); // 200 points for collecting a power-up
+  addBreakablePoints() {
+    this.updateScore(10); // 50 points for destroying a block
   }
 
   // Manage high score
