@@ -1,9 +1,10 @@
 import { tileMapDefault } from "../utils/tileMap.js";
 
 export default class CollisionSystem {
-  constructor() {
+  constructor(entities) {
     this.tileMap = tileMapDefault; // Stock game level
     this.hitboxPadding = 2; // Padding around hitbox to prevent clipping
+    this.entities = entities;
   }
 
   /**
@@ -77,6 +78,38 @@ export default class CollisionSystem {
       );
     });
   }
+
+  /**
+   * Checks collision with other entities at a specific position
+   * @param {Entity} movingEntity - The entity attempting to move
+   * @param {number} targetX - X position of the entity after movement
+   * @param {number} targetY - Y position of the entity after movement
+   * @returns {boolean} - true if there is a collision with another entity
+   */
+  isEntityCollide(movingEntity, targetX, targetY) {
+    const movingHitbox = movingEntity.getComponent("hitbox");
+    if (!movingEntity || !movingEntity.getComponent("hitbox") || !movingEntity.getComponent("position")) {
+      return false;
+    }
+
+    return this.entities.some(entity => {
+      if (entity.id === movingEntity.id) return false; // Skip self
+
+      const position = entity.getComponent("position");
+      const hitbox = entity.getComponent("hitbox");
+
+      if (!position || !hitbox) return false;
+
+      // Simple AABB collision detection
+      return (
+          targetX < position.x + hitbox.width &&
+          targetX + movingEntity.getComponent("hitbox").width > position.x &&
+          targetY < position.y + hitbox.height &&
+          targetY + movingEntity.getComponent("hitbox").height > position.y
+      );
+    });
+  }
+
 
   /**
    * Handle bomb-player collisions

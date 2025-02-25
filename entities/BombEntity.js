@@ -8,7 +8,7 @@ class BombEntity extends Entity {
     super(id);
     this.addComponent(new PositionComponent(x, y));
     this.addComponent(new BombDataComponent());
-    this.addComponent(new HitboxComponent(64, 64)); // Same size as tile
+    this.addComponent("hitbox", new HitboxComponent());
   }
 }
 
