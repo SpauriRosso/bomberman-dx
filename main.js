@@ -14,6 +14,7 @@ import Timer from "./utils/Timer.js";
 import { tileMapDefault } from "./utils/tileMap.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
+import HUDHeader from "./utils/HUDheader.js";
 
 const collisionSystem = new CollisionSystem(tileMapDefault);
 const movementSystem = new MovementSystem(collisionSystem);
@@ -50,11 +51,20 @@ gameLogicSystem.addSystem(new RenderSystem());
 gameLogicSystem.addSystem(movementSystem);
 console.log(gameLogicSystem);
 
+const hudContainer = document.createElement("div");
+document.body.appendChild(hudContainer);
+const hudHeader = new HUDHeader(hudContainer);
+
 function gameLoop() {
   gameLogicSystem.update();
 
   fps.update(performance.now());
   timer.start();
+
+  // Mettre à jour le HUD avec le score, le timer et les FPS
+  hudHeader.updateScore(player.score);
+  hudHeader.updateTimer(timer.display());
+  hudHeader.updateFPS(fps.fps);
 
   requestAnimationFrame(gameLoop);
 }

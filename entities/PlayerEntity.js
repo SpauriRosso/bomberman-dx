@@ -11,13 +11,19 @@ import BombSystem from "../systems/BombSystem.js";
 class PlayerEntity extends Entity {
   constructor(id, x, y, entities) {
     super(id);
+    this.id = id;
+    this.x = x;
+    this.y = y;
+    this.entities = entities;
+    this.score = 0; // Initialiser le score
+    this.bombs = 3; // Initialiser le nombre de bombes
     let velocityComponent = new VelocityComponent(0, 0);
     const inputSystem = new InputSystem();
     const bombSystem = new BombSystem(entities);
 
     this.addComponent("position", new PositionComponent(x, y));
     this.addComponent("velocity", velocityComponent);
-    this.addComponent("health", new HealthComponent(100));
+    this.addComponent("health", new HealthComponent(100)); // Initialiser la vie à 100
     this.addComponent("data", new PlayerDataComponent());
 
     let spriteComponent = new SpriteComponent(

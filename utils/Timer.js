@@ -42,19 +42,7 @@ export default class Timer {
     const timeString = `${this.formatTime(this.minutes)}:${this.formatTime(
       this.seconds
     )}`;
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = timeString;
-    timerElement.style.position = "absolute";
-    timerElement.style.top = "80px";
-    timerElement.style.right = "10px";
-    timerElement.style.fontSize = "25px";
-    timerElement.style.fontWeight = "bold";
-    timerElement.style.color = "black";
-    timerElement.style.padding = "5px";
-    timerElement.style.borderRadius = "5px";
-    timerElement.style.cursor = "default";
-    timerElement.style.fontFamily = "bomberman";
-    document.body.appendChild(timerElement);
+    return timeString;
   }
 
   formatTime(num) {
