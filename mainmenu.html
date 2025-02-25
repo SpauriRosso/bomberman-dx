@@ -34,41 +34,41 @@
       document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("keydown", (e) => {
           if (e.key === " ") {
-            const menu = document.getElementById("menu");
-            const blackScreen = document.getElementById("black-screen");
-
             // Start PS2-like blur/zoom transition
+            const menu = document.getElementById("menu");
             menu.classList.add("ps2-exit");
 
             // After 1.5s, start black fade-out transition
+            const blackScreen = document.getElementById("black-screen");
             setTimeout(() => {
               blackScreen.classList.add("fade-out");
             }, 1400);
 
-            // After 2.5s, switch to game page
+            // After 2.5s, switch to intro page
             setTimeout(() => {
-              window.location.href = "game.html";
+              console.log("Navigating to intro.html");
+              window.location.href = "intro.html";
             }, 2500);
           }
         });
-
-        const video = document.getElementById("background-video");
-        video.volume = 0; // Start video muted
-        video
-          .play()
-          .then(() => {
-            setTimeout(() => {
-              video.muted = false;
-              video.volume = 1.0;
-            }, 1000);
-          })
-          .catch((error) => {
-            console.error(
-              "La vidéo n'a pas pu être lue automatiquement avec le son activé.",
-              error
-            );
-          });
       });
+
+      const video = document.getElementById("background-video");
+      video.volume = 0; // Start video muted
+      video
+        .play()
+        .then(() => {
+          setTimeout(() => {
+            video.muted = false;
+            video.volume = 1.0;
+          }, 1000);
+        })
+        .catch((error) => {
+          console.error(
+            "La vidéo n'a pas pu être lue automatiquement avec le son activé.",
+            error
+          );
+        });
     </script>
   </body>
 </html>
