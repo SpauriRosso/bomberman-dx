@@ -8,6 +8,8 @@ import BombSystem from "./systems/BombSystem.js";
 import EnemySystem from "./systems/EnemySystem.js";
 import PlayerSystem from "./systems/PlayerSystem.js";
 import InputsComponent from "./Components/inputsComponents.js";
+import ScoreManager from "./utils/ScoreManager.js";
+import HUDHeader from "./utils/HUDheader.js";
 
 const entities = [];
 
@@ -27,6 +29,23 @@ const enemySystem = new EnemySystem(entities);
 const playerSystem = new PlayerSystem(entities);
 
 const inputs = new InputsComponent();
+
+const hudContainer = document.createElement("div");
+document.body.appendChild(hudContainer);
+const hudHeader = new HUDHeader(hudContainer);
+const scoreManager = new ScoreManager(hudHeader);
+
+function destroyBox(player, box) {
+  // ...existing code...
+  scoreManager.addBoxPoints();
+  // ...existing code...
+}
+
+function destroyEnemy(player, enemy) {
+  // ...existing code...
+  scoreManager.addEnemyPoints();
+  // ...existing code...
+}
 
 function update() {
   // Update the player's position using the inputsComponent class

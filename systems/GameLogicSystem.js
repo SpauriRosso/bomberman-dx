@@ -40,6 +40,7 @@ export default class GameLogicSystem {
             (position1.x - position2.x) ** 2 + (position1.y - position2.y) ** 2
           );
           if (distance < 64) {
+            // Call destroyBox or destroyEnemy here if collision detected
           }
         }
       });

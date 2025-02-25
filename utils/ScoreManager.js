@@ -1,49 +1,28 @@
 class ScoreManager {
-  constructor() {
+  constructor(hudHeader) {
     this.score = 0;
     this.highScore = this.loadHighScore();
-    this.initScoreDisplay();
-  }
-
-  initScoreDisplay() {
-    const scoreContainer = document.createElement("div");
-    scoreContainer.className = "score-container";
-    scoreContainer.innerHTML = `
-            <div class="score-label">SCORE</div>
-            <div id="current-score" class="score-value">0</div>
-            <div class="score-label">HIGH SCORE</div>
-            <div id="high-score" class="score-value high-score">0</div>
-        `;
-    document.body.appendChild(scoreContainer);
+    this.hudHeader = hudHeader;
     this.updateScoreDisplay();
     this.updateHighScoreDisplay();
   }
 
   updateScoreDisplay() {
-    const currentScoreElement = document.getElementById("current-score");
-    if (currentScoreElement) {
-      currentScoreElement.textContent = this.score.toString();
-    }
+    this.hudHeader.updateScore(this.score);
   }
 
   updateHighScoreDisplay() {
-    const highScoreElement = document.getElementById("high-score");
-    if (highScoreElement) {
-      highScoreElement.textContent = this.highScore.toString();
-    }
+    // Mettre à jour l'affichage du high score si nécessaire
   }
 
   // Points for different game events
-  addEnemyDefeatPoints() {
-    this.updateScore(100); // 100 points for defeating an enemy
+  addBoxPoints() {
+    console.log("scoreboxadded");
+    this.updateScore(10); // 10 points for destroying a box
   }
 
-  addDestructibleBlockPoints() {
-    this.updateScore(50); // 50 points for destroying a block
-  }
-
-  addPowerUpPoints() {
-    this.updateScore(200); // 200 points for collecting a power-up
+  addEnemyPoints() {
+    this.updateScore(300); // 300 points for defeating an enemy
   }
 
   // Manage high score
@@ -96,3 +75,5 @@ class ScoreManager {
     this.checkHighScore();
   }
 }
+
+export default ScoreManager;

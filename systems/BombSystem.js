@@ -283,6 +283,10 @@ class BombSystem {
         tileElement.classList.remove("breakable");
         tileElement.classList.add("floor");
       }
+
+      // Appeler destroyBox pour mettre à jour le score
+      const player = gameLogicSystem.findEntityById(10); // Assurez-vous que l'ID du joueur est correct
+      destroyBox(player, { x: tileX, y: tileY });
     }
   }
 

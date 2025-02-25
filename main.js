@@ -7,6 +7,7 @@ import MovementSystem from "./systems/MovementSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
 import BombSystem from "./systems/BombSystem.js";
+import ScoreManager from "./utils/ScoreManager.js";
 
 import {
   generateGrid,
@@ -92,6 +93,8 @@ const hudContainer = document.createElement("div");
 document.body.appendChild(hudContainer);
 const hudHeader = new HUDHeader(hudContainer);
 
+const scoreManager = new ScoreManager(hudHeader);
+
 let lastFrameTime = 0;
 const targetFrameTime = 1000 / 60; // 60 FPS target (16.67ms per frame)
 
@@ -109,7 +112,7 @@ function gameLoop(timestamp) {
     timer.start(); // Update timer
 
     // Mettre à jour le HUD avec le score, la vie restante, le timer et les FPS
-    hudHeader.updateScore(player.score);
+    hudHeader.updateScore(scoreManager.getScore());
     const healthComponent = player.getComponent("health");
     if (healthComponent) {
       hudHeader.updateHealth(healthComponent.value);
@@ -120,3 +123,17 @@ function gameLoop(timestamp) {
   requestAnimationFrame(gameLoop); // Continue loop
 }
 requestAnimationFrame(gameLoop);
+
+function destroyBox(player, box) {
+  // ...existing code...
+  scoreManager.addBoxPoints();
+  hudHeader.updateScore(scoreManager.getScore());
+  // ...existing code...
+}
+
+function destroyEnemy(player, enemy) {
+  // ...existing code...
+  scoreManager.addEnemyPoints();
+  hudHeader.updateScore(scoreManager.getScore());
+  // ...existing code...
+}
