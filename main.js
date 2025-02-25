@@ -6,6 +6,7 @@ import PauseSystem from "./systems/PauseSystem.js";
 import MovementSystem from "./systems/MovementSystem.js";
 import CollisionSystem from "./systems/CollisionSystem.js";
 import EnemyEntity from "./entities/EnemyEntity.js";
+import BombSystem from "./systems/BombSystem.js";
 
 import {
   generateGrid,
@@ -13,8 +14,9 @@ import {
   findEnemyPosition,
   tileMapDefault,
 } from "./utils/tileMap.js";
-import FPS from "./utils/FPS.js";
 import Timer from "./utils/Timer.js";
+import FPS from "./utils/FPS.js";
+import HUDHeader from "./utils/HUDheader.js";
 
 // Initialize the collision and movement systems
 const collisionSystem = new CollisionSystem(tileMapDefault);
@@ -46,6 +48,10 @@ gameLogicSystem.addEntity(gameStateEntity);
 const pauseSystem = new PauseSystem(gameStateEntity);
 gameLogicSystem.addSystem(pauseSystem);
 
+// Instantiate and add the BombSystem
+const bombSystem = new BombSystem(gameLogicSystem.entities, gameStateEntity);
+gameLogicSystem.addSystem(bombSystem);
+
 // Start game logic (e.g., music, initial updates)
 gameLogicSystem.startGame();
 
@@ -72,6 +78,7 @@ player = new PlayerEntity(
   playerPosition.y * 64,
   gameLogicSystem.entities
 );
+
 gameLogicSystem.addEntity(player);
 
 // Add the RenderSystem and MovementSystem to the game logic system
@@ -80,6 +87,10 @@ gameLogicSystem.addSystem(movementSystem);
 
 // Debug log of the game logic system state
 // console.log(gameLogicSystem);
+
+const hudContainer = document.createElement("div");
+document.body.appendChild(hudContainer);
+const hudHeader = new HUDHeader(hudContainer);
 
 let lastFrameTime = 0;
 const targetFrameTime = 1000 / 60; // 60 FPS target (16.67ms per frame)
@@ -95,8 +106,16 @@ function gameLoop(timestamp) {
     if (!isPaused) {
       gameLogicSystem.update(); // Run your game updates
     }
-    fps.update(performance.now()); // Update FPS counter
     timer.start(); // Update timer
+
+    // Mettre à jour le HUD avec le score, la vie restante, le timer et les FPS
+    hudHeader.updateScore(player.score);
+    const healthComponent = player.getComponent("health");
+    if (healthComponent) {
+      hudHeader.updateHealth(healthComponent.value);
+    }
+    hudHeader.updateTimer(timer.display());
+    hudHeader.updateFPS(fps.update(performance.now()));
   }
   requestAnimationFrame(gameLoop); // Continue loop
 }
