@@ -6,67 +6,8 @@ export default class LifeComponent {
     this.isInvincible = false; // Prevents taking multiple hits from a single explosion
     this.gameStateEntity = gameStateEntity; // Reference to the game state entity
 
-    // Create and initialize the life counter display
-    this.createLifeCounter();
+    // Update the life counter display in the HUD
     this.updateLifeCounter();
-  }
-
-  createLifeCounter() {
-    // Check if a life counter already exists to avoid duplicates
-    if (document.getElementById("lifeCounter")) return;
-
-    // Create container for life counter
-    const lifeCounter = document.createElement("div");
-    lifeCounter.id = "lifeCounter";
-    lifeCounter.style.position = "absolute";
-    lifeCounter.style.top = "-50px";
-    lifeCounter.style.left = "10px";
-    lifeCounter.style.display = "flex";
-    lifeCounter.style.alignItems = "center";
-    lifeCounter.style.gap = "10px";
-    lifeCounter.style.zIndex = "100";
-
-    // Create heart icon or label
-    const heartIcon = document.createElement("img");
-    heartIcon.src = "./pictures/heart.png"; // Path to your heart icon
-    heartIcon.style.width = "40px";
-    heartIcon.style.height = "40px";
-    heartIcon.alt = "Lives";
-
-    // Add heartbeat animation
-    heartIcon.style.animation = "heartbeat 1s infinite";
-
-    // Fallback to text if image doesn't load
-    heartIcon.onerror = function () {
-      this.outerHTML = `<span style="color: red; font-size: 32px; animation: heartbeat 1s infinite;">❤</span>`;
-    };
-
-    // Create life count text
-    const lifeCount = document.createElement("span");
-    lifeCount.id = "lifeCountText";
-    lifeCount.style.color = "#ffffff";
-    lifeCount.style.fontFamily = "bomberman";
-    lifeCount.style.fontSize = "32px";
-    lifeCount.style.fontWeight = "500";
-    lifeCount.style.textShadow = "0px 2px 2px rgba(0, 0, 0, 0.5)";
-
-    // Assemble the counter
-    lifeCounter.appendChild(heartIcon);
-    lifeCounter.appendChild(lifeCount);
-
-    // Add to the game grid
-    document.getElementById("gameGrid").appendChild(lifeCounter);
-
-    // Append the heartbeat animation style to the document
-    const style = document.createElement("style");
-    style.innerHTML = `
-      @keyframes heartbeat {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-      }
-    `;
-    document.head.appendChild(style);
   }
 
   updateLifeCounter() {
@@ -89,9 +30,6 @@ export default class LifeComponent {
       // Add visual feedback
       this.flashLifeCounter();
 
-      // Make the player flash 3 times
-      // this.flashPlayer();
-
       this.isInvincible = true; // Activate invincibility to prevent multiple hits
       setTimeout(() => {
         this.isInvincible = false; // Reset invincibility after 1 second
@@ -102,33 +40,7 @@ export default class LifeComponent {
       }
     }
   }
-  // flashPlayer() {
-  //   // We need to find the player element - assuming it has an id or class
-  //   const player = document.querySelector(".player"); // Adjust this selector based on your player element (it should be the sprite flashing not the player element)
 
-  //   if (player) {
-  //     // Make sure the flash animation style exists
-  //     if (!document.getElementById("playerFlashAnimation")) {
-  //       const style = document.createElement("style");
-  //       style.id = "playerFlashAnimation";
-  //       style.textContent = `
-  //         @keyframes playerFlash {
-  //           0%, 33%, 66%, 100% { opacity: 1; }
-  //           16.5%, 49.5%, 82.5% { opacity: 0.3; }
-  //         }
-  //       `;
-  //       document.head.appendChild(style);
-  //     }
-
-  //     // Apply the flash animation (3 flashes)
-  //     player.style.animation = "playerFlash 1s";
-
-  //     // Remove the animation after it completes
-  //     setTimeout(() => {
-  //       player.style.animation = "";
-  //     }, 1000);
-  //   }
-  // }
   flashLifeCounter() {
     // Add a flashing effect when player loses a life
     const lifeCounter = document.getElementById("lifeCounter");
