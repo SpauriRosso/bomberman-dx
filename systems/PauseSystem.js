@@ -113,4 +113,3 @@ export default class PauseSystem {
 
   update() {}
 }
-s;
