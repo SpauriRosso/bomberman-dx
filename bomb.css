@@ -34,7 +34,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
-  border-radius: 50%;
+  border-radius: 0%;
   animation: pulse 1s infinite;
 }
 @keyframes pulse {
