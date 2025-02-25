@@ -1,7 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import {gameLogicSystem} from "../main.js";
+import { gameLogicSystem } from "../main.js";
 
 const TILE_SIZE = 64;
 
@@ -21,10 +21,15 @@ class BombSystem {
     this.activeBombs = new Map();
     this.playerBombTracking = new Map();
     this.gameContainer = document.getElementById("game-container");
+    this.isPaused = false;
 
     if (!this.gameContainer) {
       console.error("Game container element not found!");
     }
+
+    document.addEventListener("pauseToggled", (e) => {
+      this.isPaused = e.detail.isPaused;
+    });
   }
 
   createBomb(playerId, position, power = 1) {
@@ -131,16 +136,16 @@ class BombSystem {
     // });
     this.entities.forEach((entity) => {
       if (entity.getComponent("ai") || entity.getComponent("sprite")) {
-        this.isHit(entity, bombComponent)
+        this.isHit(entity, bombComponent);
       }
-    })
+    });
 
     this.destroyBreakableTiles(bombComponent);
   }
 
   isHit(entity, bombComponent) {
-    const entityPos = entity.getComponent("position")
-    const entityHitbox = entity.getComponent("hitbox")
+    const entityPos = entity.getComponent("position");
+    const entityHitbox = entity.getComponent("hitbox");
 
     if (!entityPos) {
       console.warn(`⚠️ ${entity.id} don't have a position.`);
@@ -152,16 +157,16 @@ class BombSystem {
       return;
     }
 
-    bombComponent.explosionHitboxes.forEach(hitbox => {
+    bombComponent.explosionHitboxes.forEach((hitbox) => {
       const hitboxX = parseInt(hitbox.style.left);
       const hitboxY = parseInt(hitbox.style.top);
       const hitboxSize = bombComponent.tileSize;
 
       if (
-          entityPos.x < hitboxX + hitboxSize &&
-          entityPos.x + entityHitbox.width > hitboxX &&
-          entityPos.y < hitboxY + hitboxSize &&
-          entityPos.y + entityHitbox.height > hitboxY
+        entityPos.x < hitboxX + hitboxSize &&
+        entityPos.x + entityHitbox.width > hitboxX &&
+        entityPos.y < hitboxY + hitboxSize &&
+        entityPos.y + entityHitbox.height > hitboxY
       ) {
         console.log(`💥 ${entity.id} got hit!`);
         this.handleEntityHit(entity);
@@ -180,16 +185,24 @@ class BombSystem {
         console.log(`☠️ ${entity.id} is dead !`);
 
         if (entity.getComponent("ai")) {
-          this.entities = this.entities.filter(e => e.id !== entity);
-          gameLogicSystem.entities = gameLogicSystem.entities.filter(e => e !== entity);
-          console.log("Entities after removal:", this.entities.map(e => e.id));
+          this.entities = this.entities.filter((e) => e.id !== entity);
+          gameLogicSystem.entities = gameLogicSystem.entities.filter(
+            (e) => e !== entity
+          );
+          console.log(
+            "Entities after removal:",
+            this.entities.map((e) => e.id)
+          );
 
           const entityElement = document.getElementById(entity.id);
           if (entityElement) {
             entityElement.remove();
           }
           document.getElementById(entity.id)?.remove();
-        } else if (entity.getComponent("sprite") && entity.getComponent("lives") === 0) {
+        } else if (
+          entity.getComponent("sprite") &&
+          entity.getComponent("lives") === 0
+        ) {
           livesComponent.triggerGameOver();
         }
       }
@@ -300,9 +313,11 @@ class BombSystem {
     }
   }
 
-  update() {
+  update(deltaTime) {
     if (this.gameStateEntity.getComponent("Pause").isPaused) return;
     if (this.activeBombs.size === 0) return;
+
+    if (this.isPaused) return;
 
     this.activeBombs.forEach((bombData) => {
       const { component } = bombData;
