@@ -32,11 +32,37 @@ class HUDHeader {
     this.scoreElement.style.color = "#000000";
     this.scoreElement.style.fontWeight = "bold";
 
+    // Vie
+    this.healthElement = document.createElement("div");
+    this.healthElement.classList.add("healthElement");
+    this.healthElement.style.display = "flex";
+    this.healthElement.style.alignItems = "center";
+    this.healthElement.style.gap = "10px";
+
+    const heartIcon = document.createElement("img");
+    heartIcon.src = "./pictures/heart.png"; // Path to your heart icon
+    heartIcon.style.width = "40px";
+    heartIcon.style.height = "40px";
+    heartIcon.alt = "Lives";
+    heartIcon.style.animation = "heartbeat 1s infinite";
+
+    const lifeCount = document.createElement("span");
+    lifeCount.id = "lifeCountText";
+    lifeCount.style.color = "#000000";
+    lifeCount.style.fontFamily = "bomberman";
+    lifeCount.style.fontSize = "20px";
+    lifeCount.style.fontWeight = "bold";
+    lifeCount.innerText = "2"; // Initialiser le compteur de vie à 2
+
+    this.healthElement.appendChild(heartIcon);
+    this.healthElement.appendChild(lifeCount);
+
     // Timer
     this.timerElement = document.createElement("div");
     this.timerElement.id = "timer";
     this.timerElement.style.color = "#000000";
     this.timerElement.style.fontWeight = "bold";
+    this.timerElement.innerText = "00:00"; // Initialiser le timer
 
     // FPS
     this.fpsElement = document.createElement("div");
@@ -46,10 +72,22 @@ class HUDHeader {
 
     // Ajout des éléments au conteneur HUD
     this.HUDHeader.appendChild(this.scoreElement);
+    this.HUDHeader.appendChild(this.healthElement);
     this.HUDHeader.appendChild(this.timerElement);
     this.HUDHeader.appendChild(this.fpsElement);
 
-    document.body.appendChild(this.HUDHeader);
+    container.appendChild(this.HUDHeader);
+
+    // Append the heartbeat animation style to the document
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   // Mise à jour du score
@@ -57,9 +95,17 @@ class HUDHeader {
     this.scoreElement.innerText = `Score: ${newScore}`;
   }
 
+  // Mise à jour de la vie
+  updateHealth(health) {
+    const lifeCountText = this.healthElement.querySelector("#lifeCountText");
+    if (lifeCountText) {
+      lifeCountText.textContent = `${health}`;
+    }
+  }
+
   // Mise à jour du timer
   updateTimer(timeString) {
-    this.timerElement.innerText = `Timer: ${timeString}`;
+    this.timerElement.innerText = `${timeString}`;
   }
 
   // Mise à jour des FPS

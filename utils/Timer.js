@@ -22,7 +22,6 @@ export default class Timer {
       this.intervalId = setInterval(() => {
         if (!this.isPaused) {
           this.increment();
-          this.display();
         }
       }, 1000);
     }
@@ -43,7 +42,6 @@ export default class Timer {
     this.stop();
     this.seconds = 0;
     this.minutes = 0;
-    this.display();
   }
 
   increment() {
@@ -55,23 +53,7 @@ export default class Timer {
   }
 
   display() {
-    const timeString = `${this.formatTime(this.minutes)}:${this.formatTime(
-      this.seconds
-    )}`;
-    const timerElement = document.getElementById("timer");
-    if (timerElement) {
-      timerElement.textContent = timeString;
-      timerElement.style.position = "absolute";
-      timerElement.style.top = "80px";
-      timerElement.style.right = "10px";
-      timerElement.style.fontSize = "25px";
-      timerElement.style.fontWeight = "bold";
-      timerElement.style.color = "black";
-      timerElement.style.padding = "5px";
-      timerElement.style.borderRadius = "5px";
-      timerElement.style.cursor = "default";
-      timerElement.style.fontFamily = "bomberman";
-    }
+    return `${this.formatTime(this.minutes)}:${this.formatTime(this.seconds)}`;
   }
 
   formatTime(num) {
