@@ -215,10 +215,7 @@ class BombSystem {
             entityElement.remove();
           }
           document.getElementById(entity.id)?.remove();
-        } else if (
-          entity.getComponent("sprite") &&
-          entity.getComponent("lives") === 0
-        ) {
+        } else if (entity.getComponent("sprite")) {
           livesComponent.triggerGameOver();
         }
       }

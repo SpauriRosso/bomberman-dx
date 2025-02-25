@@ -36,7 +36,7 @@ export default class LifeComponent {
       }, 1000);
 
       if (this.lives <= 0) {
-        this.triggerGameOver();
+        // this.triggerGameOver();
       }
     }
   }
