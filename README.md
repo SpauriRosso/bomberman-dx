@@ -15,7 +15,7 @@ BombermanDX is a classic arcade-style game where players navigate through a maze
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/bomberman-dx.git
+   git clone https://github.com/SpauriRosso/bomberman-dx
    ```
 2. Navigate to the project directory:
    ```bash
