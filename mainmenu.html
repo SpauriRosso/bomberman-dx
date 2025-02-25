@@ -6,11 +6,7 @@
     <title>Bomberman</title>
     <link rel="icon" href="/pictures/Bomberman.png" type="image/png" />
     <link rel="stylesheet" href="background.css" />
-    <style>
-      #menu {
-        transition: opacity 1s;
-      }
-    </style>
+    <link rel="stylesheet" href="mainmenutransition.css" />
   </head>
 
   <body>
@@ -23,35 +19,48 @@
         Your browser does not support the video tag.
       </video>
       <div id="menu-content">
-        <div id="button-grid">
-          <div id="press-start-container">
-            <button id="press-start">
-              <img src="./videos/PressStart.gif" alt="Press Start" />
-            </button>
-          </div>
+        <div id="press-start-container">
+          <button id="press-start">
+            <img src="./videos/PressStart.gif" alt="Press Start" />
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- Black screen for fade-out effect -->
+    <div id="black-screen"></div>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("keydown", (e) => {
           if (e.key === " ") {
             const menu = document.getElementById("menu");
-            menu.style.opacity = 0;
+            const blackScreen = document.getElementById("black-screen");
+
+            // Start PS2-like blur/zoom transition
+            menu.classList.add("ps2-exit");
+
+            // After 1.5s, start black fade-out transition
+            setTimeout(() => {
+              blackScreen.classList.add("fade-out");
+            }, 1400);
+
+            // After 2.5s, switch to game page
             setTimeout(() => {
               window.location.href = "game.html";
-            }, 1000);
+            }, 2500);
           }
         });
+
         const video = document.getElementById("background-video");
-        video.volume = 0; // Démarrer la vidéo avec le son coupé
+        video.volume = 0; // Start video muted
         video
           .play()
           .then(() => {
             setTimeout(() => {
-              video.muted = false; // Activer le son après 1 seconde
-              video.volume = 1.0; // Assurez-vous que le volume est à 100%
-            }, 1000); // 1000 millisecondes = 1 seconde
+              video.muted = false;
+              video.volume = 1.0;
+            }, 1000);
           })
           .catch((error) => {
             console.error(
