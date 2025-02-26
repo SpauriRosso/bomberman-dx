@@ -1,7 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import { gameLogicSystem } from "../../main.js";
+import {gameLogicSystem, player} from "../../main.js";
 
 const TILE_SIZE = 64;
 
@@ -243,6 +243,8 @@ class BombSystem {
     const centerX = Math.floor(centerPos.x / TILE_SIZE);
     const centerY = Math.floor(centerPos.y / TILE_SIZE);
 
+    let destroyed = false
+
     for (let dir of [
       { x: 0, y: 0 },
       { x: 1, y: 0 },
@@ -256,8 +258,12 @@ class BombSystem {
 
         if (this.isWithinBounds(tileX, tileY)) {
           this.breakTile(tileX, tileY);
+          destroyed = true
         }
       }
+    }
+    if (destroyed) {
+      player.scoreManager.addBreakablePoints();
     }
   }
 
