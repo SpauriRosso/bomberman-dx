@@ -1,7 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import { gameLogicSystem } from "/main.js";
+import { gameLogicSystem, player } from "../../main.js";
 
 const TILE_SIZE = 64;
 
@@ -194,6 +194,8 @@ class BombSystem {
     const livesComponent = entity.getComponent("lives");
 
     if (livesComponent) {
+      if (entity.ko) return;
+      entity.ko = true;
       livesComponent.loseLife();
       console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
 
@@ -206,8 +208,8 @@ class BombSystem {
             (e) => e !== entity
           );
           console.log(
-            "Entities after removal:",
-            this.entities.map((e) => e.id)
+            "Game Logic Entities:",
+            gameLogicSystem.entities.map((e) => e.id)
           );
 
           const entityElement = document.getElementById(entity.id);
@@ -215,6 +217,8 @@ class BombSystem {
             entityElement.remove();
           }
           document.getElementById(entity.id)?.remove();
+          player.scoreManager.addEnemyDefeatPoints();
+          gameLogicSystem.checkAiDefeated();
         } else if (entity.getComponent("sprite")) {
           livesComponent.triggerGameOver();
         }
@@ -243,6 +247,8 @@ class BombSystem {
     const centerX = Math.floor(centerPos.x / TILE_SIZE);
     const centerY = Math.floor(centerPos.y / TILE_SIZE);
 
+    let destroyed = 0;
+
     for (let dir of [
       { x: 0, y: 0 },
       { x: 1, y: 0 },
@@ -254,9 +260,18 @@ class BombSystem {
         const tileX = centerX + dir.x * i;
         const tileY = centerY + dir.y * i;
 
-        if (this.isWithinBounds(tileX, tileY)) {
+        if (
+          this.isWithinBounds(tileX, tileY) &&
+          tileMapDefault[tileY][tileX] === 2
+        ) {
           this.breakTile(tileX, tileY);
+          destroyed++;
         }
+      }
+    }
+    if (destroyed > 0) {
+      for (let i = 0; i < destroyed; i++) {
+        player.scoreManager.addBreakablePoints();
       }
     }
   }
