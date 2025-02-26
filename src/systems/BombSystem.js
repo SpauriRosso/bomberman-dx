@@ -192,8 +192,12 @@ class BombSystem {
 
   handleEntityHit(entity) {
     const livesComponent = entity.getComponent("lives");
-    // if (entity.ko) return;
-
+    if (entity.ko) {
+      setTimeout(() => {
+        entity.ko = false; // Reset invincibility after 1 second
+      }, 500);
+      return; // Prevent multiple hits
+    }
     if (livesComponent) {
       livesComponent.loseLife();
       entity.ko = true;
