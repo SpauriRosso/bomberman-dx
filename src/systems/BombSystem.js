@@ -194,7 +194,8 @@ class BombSystem {
         const livesComponent = entity.getComponent("lives");
 
         if (livesComponent) {
-          if (entity.ko) return;
+            if (entity.ko) return;
+            entity.ko = true;
             livesComponent.loseLife();
             console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
 
@@ -202,15 +203,11 @@ class BombSystem {
                 console.log(`☠️ ${entity.id} is dead !`);
 
                 if (entity.getComponent("ai")) {
-                  entity.ko = true;
                     this.entities = this.entities.filter((e) => e.id !== entity);
                     gameLogicSystem.entities = gameLogicSystem.entities.filter(
                         (e) => e !== entity
                     );
-                    console.log(
-                        "Entities after removal:",
-                        this.entities.map((e) => e.id)
-                    );
+                    console.log("Game Logic Entities:", gameLogicSystem.entities.map((e) => e.id));
 
                     const entityElement = document.getElementById(entity.id);
                     if (entityElement) {
