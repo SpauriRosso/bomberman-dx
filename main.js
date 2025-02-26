@@ -91,6 +91,7 @@ gameLogicSystem.addSystem(movementSystem);
 const hudContainer = document.createElement("div");
 document.body.appendChild(hudContainer);
 const hudHeader = new HUDHeader(hudContainer);
+player.scoreManager.setHUD(hudHeader);
 
 let lastFrameTime = 0;
 const targetFrameTime = 1000 / 60; // 60 FPS target (16.67ms per frame)
@@ -109,7 +110,7 @@ function gameLoop(timestamp) {
     timer.start(); // Update timer
 
     // Mettre à jour le HUD avec le score, la vie restante, le timer et les FPS
-    hudHeader.updateScore(player.score);
+    hudHeader.updateScore(player.scoreManager.getScore());
     const healthComponent = player.getComponent("health");
     if (healthComponent) {
       hudHeader.updateHealth(healthComponent.value);
