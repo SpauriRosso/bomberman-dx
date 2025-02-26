@@ -244,7 +244,7 @@ class BombSystem {
         const centerX = Math.floor(centerPos.x / TILE_SIZE);
         const centerY = Math.floor(centerPos.y / TILE_SIZE);
 
-        let destroyed = false
+        let destroyed = 0
 
         for (let dir of [
             {x: 0, y: 0},
@@ -259,12 +259,14 @@ class BombSystem {
 
                 if (this.isWithinBounds(tileX, tileY) && tileMapDefault[tileY][tileX] === 2) {
                     this.breakTile(tileX, tileY);
-                    destroyed = true
+                    destroyed++
                 }
             }
         }
-        if (destroyed) {
-            player.scoreManager.addBreakablePoints();
+        if (destroyed > 0) {
+            for (let i = 0; i < destroyed; i++) {
+                player.scoreManager.addBreakablePoints();
+            }
         }
     }
 
