@@ -33,7 +33,7 @@ export default class GameLogicSystem {
   checkAiDefeated() {
     const remainingAI = this.entities.filter(entity => entity.getComponent("ai"))
     if (remainingAI.length === 0) {
-      this.audioSystem.playMusic("https://www.myinstants.com/fr/instant/tekken-you-win-91408/?utm_source=copy&utm_medium=share");
+      this.audioSystem.playMusic("/src/frontend/assets/sound-effect/Win.mp3");
       setTimeout(() => {
         alert("You win!");
       }, 1000);
