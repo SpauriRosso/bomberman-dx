@@ -80,6 +80,7 @@ export default class LifeComponent {
     this.pauseGame();
   }
 
+  // gameover event handler
   displayGameOver() {
     // Vérifie s'il existe déjà pour éviter les doublons
     if (document.getElementById("gameOverScreen")) return;
@@ -122,7 +123,7 @@ export default class LifeComponent {
 
     // Bouton pour redémarrer la partie
     const restartButton = document.createElement("img");
-    restartButton.src = "./pictures/pause-assests/Reset.png";
+    restartButton.src = "/src/frontend/assets/pictures/pause-assests/Reset.png"; //fixed path
     restartButton.style.width = "49px";
     restartButton.style.height = "49px";
     restartButton.style.cursor = "pointer";
@@ -130,7 +131,8 @@ export default class LifeComponent {
 
     // Bouton pour retourner au menu principal
     const mainMenuButton = document.createElement("img");
-    mainMenuButton.src = "./pictures/pause-assests/Cancel.png";
+    mainMenuButton.src =
+      "/src/frontend/assets/pictures/pause-assests/Cancel.png"; //fixed path
     mainMenuButton.style.width = "49px";
     mainMenuButton.style.height = "49px";
     mainMenuButton.style.cursor = "pointer";
