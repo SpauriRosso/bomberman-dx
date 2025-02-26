@@ -1,46 +1,37 @@
 class ScoreManager {
   constructor(hudHeader) {
     this.score = 0;
-    this.highScore = this.loadHighScore();
-<<<<<<< HEAD
     this.hudHeader = hudHeader;
-    this.updateScoreDisplay();
-    this.updateHighScoreDisplay();
-=======
+    this.highScore = this.loadHighScore();
     this.initScoreDisplay();
   }
 
   initScoreDisplay() {
     const scoreContainer = document.createElement("div");
     scoreContainer.className = "score-container";
->>>>>>> b2041b7a1d67dc33f8df7abe2d9aff322fc69055
   }
 
   updateScoreDisplay() {
-    this.hudHeader.updateScore(this.score);
+    const currentScoreElement = document.getElementById("current-score");
+    if (currentScoreElement) {
+      currentScoreElement.textContent = this.score.toString();
+    }
   }
 
   updateHighScoreDisplay() {
-    // Mettre à jour l'affichage du high score si nécessaire
+    const highScoreElement = document.getElementById("high-score");
+    if (highScoreElement) {
+      highScoreElement.textContent = this.highScore.toString();
+    }
   }
 
   // Points for different game events
-<<<<<<< HEAD
   addBoxPoints() {
-    console.log("scoreboxadded");
     this.updateScore(10); // 10 points for destroying a box
   }
 
   addEnemyPoints() {
     this.updateScore(300); // 300 points for defeating an enemy
-=======
-  addEnemyDefeatPoints() {
-    this.updateScore(300); // 100 points for defeating an enemy
-  }
-
-  addBreakablePoints() {
-    this.updateScore(10); // 50 points for destroying a block
->>>>>>> b2041b7a1d67dc33f8df7abe2d9aff322fc69055
   }
 
   // Manage high score

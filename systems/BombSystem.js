@@ -1,7 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import { gameLogicSystem } from "../main.js";
+import { gameLogicSystem, destroyBox, destroyEnemy } from "../main.js"; // Importer destroyBox et destroyEnemy
 
 const TILE_SIZE = 64;
 
@@ -22,6 +22,7 @@ class BombSystem {
     this.playerBombTracking = new Map();
     this.gameContainer = document.getElementById("game-container");
     this.isPaused = false;
+    this.hitEntities = new Set(); // Set to track hit entities
 
     if (!this.gameContainer) {
       console.error("Game container element not found!");
@@ -184,8 +185,11 @@ class BombSystem {
         entityPos.y < hitboxY + hitboxSize &&
         entityPos.y + entityHitbox.height > hitboxY
       ) {
-        console.log(`💥 ${entity.id} got hit!`);
-        this.handleEntityHit(entity);
+        if (!this.hitEntities.has(entity.id)) {
+          console.log(`💥 ${entity.id} got hit!`);
+          this.handleEntityHit(entity);
+          this.hitEntities.add(entity.id); // Mark entity as hit
+        }
       }
     });
   }
@@ -215,6 +219,10 @@ class BombSystem {
             entityElement.remove();
           }
           document.getElementById(entity.id)?.remove();
+
+          // Appeler destroyEnemy pour mettre à jour le score
+          const player = gameLogicSystem.findEntityById(10); // Assurez-vous que l'ID du joueur est correct
+          destroyEnemy(player, entity);
         } else if (entity.getComponent("sprite")) {
           livesComponent.triggerGameOver();
         }
@@ -342,6 +350,9 @@ class BombSystem {
         component.update();
       }
     });
+
+    // Clear hit entities set after each update
+    this.hitEntities.clear();
   }
 }
 

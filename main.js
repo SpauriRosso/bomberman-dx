@@ -77,7 +77,8 @@ player = new PlayerEntity(
   10,
   playerPosition.x * 64,
   playerPosition.y * 64,
-  gameLogicSystem.entities
+  gameLogicSystem.entities,
+  gameStateEntity // Passer gameStateEntity
 );
 
 gameLogicSystem.addEntity(player);
@@ -122,16 +123,17 @@ function gameLoop(timestamp) {
   }
   requestAnimationFrame(gameLoop); // Continue loop
 }
+
 requestAnimationFrame(gameLoop);
 
-function destroyBox(player, box) {
+export function destroyBox(player, box) {
   // ...existing code...
   scoreManager.addBoxPoints();
   hudHeader.updateScore(scoreManager.getScore());
   // ...existing code...
 }
 
-function destroyEnemy(player, enemy) {
+export function destroyEnemy(player, enemy) {
   // ...existing code...
   scoreManager.addEnemyPoints();
   hudHeader.updateScore(scoreManager.getScore());
