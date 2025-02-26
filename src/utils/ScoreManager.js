@@ -1,4 +1,4 @@
-class ScoreManager {
+export default class ScoreManager {
   constructor() {
     this.score = 0;
     this.highScore = this.loadHighScore();
@@ -26,11 +26,11 @@ class ScoreManager {
 
   // Points for different game events
   addEnemyDefeatPoints() {
-    this.updateScore(300); // 100 points for defeating an enemy
+    this.updateScore(Math.floor(Math.random() * (300 - 200 + 1)) + 200);
   }
 
   addBreakablePoints() {
-    this.updateScore(10); // 50 points for destroying a block
+    this.updateScore(Math.floor(Math.random() * (50 - 10 + 1)) + 10);
   }
 
   // Manage high score
