@@ -31,9 +31,13 @@ export default class GameLogicSystem {
   }
 
   checkAiDefeated() {
-    const remainingAI = this.entities.filter(entity => entity.getComponent("ai"))
+    const remainingAI = this.entities.filter((entity) =>
+      entity.getComponent("ai")
+    );
     if (remainingAI.length === 0) {
-      this.audioSystem.playMusic("/src/frontend/assets/sound-effect/Win.mp3");
+      this.audioSystem.playMusic(
+        "src/frontend/assets/sound-effect/Alright!.mp3"
+      );
       setTimeout(() => {
         alert("You win!");
       }, 1000);
