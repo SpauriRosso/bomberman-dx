@@ -112,9 +112,9 @@ function gameLoop(timestamp) {
 
     // Mettre à jour le HUD avec le score, la vie restante, le timer et les FPS
     hudHeader.updateScore(player.scoreManager.getScore());
-    const healthComponent = player.getComponent("health");
+    const healthComponent = player.getComponent("lives");
     if (healthComponent) {
-      hudHeader.updateHealth(healthComponent.value);
+      hudHeader.updateHealth(healthComponent.getValue());
     }
     hudHeader.updateTimer(timer.display());
     hudHeader.updateFPS(fps.update(performance.now()));
