@@ -122,7 +122,7 @@ export default class LifeComponent {
 
     // Bouton pour redémarrer la partie
     const restartButton = document.createElement("img");
-    restartButton.src = "/src/frontend/assets/pictures/pause-assests/Reset.png";
+    restartButton.src = "./pictures/pause-assests/Reset.png";
     restartButton.style.width = "49px";
     restartButton.style.height = "49px";
     restartButton.style.cursor = "pointer";
@@ -130,7 +130,7 @@ export default class LifeComponent {
 
     // Bouton pour retourner au menu principal
     const mainMenuButton = document.createElement("img");
-    mainMenuButton.src = "/src/frontend/assets/pictures/pause-assests/Cancel.png";
+    mainMenuButton.src = "./pictures/pause-assests/Cancel.png";
     mainMenuButton.style.width = "49px";
     mainMenuButton.style.height = "49px";
     mainMenuButton.style.cursor = "pointer";
