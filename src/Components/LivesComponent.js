@@ -159,4 +159,7 @@ export default class LifeComponent {
 
     console.log("Game paused due to Game Over.");
   }
+  getValue() {
+    return this.lives;
+  }
 }
