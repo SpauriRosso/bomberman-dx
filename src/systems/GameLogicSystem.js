@@ -30,19 +30,13 @@ export default class GameLogicSystem {
     });
   }
 
-  checkCollisions() {
-    this.entities.forEach((entity1) => {
-      this.entities.forEach((entity2) => {
-        if (entity1 !== entity2) {
-          const position1 = entity1.getComponent("position");
-          const position2 = entity2.getComponent("position");
-          const distance = Math.sqrt(
-            (position1.x - position2.x) ** 2 + (position1.y - position2.y) ** 2
-          );
-          if (distance < 64) {
-          }
-        }
-      });
-    });
+  checkAiDefeated() {
+    const remainingAI = this.entities.filter(entity => entity.getComponent("ai"))
+    if (remainingAI.length === 0) {
+      this.audioSystem.playMusic("https://www.myinstants.com/fr/instant/tekken-you-win-91408/?utm_source=copy&utm_medium=share");
+      setTimeout(() => {
+        alert("You win!");
+      }, 1000);
+    }
   }
 }
