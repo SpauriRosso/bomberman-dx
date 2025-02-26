@@ -1,8 +1,16 @@
+import HUDheader from "./HUDheader.js";
+
 export default class ScoreManager {
   constructor() {
     this.score = 0;
     this.highScore = this.loadHighScore();
     this.initScoreDisplay();
+    this.hudHeader = null;
+  }
+
+  setHUD(hudHeader) {
+    this.hudHeader = hudHeader;
+    this.updateScoreDisplay();
   }
 
   initScoreDisplay() {
@@ -26,11 +34,11 @@ export default class ScoreManager {
 
   // Points for different game events
   addEnemyDefeatPoints() {
-    this.updateScore(Math.floor(Math.random() * (300 - 200 + 1)) + 200);
+    this.updateScore(Math.floor(Math.random() * (200 - 150 + 1)) + 150);
   }
 
   addBreakablePoints() {
-    this.updateScore(Math.floor(Math.random() * (50 - 10 + 1)) + 10);
+    this.updateScore(Math.floor(Math.random() * (10 - 5 + 1)) + 5);
   }
 
   // Manage high score
@@ -77,9 +85,20 @@ export default class ScoreManager {
   }
 
   // Update score
+  // updateScore(points) {
+  //   this.score += points;
+  //   this.updateScoreDisplay();
+  //   this.checkHighScore();
+  // }
   updateScore(points) {
     this.score += points;
-    this.updateScoreDisplay();
+    console.log(`Score updated: ${this.score}`);
+
+    if (this.hudHeader) {
+      this.hudHeader.updateScore(this.score);
+      this.updateScoreDisplay();
+    }
+
     this.checkHighScore();
   }
 }
