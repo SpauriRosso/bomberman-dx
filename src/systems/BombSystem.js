@@ -215,6 +215,7 @@ class BombSystem {
                         entityElement.remove();
                     }
                     document.getElementById(entity.id)?.remove();
+                    player.scoreManager.addEnemyDefeatPoints();
                 } else if (entity.getComponent("sprite")) {
                     livesComponent.triggerGameOver();
                 }
