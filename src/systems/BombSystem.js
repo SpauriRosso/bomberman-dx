@@ -195,7 +195,7 @@ class BombSystem {
     if (entity.ko) {
       setTimeout(() => {
         entity.ko = false; // Reset invincibility after 1 second
-      }, 500);
+      }, 10);
       return; // Prevent multiple hits
     }
     if (livesComponent) {
