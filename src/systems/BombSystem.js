@@ -194,8 +194,6 @@ class BombSystem {
     const livesComponent = entity.getComponent("lives");
 
     if (livesComponent) {
-      if (entity.ko) return;
-      entity.ko = true;
       livesComponent.loseLife();
       console.log(`${entity.id} has ${livesComponent.lives} lives left !`);
 
@@ -208,8 +206,8 @@ class BombSystem {
             (e) => e !== entity
           );
           console.log(
-            "Game Logic Entities:",
-            gameLogicSystem.entities.map((e) => e.id)
+            "Entities after removal:",
+            this.entities.map((e) => e.id)
           );
 
           const entityElement = document.getElementById(entity.id);
