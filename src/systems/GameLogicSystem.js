@@ -8,7 +8,7 @@ export default class GameLogicSystem {
     this.addSystem(this.audioSystem);
   }
   startGame() {
-    this.audioSystem.playMusic("/OST/Dynamite Night.mp3");
+    this.audioSystem.playMusic("/src/frontend/assets/OST/Dynamite Night.mp3");
     this.update();
   }
 

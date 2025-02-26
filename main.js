@@ -1,22 +1,22 @@
-import PlayerEntity from "./entities/PlayerEntity.js";
-import GameLogicSystem from "./systems/GameLogicSystem.js";
-import RenderSystem from "./systems/RenderSystem.js";
-import createGameStateEntity from "./entities/GameStateEntity.js"; // Creates a game state entity with the Pause component
-import PauseSystem from "./systems/PauseSystem.js";
-import MovementSystem from "./systems/MovementSystem.js";
-import CollisionSystem from "./systems/CollisionSystem.js";
-import EnemyEntity from "./entities/EnemyEntity.js";
-import BombSystem from "./systems/BombSystem.js";
+import PlayerEntity from "./src/entities/PlayerEntity.js";
+import GameLogicSystem from "./src/systems/GameLogicSystem.js";
+import RenderSystem from "./src/systems/RenderSystem.js";
+import createGameStateEntity from "./src/entities/GameStateEntity.js"; // Creates a game state entity with the Pause component
+import PauseSystem from "./src/systems/PauseSystem.js";
+import MovementSystem from "./src/systems/MovementSystem.js";
+import CollisionSystem from "./src/systems/CollisionSystem.js";
+import EnemyEntity from "./src/entities/EnemyEntity.js";
+import BombSystem from "./src/systems/BombSystem.js";
 
 import {
   generateGrid,
   findPlayerPosition,
   findEnemyPosition,
   tileMapDefault,
-} from "./utils/tileMap.js";
-import Timer from "./utils/Timer.js";
-import FPS from "./utils/FPS.js";
-import HUDHeader from "./utils/HUDheader.js";
+} from "./src/utils/tileMap.js";
+import Timer from "./src/utils/Timer.js";
+import FPS from "./src/utils/FPS.js";
+import HUDHeader from "./src/utils/HUDheader.js";
 
 // Initialize the collision and movement systems
 const collisionSystem = new CollisionSystem(tileMapDefault);
@@ -57,9 +57,9 @@ gameLogicSystem.startGame();
 
 // Define enemy sprite URLs
 const enemySprites = [
-  "url('./pictures/spritesheet black.png')",
-  "url('./pictures/spritesheet yellow.png')",
-  "url('./pictures/spritesheet orange.png')",
+  "url('/src/frontend/assets/pictures/spritesheet_black.png')",
+  "url('/src/frontend/assets/pictures/spritesheet_yellow.png')",
+  "url('/src/frontend/assets/pictures/spritesheet_orange.png')",
 ];
 
 // Create enemy entities based on positions from the tile map

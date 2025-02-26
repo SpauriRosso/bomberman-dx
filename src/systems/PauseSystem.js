@@ -73,14 +73,14 @@ export default class PauseSystem {
     buttonContainer.style.marginTop = "20px";
 
     const pauseButton = document.createElement("img");
-    pauseButton.src = "./pictures/pause-assests/Pause-Button.png";
+    pauseButton.src = "/src/frontend/assets/pictures/pause-assests/Pause-Button.png";
     pauseButton.style.width = "49px";
     pauseButton.style.height = "49px";
     pauseButton.style.cursor = "pointer";
     pauseButton.addEventListener("click", () => this.togglePause());
 
     const resetButton = document.createElement("img");
-    resetButton.src = "./pictures/pause-assests/Reset.png";
+    resetButton.src = "/src/frontend/assets/pictures/pause-assests/Reset.png";
     resetButton.style.width = "49px";
     resetButton.style.height = "49px";
     resetButton.style.cursor = "pointer";
@@ -88,7 +88,7 @@ export default class PauseSystem {
 
     // Bouton pour retourner au menu principal
     const mainMenuButton = document.createElement("img");
-    mainMenuButton.src = "./pictures/pause-assests/Cancel.png";
+    mainMenuButton.src = "/src/frontend/assets/pictures/pause-assests/Cancel.png";
     mainMenuButton.style.width = "49px";
     mainMenuButton.style.height = "49px";
     mainMenuButton.style.cursor = "pointer";

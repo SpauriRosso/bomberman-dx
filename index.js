@@ -1,13 +1,13 @@
 import { tileMapDefault, tileTypes } from "./tileMap.js";
-import PlayerEntity from "./entities/PlayerEntity.js";
-import EnemyEntity from "./entities/EnemyEntity.js";
-import BombEntity from "./entities/BombEntity.js";
-import MovementSystem from "./systems/MovementSystem.js";
-import CollisionSystem from "./systems/CollisionSystem.js";
-import BombSystem from "./systems/BombSystem.js";
-import EnemySystem from "./systems/EnemySystem.js";
-import PlayerSystem from "./systems/PlayerSystem.js";
-import InputsComponent from "./Components/inputsComponents.js";
+import PlayerEntity from "./src/entities/PlayerEntity.js";
+import EnemyEntity from "./src/entities/EnemyEntity.js";
+import BombEntity from "./src/entities/BombEntity.js";
+import MovementSystem from "./src/systems/MovementSystem.js";
+import CollisionSystem from "./src/systems/CollisionSystem.js";
+import BombSystem from "./src/systems/BombSystem.js";
+import EnemySystem from "./src/systems/EnemySystem.js";
+import PlayerSystem from "./src/systems/PlayerSystem.js";
+import InputsComponent from "./src/Components/inputsComponents.js";
 
 const entities = [];
 

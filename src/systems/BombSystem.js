@@ -1,7 +1,7 @@
 import BombComponent from "../Components/BombComponent.js";
 import gameStateEntity from "../Components/PauseComponent.js";
 import { tileMapDefault } from "../utils/tileMap.js";
-import { gameLogicSystem } from "../main.js";
+import { gameLogicSystem } from "../../main.js";
 
 const TILE_SIZE = 64;
 

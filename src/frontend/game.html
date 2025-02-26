@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bomberman</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="bomb.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/bomb.css" />
     <link rel="icon" href="data:," />
     <style>
       #game-container {
@@ -13,7 +13,7 @@
         transition: opacity 1s;
       }
       #stage-info {
-        font-family: "bomberman";
+        font-family: "bomberman",serif;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -51,17 +51,17 @@
   </head>
 
   <body>
-    <img id="background-game" src="./pictures/foret 4.jpg" />
+    <img id="background-game" src="assets/pictures/foret%204.jpg" />
     <div id="fps"></div>
     <div id="timer"></div>
     <div id="stage-info"></div>
     <div id="game-container"></div>
     <audio
       id="ready-sound"
-      src="/sound-effect/Ready.mp3"
+      src="/src/frontend/assets/sound-effect/Ready.mp3"
       preload="auto"
     ></audio>
-    <audio id="go-sound" src="/sound-effect/GO!.mp3" preload="auto"></audio>
+    <audio id="go-sound" src="/src/frontend/assets/sound-effect/GO!.mp3" preload="auto"></audio>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -98,6 +98,6 @@
         }, 2000); // Adjust the delay as needed
       });
     </script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="../../main.js"></script>
   </body>
 </html>

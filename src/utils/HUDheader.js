@@ -40,7 +40,7 @@ class HUDHeader {
     this.healthElement.style.gap = "10px";
 
     const heartIcon = document.createElement("img");
-    heartIcon.src = "./pictures/heart.png"; // Path to your heart icon
+    heartIcon.src = "../frontend/assets/pictures/heart.png"; // Path to your heart icon
     heartIcon.style.width = "40px";
     heartIcon.style.height = "40px";
     heartIcon.alt = "Lives";

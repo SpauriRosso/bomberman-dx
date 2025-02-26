@@ -1,6 +1,6 @@
 @font-face {
   font-family: "bomberman";
-  src: url("./videos/Font/Bomberman-font.ttf");
+  src: url("../Font/Bomberman-font.ttf");
 }
 
 #background-game {
@@ -98,35 +98,35 @@
 }
 
 .floor {
-  background-image: url(./pictures/floor.png);
+  background-image: url(../pictures/floor.png);
 }
 
 .wall {
-  background-image: url("./pictures/Side\ Wall\ Rock.png");
+  background-image: url("../pictures/Side Wall Rock.png");
 }
 
 .mapWall {
-  background-image: url("./pictures/Side\ Wall\ Rock.png");
+  background-image: url("../pictures/Side Wall Rock.png");
 }
 
 .breakable {
-  background-image: url(./pictures/wood_box.png);
+  background-image: url(../pictures/wood_box.png);
 }
 
 .enemy {
-  background-image: url(./pictures/floor.png);
+  background-image: url(../pictures/floor.png);
 }
 
 .bomb {
-  background-image: url("./pictures/bomb.png");
+  background-image: url("../pictures/bomb.png");
 }
 
 .power-up {
-  background-image: url("./pictures/power-up.png");
+  background-image: url("../pictures/power-up.png");
 }
 
 .player {
-  background-image: url("./pictures/floor.png");
+  background-image: url("../pictures/floor.png");
 }
 
 @keyframes moveZoom {

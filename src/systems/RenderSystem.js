@@ -12,7 +12,7 @@ export default class RenderSystem {
 
         entityDOM.id = entity.id;
         if (entity.getComponent("sprite")) {
-          entityDOM.style.background = "url('./pictures/spritesheet.png')"; // Set player sprite
+          entityDOM.style.background = "url('/src/frontend/assets/pictures/spritesheet.png')"; // Set player sprite
         } else if (entity.getComponent("enemySprite")) {
           console.log(entity.getComponent("enemySprite"));
           entityDOM.style.background =

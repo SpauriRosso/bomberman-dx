@@ -11,20 +11,20 @@ export default class BombComponent {
     this.tileSize = 64; // Tile size in pixels
 
     this.bombImages = [
-      "url('./pictures/bomb_sprite/bomb.gif')",
-      "url('./pictures/bomb_sprite/bomb.gif')",
-      "url('./pictures/bomb_sprite/bomb.gif')",
+      "url('/src/frontend/assets/pictures/bomb_sprite/bomb.gif')",
+      "url('/src/frontend/assets/pictures/bomb_sprite/bomb.gif')",
+      "url('/src/frontend/assets/pictures/bomb_sprite/bomb.gif')",
     ];
   }
   playSound() {
     const audioElement = new Audio(
-      "/pictures/bomb_sprite/Bomb_sound/heavy_splash.ogg"
+      "/src/frontend/assets/pictures/bomb_sprite/Bomb_sound/heavy_splash.ogg"
     );
     audioElement.play();
   }
   playExplosionSound() {
     const audioElement = new Audio(
-      "/pictures/bomb_sprite/Bomb_sound/8bit_bomb_explosion.wav"
+      "/src/frontend/assets/pictures/bomb_sprite/Bomb_sound/8bit_bomb_explosion.wav"
     );
     audioElement.play();
   }
