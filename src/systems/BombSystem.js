@@ -192,7 +192,7 @@ class BombSystem {
 
   handleEntityHit(entity) {
     const livesComponent = entity.getComponent("lives");
-    if (entity.ko) return;
+    // if (entity.ko) return;
 
     if (livesComponent) {
       livesComponent.loseLife();
