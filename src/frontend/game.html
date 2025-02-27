@@ -6,6 +6,11 @@
     <title>Bomberman</title>
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/bomb.css" />
+    <link
+      rel="icon"
+      href="/src/frontend/assets/pictures/Bomberman.png"
+      type="image/png"
+    />
     <link rel="icon" href="data:," />
     <style>
       #game-container {
@@ -13,7 +18,7 @@
         transition: opacity 1s;
       }
       #stage-info {
-        font-family: "bomberman",serif;
+        font-family: "bomberman", serif;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -61,7 +66,11 @@
       src="/src/frontend/assets/sound-effect/Ready.mp3"
       preload="auto"
     ></audio>
-    <audio id="go-sound" src="/src/frontend/assets/sound-effect/GO!.mp3" preload="auto"></audio>
+    <audio
+      id="go-sound"
+      src="/src/frontend/assets/sound-effect/GO!.mp3"
+      preload="auto"
+    ></audio>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
