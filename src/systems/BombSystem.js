@@ -192,8 +192,21 @@ class BombSystem {
 
   handleEntityHit(entity) {
     const livesComponent = entity.getComponent("lives");
-    // if (entity.ko) return;
-
+    if (entity.ko) {
+      const startTime = performance.now();
+      const targetTime = 100; // 1 millisecond
+      const checkTime = () => {
+        const currentTime = performance.now();
+        const elapsedTime = currentTime - startTime;
+        if (elapsedTime >= targetTime) {
+          entity.ko = false;
+        } else {
+          requestAnimationFrame(checkTime); // Continue checking
+        }
+      };
+      requestAnimationFrame(checkTime); // Start the loop
+      return; // Prevent multiple hits
+    }
     if (livesComponent) {
       livesComponent.loseLife();
       entity.ko = true;
