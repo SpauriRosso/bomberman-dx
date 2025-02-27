@@ -43,9 +43,11 @@ export default class LifeComponent {
 
   flashLifeCounter() {
     // Add a flashing effect when player loses a life
-    const lifeCounter = document.getElementById("lifeCounter");
-    if (lifeCounter) {
-      lifeCounter.style.animation = "flash 0.5s";
+    const lifeCountText = document.getElementById("lifeCountText");
+    const heartIcon = document.querySelector(".healthElement img");
+    if (lifeCountText && heartIcon) {
+      lifeCountText.style.animation = "flash 0.5s";
+      heartIcon.style.animation = "flash 0.5s";
 
       // Define the flash animation if it doesn't exist
       if (!document.getElementById("flashAnimation")) {
@@ -62,7 +64,8 @@ export default class LifeComponent {
 
       // Remove the animation after it completes
       setTimeout(() => {
-        lifeCounter.style.animation = "";
+        lifeCountText.style.animation = "";
+        heartIcon.style.animation = "";
       }, 500);
     }
   }

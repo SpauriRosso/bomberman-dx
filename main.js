@@ -76,7 +76,8 @@ player = new PlayerEntity(
   10,
   playerPosition.x * 64,
   playerPosition.y * 64,
-  gameLogicSystem.entities
+  gameLogicSystem.entities,
+  gameStateEntity // Passer gameStateEntity
 );
 
 gameLogicSystem.addEntity(player);

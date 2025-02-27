@@ -31,6 +31,8 @@ class HUDHeader {
     this.scoreElement.innerText = "Score: 0";
     this.scoreElement.style.color = "#000000";
     this.scoreElement.style.fontWeight = "bold";
+    this.scoreElement.style.width = "150px"; // définir une largeur fixe pour l'élément score
+    this.scoreElement.style.whiteSpace = "nowrap";
 
     // Vie
     this.healthElement = document.createElement("div");
@@ -69,6 +71,8 @@ class HUDHeader {
     this.fpsElement.id = "fps";
     this.fpsElement.style.color = "#000000";
     this.fpsElement.style.fontWeight = "bold";
+    this.fpsElement.style.width = "135px";
+    this.fpsElement.style.whiteSpace = "nowrap";
 
     // Ajout des éléments au conteneur HUD
     this.HUDHeader.appendChild(this.scoreElement);
