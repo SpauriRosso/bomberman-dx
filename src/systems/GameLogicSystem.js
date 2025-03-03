@@ -38,11 +38,6 @@ export default class GameLogicSystem {
       this.audioSystem.playMusic(
         "/src/frontend/assets/sound-effect/Alright!.mp3"
       );
-      this.textSystem.addText("AI Defeated!", 400, 300); // Add text at position (400, 300)
-      this.textSystem.render(); // Render the text
-      setTimeout(() => {
-        this.textSystem.removeText(); // Remove the text after 5 seconds
-      }, 5000);
     }
   }
 }
