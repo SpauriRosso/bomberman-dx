@@ -95,4 +95,3 @@ function findEnemyPosition() {
 }
 
 export { findPlayerPosition, findEnemyPosition, generateGrid };
-
