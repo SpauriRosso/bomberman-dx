@@ -82,5 +82,6 @@ export default class GameLogicSystem {
     }
 
     console.log("Transitioned to second map successfully");
+    // window.location.reload(); // Reload the page after changing the map
   }
 }
